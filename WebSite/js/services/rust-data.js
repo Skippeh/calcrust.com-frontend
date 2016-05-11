@@ -8,7 +8,8 @@ function RustDataService ($http)
     var damageInfo = {};
 
     // Recipe
-    function Recipe(input, output, ttc, rarity, researchable) {
+    function Recipe(input, output, ttc, rarity, researchable)
+    {
         this.input = input; // Array of RecipeItem
         this.output = output; // RecipeItem
         this.ttc = ttc; // Int (time to craft)
@@ -122,7 +123,8 @@ function RustDataService ($http)
     };
 
     // RecipeItem
-    function RecipeItem(itemId, count) {
+    function RecipeItem(itemId, count)
+    {
         this.item = typeof itemId === "string" ? items[itemId] : itemId; // Item
         this.count = count; // Int
 
@@ -133,7 +135,8 @@ function RustDataService ($http)
     }
 
     // Item
-    function Item(name, description, maxStack, category, meta) {
+    function Item(name, description, maxStack, category, meta)
+    {
         this.name = name;
         this.description = description;
         this.maxStack = maxStack;
