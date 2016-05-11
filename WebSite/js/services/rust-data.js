@@ -228,11 +228,11 @@ function RustDataService ($http)
         {
             $http({
                 method: "GET",
-                url: "/data/rust.json"
+                url: "https://api.calcrust.com/dump"
             }).then(
             function onSuccess(response)
             {
-                var data = response.data;
+                var data = response.data.data;
 
                 this.meta = data.meta;
                 this.meta.lastUpdate = new Date(this.meta.lastUpdate);
@@ -312,7 +312,7 @@ function RustDataService ($http)
                         continue;
 
                     var loadCookable = data.cookables[itemId];
-                    var cookable = new Cookable(loadCookable.usableOvens, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count);
+                    var cookable = new Cookable(loadCookable.ovenList, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count);
 
                     this.cookables[itemId] = cookable;
                 }
