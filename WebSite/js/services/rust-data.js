@@ -1,0 +1,339 @@
+﻿angular.module("RustCalc").service("$rustData", ["$http", RustDataService]);
+
+function RustDataService ($http)
+{
+    var items = {};
+    var recipes = {};
+    var cookables = {};
+    var damageInfo = {};
+
+    // Recipe
+    function Recipe(input, output, ttc, rarity, researchable) {
+        this.input = input; // Array of RecipeItem
+        this.output = output; // RecipeItem
+        this.ttc = ttc; // Int (time to craft)
+        this.rarity = rarity; // String (fragments/page/book/library)
+        this.researchable = researchable; // Bool
+
+        this.calculateTotalRequirements = function (count)
+        {
+            if (typeof (count) == "undefined")
+                count = 1;
+
+            var neededItems = this.calculateNeededItems();
+            var result = {
+                ttc: this.calculateTtc(neededItems, count),
+                items: neededItems
+            };
+
+            for (var i = 0; i < result.items.length; ++i)
+            {
+                result.items[i].count = Math.ceil(result.items[i].count * count);
+            }
+
+            return result;
+        };
+
+        this.calculateTtc = function (items, count)
+        {
+            var ttc = this.ttc * count;
+
+            for (var i = 0; i < items.length; ++i)
+            {
+                var recipeItem = items[i];
+
+                if (recipeItem.item.recipe != null)
+                {
+                    var divide = 1;
+
+                    if (recipeItem.item.recipe != null)
+                        divide = recipeItem.item.recipe.output.count;
+
+                    ttc += (recipeItem.count / divide) * recipeItem.item.recipe.ttc * count;
+                }
+            }
+
+            return Math.round(ttc);
+        };
+
+        this.calculateNeededItems = function (existingItems)
+        {
+            var result = existingItems || [];
+            
+            function findItem (item)
+            {
+                for (var i = 0; i < result.length; ++i)
+                {
+                    if (result[i].item == item)
+                        return result[i];
+                }
+
+                return null;
+            }
+
+            function addItem (recipeItem, times)
+            {
+                if (typeof (times) == "undefined")
+                {
+                    times = 1;
+                }
+
+                var existingItem = findItem(recipeItem.item);
+
+                if (existingItem == null)
+                {
+                    var newItem = { item: recipeItem.item, count: recipeItem.count * times };
+                    result.push(newItem);
+                }
+                else
+                {
+                    existingItem.count += recipeItem.count * times;
+                }
+            }
+
+            for (var i = 0; i < this.input.length; ++i)
+            {
+                var recipeItem = this.input[i];
+
+                if (recipeItem.item.recipe != null)
+                {
+                    var inputRecipe = recipeItem.item.recipe;
+                    var craftsNeeded = recipeItem.count / inputRecipe.output.count;
+                    //console.log("Crafts needed for " + recipeItem.count + " " + recipeItem.item.name + ": " + craftsNeeded);
+
+                    var requirements = inputRecipe.calculateNeededItems();
+                    //console.log("Requirements for " + recipeItem.item.name, requirements);
+
+                    for (var j = 0; j < requirements.length; ++j)
+                    {
+                        addItem(requirements[j], craftsNeeded);
+                    }
+
+                    addItem(recipeItem);
+                }
+                else
+                {
+                    addItem(recipeItem);
+                }
+            }
+
+            return result;
+        };
+    };
+
+    // RecipeItem
+    function RecipeItem(itemId, count) {
+        this.item = typeof itemId === "string" ? items[itemId] : itemId; // Item
+        this.count = count; // Int
+
+        RecipeItem.prototype.toString = function ()
+        {
+            return "RecipeItem: " + this.item.name + " (" + this.count + ")";
+        };
+    }
+
+    // Item
+    function Item(name, description, maxStack, category, meta) {
+        this.name = name;
+        this.description = description;
+        this.maxStack = maxStack;
+        this.recipe = null; // The recipe that produces this item. May be null.
+        this.category = category;
+        this.meta = meta;
+
+        this.getRecipesWhereInput = function ()
+        {
+            var inputRecipes = [];
+            
+            for (var itemId in recipes)
+            {
+                if (!recipes.hasOwnProperty(itemId))
+                    continue;
+
+                var recipe = recipes[itemId];
+
+                for (var i = 0; i < recipe.input.length; ++i)
+                {
+                    if (recipe.input[i].item.id == this.id)
+                    {
+                        inputRecipes.push({ item: recipe.output.item, count: recipe.input[i].count });
+                        break;
+                    }
+                }
+            }
+
+            return inputRecipes;
+        };
+    };
+
+    // Cookable
+    function Cookable(usableOvens, ttc, outputId, outputCount)
+    {
+        this.usableOvens = []; // Array of Items that can cook this.
+        this.ttc = ttc; // Time to cook
+        this.output = {
+            count: outputCount,
+            item: items[outputId]
+        };
+
+        // Set oven items to their item definitions.
+        for (var i = 0; i < usableOvens.length; ++i)
+        {
+            this.usableOvens[i] = items[usableOvens[i]];
+        }
+    }
+
+    // DamageInfo
+    function DamageInfo(type, scales)
+    {
+        this.type = type;
+        this.scales = {};
+
+        for (var grade in scales)
+        {
+            if (!scales.hasOwnProperty(grade))
+                continue;
+
+            this.scales[grade] = new ScalesInfo(scales[grade].health, scales[grade].damages);
+        }
+    }
+
+    // ScalesInfo
+    function ScalesInfo (health, damages)
+    {
+        this.health = health;
+        this.damages = {};
+
+        for (var itemId in damages)
+        {
+            if (!damages.hasOwnProperty(itemId))
+                continue;
+
+            this.damages[itemId] = {
+                strongSide: damages[itemId].strongSide,
+                weakSide: damages[itemId].weakSide
+            };
+        }
+    }
+    
+    return {
+        items: items,
+        recipes: recipes,
+        cookables: cookables,
+        damageInfo: damageInfo,
+        load: function (callback)
+        {
+            $http({
+                method: "GET",
+                url: "/data/rust.json"
+            }).then(
+            function onSuccess(response)
+            {
+                var data = response.data;
+
+                this.meta = data.meta;
+                this.meta.lastUpdate = new Date(this.meta.lastUpdate);
+
+                // Parse items
+                for (var itemId in data.items)
+                {
+                    if (!data.items.hasOwnProperty(itemId))
+                        continue;
+
+                    var loadItem = data.items[itemId];
+                    this.items[itemId] = new Item(loadItem.name, loadItem.description, loadItem.maxStack, loadItem.category, loadItem.meta);
+                }
+                
+                // Parse recipes
+                for (var key in data.recipes)
+                {
+                    if (!data.recipes.hasOwnProperty(key))
+                        continue;
+
+                    var loadRecipe = data.recipes[key];
+                    
+                    var input = [];
+                    var output = [];
+
+                    // Parse input
+                    for (var i = 0; i < loadRecipe.input.length; ++i)
+                    {
+                        var loadItem = loadRecipe.input[i];
+                        var item = this.items[loadItem.item];
+                        
+                        if (item == null)
+                        {
+                            console.error("No item found with id \"" + loadItem.item + "\".");
+                            continue;
+                        }
+
+                        input.push(new RecipeItem(item, loadItem.count));
+                    }
+
+                    // Parse output
+                    var loadItem = loadRecipe.output;
+                    var item = this.items[loadItem.item];
+
+                    if (item == null)
+                        console.error("No item found with id \"" + loadItem.item + "\".");
+
+                    output = new RecipeItem(item, loadItem.count);
+
+                    this.recipes[key] = new Recipe(input, output, loadRecipe.ttc, loadRecipe.rarity, loadRecipe.researchable);
+                }
+
+                // Set the items recipe if they have one and id.
+                for (var itemId in this.items)
+                {
+                    if (!this.items.hasOwnProperty(itemId))
+                        continue;
+
+                    var item = this.items[itemId];
+
+                    item.id = itemId;
+
+                    if (typeof this.recipes[itemId] === "object")
+                        item.recipe = this.recipes[itemId];
+
+                    //for (var i = 0; i < this.recipes.length; ++i)
+                    //{
+                    //    if (this.recipes[i].output.item == item)
+                    //        item.recipe = this.recipes[i];
+                    //}
+                }
+
+                // Parse cookables
+                for (var itemId in data.cookables)
+                {
+                    if (!data.cookables.hasOwnProperty(itemId))
+                        continue;
+
+                    var loadCookable = data.cookables[itemId];
+                    var cookable = new Cookable(loadCookable.usableOvens, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count);
+
+                    this.cookables[itemId] = cookable;
+                }
+                
+                // Parse damage infos
+                //for (var itemId in data.damageInfo)
+                //{
+                //    if (!data.damageInfo.hasOwnProperty(itemId))
+                //        continue;
+                //
+                //    var loadInfo = data.damageInfo[itemId];
+                //    var info = new DamageInfo(loadInfo.type, loadInfo.scales);
+                //
+                //    this.damageInfo[itemId] = info;
+                //}
+
+                callback && callback(this, null);
+            }.bind(this),
+            function onError(response)
+            {
+                alert("Failed to load data, check console for more info.");
+                console.error("Failed loading data:", response);
+                callback && callback(null, response);
+            });
+        }
+    };
+}

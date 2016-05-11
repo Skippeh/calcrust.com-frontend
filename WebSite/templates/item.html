@@ -1,0 +1,23 @@
+﻿<div ng-if="item" class="craft-screen clearfix">
+    <nav-tabs>
+        <nav-tab ui-sref="itembps.item.info({ id: item.id })" active="isActive('itembps.item.info')" title="Info">
+            <i class="fa fa-info-circle"></i>
+        </nav-tab>
+        <nav-tab ui-sref="itembps.item.recipes({ id: item.id })" active="isActive('itembps.item.recipes')" title="Blueprints">
+            <i class="fa fa-files-o"></i>
+        </nav-tab>
+        <nav-tab ui-sref="itembps.item.recipe({ id: item.id })" active="isActive('itembps.item.recipe')" title="Blueprint">
+            <i class="fa fa-file-o"></i>
+        </nav-tab>
+        <nav-tab target="blank" href="{{getWikiLink(item)}}" title="Wiki">
+            <i class="fa fa-wikipedia-w"></i>
+        </nav-tab>
+    </nav-tabs>
+
+    <item-header item="item"></item-header>
+    <ui-view />
+</div>
+
+<div ng-if="!item" class="centered-page">
+    This item does not exist.
+</div>

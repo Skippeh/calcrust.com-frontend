@@ -1,0 +1,19 @@
+﻿<div class="table item">
+    <table>
+        <tbody>
+            <tr ng-repeat="description in item.meta.descriptions">
+                <td>{{description}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="input">
+    <div class="count info-box" title="Max stack size">
+        <img src="img/stack.png" />
+        <span>x{{item.maxStack}}</span>
+    </div>
+    <div ng-if="item.recipe" class="bp-category info-box" title="Blueprint type">
+        <img ng-src="{{getBpImage(item)}}" />
+        <span>{{item.recipe.rarity | capitalize}}</span>
+    </div>
+</div>

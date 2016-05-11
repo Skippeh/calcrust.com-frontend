@@ -1,0 +1,78 @@
+﻿<div class="main-window shadowed" ui-view></div>
+<div class="browsers-wrapper">
+    <div class="browser item-browser">
+        <span class="header large no-select">Items</span>
+        <div class="searchbar">
+            <span>Search:</span>
+            <input type="text" ng-model="itemFilter.name" />
+        </div>
+        <perfect-scrollbar class="browser-wrapper scroller">
+            <!--<div class="item clearfix item-row" ng-repeat="(id, item) in itemsArray | orderBy: 'name' | filter: filterItems">-->
+            <a ui-sref="itembps.item.info({ id: item.id })" ng-repeat="item in filteredItems">
+                <div class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
+                    <div class="image">
+                        <img ng-src="/img/icons/{{item.id}}_small.png" />
+                    </div>
+                    <div class="info">
+                        <span class="name">{{item.name}}</span>
+                        <br />
+                        <span class="description" title="{{item.description}}">{{item.description | limitLength: 61}}</span>
+                    </div>
+                </div>
+            </a>
+        </perfect-scrollbar>
+    </div>
+    <div class="browser blueprint-browser">
+        <span class="header large no-select">Blueprints</span>
+        <div class="searchbar" style="text-align: left">
+            <span>Search:</span>
+            <input type="text" ng-model="blueprintFilter.name" />
+        </div>
+        <div class="categories-title">TIERS</div>
+        <div class="categories no-select">
+            <div ng-class="{ 'active': categoryActive('default') }" ng-click="toggleBpCategory('default', $event)" class="default category" title="Default blueprints">
+                <img src="img/icons/building.planner_small.png" />
+                <input type="checkbox" ng-model="blueprintFilter.categories.default" ng-click="$event.stopPropagation()" />
+            </div>
+            <div ng-class="{ 'active': categoryActive('fragments') }" ng-click="toggleBpCategory('fragments', $event)" class="fragments category" title="Fragment blueprints">
+                <img src="img/icons/blueprint_fragment_small.png" />
+                <input type="checkbox" ng-model="blueprintFilter.categories.fragments" ng-click="$event.stopPropagation()" />
+            </div>
+            <div ng-class="{ 'active': categoryActive('page') }" ng-click="toggleBpCategory('page', $event)" class="page category" title="Page blueprints">
+                <img src="img/icons/blueprint_page_small.png" />
+                <input type="checkbox" ng-model="blueprintFilter.categories.page" ng-click="$event.stopPropagation()" />
+            </div>
+            <div ng-class="{ 'active': categoryActive('book') }" ng-click="toggleBpCategory('book', $event)" class="book category" title="Book blueprints">
+                <img src="img/icons/blueprint_book_small.png" />
+                <input type="checkbox" ng-model="blueprintFilter.categories.book" ng-click="$event.stopPropagation()" />
+            </div>
+            <div ng-class="{ 'active': categoryActive('library') }" ng-click="toggleBpCategory('library', $event)" class="library category" title="Library blueprints">
+                <img src="img/icons/blueprint_library_small.png" />
+                <input type="checkbox" ng-model="blueprintFilter.categories.library" ng-click="$event.stopPropagation()" />
+            </div>
+            <div ng-class="{ 'active': allCategoriesActive() }" ng-click="resetBpCategories()" class="all category" title="All blueprints">
+                <img src="img/icons/blueprint_all_small.png" />
+            </div>
+        </div>
+        <perfect-scrollbar class="browser-wrapper scroller">
+            <a ui-sref="itembps.item.recipe({ id: recipe.output.item.id, count: 1 })" ng-repeat="recipe in filteredRecipes">
+                <div class="blueprint clearfix item-row" ng-class="{ 'active': bpActive(recipe) }">
+                    <div class="image">
+                        <img ng-src="/img/icons/{{recipe.output.item.id}}_small.png" />
+                    </div>
+                    <div class="info">
+                        <span class="name">{{recipe.output.item.name}}</span>
+                        <br />
+                        <span class="description" title="{{recipe.input | friendlyRecipeInput}}">{{recipe.input | friendlyRecipeInput | limitLength: 65}}</span>
+                    </div>
+                </div>
+            </a>
+            <div class="blueprint clearfix item-row" ng-show="!filteredRecipes.length">
+                <div class="image"></div>
+                <div class="info" style="margin-top: 0.6em">
+                    <span class="description">No items found with the current filter options.</span>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+</div>

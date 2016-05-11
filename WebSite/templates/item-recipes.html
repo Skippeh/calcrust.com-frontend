@@ -1,0 +1,20 @@
+﻿<span ng-if="reqs.length" class="centered-text" style="margin-bottom: 5px">This item is used in making</span>
+<perfect-scrollbar class="table scroller" ng-if="reqs.length" style="margin-bottom: 10px">
+    <table>
+        <tbody>
+            <tr>
+                <th>Amount</th>
+                <th>Item type</th>
+            </tr>
+            <tr ng-repeat="recipeItem in reqs track by $index">
+                <td>{{recipeItem.count}}</td>
+                <td>
+                    <a ui-sref="itembps.item.recipe({ id: recipeItem.item.id })">{{recipeItem.item.name}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</perfect-scrollbar>
+<div ng-if="!reqs.length">
+    <span style="height: 100px" class="centered-text">Not needed in any blueprints.</span>
+</div>

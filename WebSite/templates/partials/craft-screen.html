@@ -1,0 +1,31 @@
+﻿<div class="table">
+    <table>
+        <tbody>
+            <tr>
+                <th>Amount</th>
+                <th>Item Type</th>
+                <th>Total</th>
+            </tr>
+            <tr ng-repeat="input in reqs.items track by $index" ng-class="{ resource: isResource(input)}" title="{{isResource(input) ? 'Subcomponent' : null}}">
+                <td>{{reqs1.items[$index].count}}</td>
+                <td>{{input.item.name}}</td>
+                <td>{{input.count}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="input">
+    <div class="count info-box" title="Total items crafted">
+        <i class="fa fa-circle"></i>
+        <span>x{{recipe.output.count * input.count}}</span>
+    </div>
+    <div class="ttc info-box" title="Total time to craft">
+        <i class="fa fa-clock-o"></i>
+        <span>{{reqs.ttc | friendlyTime}}</span>
+    </div>
+    <div class="input-container">
+        <button ng-click="changeCount(-1)"><i class="fa fa-minus"></i></button>
+        <input type="number" min="1" max="99999" ng-change="onCountChanged()" ng-model="input.count" />
+        <button ng-click="changeCount(1)"><i class="fa fa-plus"></i></button>
+    </div>
+</div>

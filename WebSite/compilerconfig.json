@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "styling/ui.css",
+    "inputFile": "styling/ui.scss"
+  },
+  {
+    "outputFile": "styling/master.css",
+    "inputFile": "styling/master.scss"
+  }
+]
