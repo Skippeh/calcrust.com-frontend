@@ -53,6 +53,11 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/bugreport.html",
             controller: "BugReportCtrl"
         })
+        .state("api-docs", {
+            url: "/api-docs",
+            templateUrl: "templates/api-docs.html",
+            controller: "ApiDocsCtrl"
+        })
         .state("404", {
             url: "*path",
             templateUrl: "templates/not-found.html"
