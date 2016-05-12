@@ -4,6 +4,9 @@ function ApiDocsController($scope, $http, ngDialog)
 {
     $scope.query = function($event)
     {
+        if ($event.which != 1) // Only continue if left click.
+            return;
+
         $event.preventDefault();
         var url = $event.currentTarget.href;
 
