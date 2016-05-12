@@ -1,6 +1,25 @@
-﻿<div class="centered-page" style="margin-top: 50px">
-    <div style="min-height: 350px"> <!-- bad but yolo -->
-        <h2>API Documentation</h2>
-        
+﻿<div class="api-docs">
+    <h2>API Documentation</h2>
+    <p>The api can be accessed at <a target="_blank" href="https://api.calcrust.com">https://api.calcrust.com</a>.</p>
+    <p>Recipes and cookables routes can be appended with <a ng-click="query($event)" target="_blank" href="https://api.calcrust.com/cookables/search/metal/detailed">/detailed</a> to include item data instead of just the item shortname.</p>
+
+    <div class="route" ng-repeat="route in routes">
+        <b style="font-size: 1.4em">{{route.name}}</b>
+        <i style="margin-left: 5px">{{route.route}}</i>
+        <br/>
+        <p>{{route.description}}</p>
+        <div class="methods">
+            <b>Methods</b>
+            <div class="method" ng-repeat="method in route.methods">
+                [{{method.type}}] <a ng-click="query($event)" target="_blank" ng-href="https://api.calcrust.com{{route.route + method.example}}">{{route.route + method.route}}</a> - {{method.description}}
+                <br/>
+                <ul class="errors" ng-if="method.errors.length">
+                    <b>Possible errors</b>
+                    <li class="error" ng-repeat="error in method.errors">
+                        {{error.code}} - {{error.description}}
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

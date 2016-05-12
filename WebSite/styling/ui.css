@@ -6,6 +6,23 @@ div.main-ui .main-window.damage-table-window {
   width: 800px;
   min-height: 500px; }
 
+div.api-docs {
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 0 20px; }
+  div.api-docs .route {
+    text-align: left; }
+    div.api-docs .route:not(:last-of-type) {
+      margin-bottom: 40px; }
+
+.ngdialog-content {
+  width: 600px !important;
+  overflow: hidden; }
+  .ngdialog-content pre {
+    white-space: pre-wrap;
+    word-wrap: break-word; }
+
 div.main-ui {
   position: absolute;
   left: 0;
@@ -18,7 +35,8 @@ div.main-ui {
   color: #d3cdc9; }
   div.main-ui input[type=text],
   div.main-ui input[type=number],
-  div.main-ui input[type=password] {
+  div.main-ui
+input[type=password] {
     background-color: #333;
     color: #d3cdc9;
     border: none;
@@ -30,9 +48,11 @@ div.main-ui {
     outline: 1px solid #3C3C3C; }
   div.main-ui input[type=text]:focus,
   div.main-ui input[type=number]:focus,
-  div.main-ui input[type=password]:focus {
+  div.main-ui
+input[type=password]:focus {
     outline-offset: 0; }
-  div.main-ui button {
+  div.main-ui
+button {
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.3);
     color: #d3cdc9;
@@ -43,14 +63,18 @@ div.main-ui {
     -o-transition: background-color ease-in-out 0.1s;
     -webkit-transition: background-color ease-in-out 0.1s;
     transition: background-color ease-in-out 0.1s; }
-    div.main-ui button:hover {
+    div.main-ui
+button:hover {
       background-color: rgba(255, 255, 255, 0.2); }
-    div.main-ui button:active {
+    div.main-ui
+button:active {
       background-color: rgba(255, 255, 255, 0.1); }
-    div.main-ui button:focus {
+    div.main-ui
+button:focus {
       outline: none; }
   div.main-ui input::-webkit-outer-spin-button,
-  div.main-ui input::-webkit-inner-spin-button {
+  div.main-ui
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; }
   div.main-ui .browsers-wrapper {
@@ -185,7 +209,8 @@ div.main-ui {
           width: 45px; }
         div.main-ui .main-window .nav-tabs .nav-tab i {
           color: #8E8E8E; }
-  div.main-ui .shadowed {
+  div.main-ui
+.shadowed {
     -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }

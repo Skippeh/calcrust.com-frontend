@@ -57,7 +57,8 @@ a:visited {
   -o-transition: color ease-in-out 0.1s;
   -webkit-transition: color ease-in-out 0.1s;
   transition: color ease-in-out 0.1s; }
-  a:hover,
+  a:hover
+,
   a:visited:hover {
     color: #8d8e68; }
 
@@ -66,7 +67,8 @@ a:visited {
  */
 .clearfix {
   *zoom: 1; }
-  .clearfix:before, .clearfix:after {
+  .clearfix:before,
+  .clearfix:after {
     content: " ";
     display: table; }
   .clearfix:after {
