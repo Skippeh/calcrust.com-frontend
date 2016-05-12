@@ -8,7 +8,7 @@ function ModuleConfig ($locationProvider)
     $locationProvider.html5Mode(true);
 }
 
-console.log("Hello! If you want the item and blueprint data it's available as a global variable: RustData, or at /data/rust.json.");
+console.log("Hello! If you want the item and blueprint data it's available as a global variable: RustData, or at /api-docs.");
 
 Object.values = function (obj)
 {
