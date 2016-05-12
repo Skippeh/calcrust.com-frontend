@@ -129,6 +129,20 @@ function ApiDocsController($scope, $http, ngDialog)
                     errors: []
                 }
             ]
+        },
+        {
+            name: "General search",
+            description: "Searches all items, recipes and cookables for the given thing. Results are the same as the separate searches.",
+            route: "/search",
+            methods: [
+                {
+                    route: "",
+                    example: "/rifle",
+                    description: "Returns a search made on all types of resources. Case insensitive.",
+                    type: "GET",
+                    errors: []
+                }
+            ]
         }
     ];
 }
