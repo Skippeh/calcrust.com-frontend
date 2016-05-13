@@ -10,7 +10,9 @@ div.api-docs {
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 50px;
-  padding: 0 20px; }
+  padding: 0 20px;
+  margin-bottom: 28px;
+  padding-bottom: 20px; }
   div.api-docs .route {
     text-align: left; }
     div.api-docs .route:not(:last-of-type) {
