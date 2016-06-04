@@ -16,14 +16,14 @@ function RustDataService ($http)
         this.rarity = rarity; // String (fragments/page/book/library)
         this.researchable = researchable; // Bool
 
-        this.calculateTotalRequirements = function (count)
+        this.calculateRequirements = function (count, calculateTotalRequirements)
         {
             if (typeof (count) == "undefined")
                 count = 1;
 
-            var neededItems = this.calculateNeededItems();
+            var neededItems = calculateTotalRequirements ? this.calculateNeededItems() : angular.copy(this.input);
             var result = {
-                ttc: this.calculateTtc(neededItems, count),
+                ttc: calculateTotalRequirements ? this.calculateTtc(neededItems, count) : this.ttc * count,
                 items: neededItems
             };
 
@@ -57,9 +57,9 @@ function RustDataService ($http)
             return Math.round(ttc);
         };
 
-        this.calculateNeededItems = function (existingItems)
+        this.calculateNeededItems = function ()
         {
-            var result = existingItems || [];
+            var result = [];
             
             function findItem (item)
             {
@@ -91,7 +91,7 @@ function RustDataService ($http)
                     existingItem.count += recipeItem.count * times;
                 }
             }
-
+            
             for (var i = 0; i < this.input.length; ++i)
             {
                 var recipeItem = this.input[i];

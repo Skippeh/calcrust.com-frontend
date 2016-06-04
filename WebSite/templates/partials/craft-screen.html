@@ -6,7 +6,7 @@
                 <th>Item Type</th>
                 <th>Total</th>
             </tr>
-            <tr ng-repeat="input in reqs.items track by $index" ng-class="{ resource: isResource(input)}" title="{{isResource(input) ? 'Subcomponent' : null}}">
+            <tr ng-repeat="input in reqs.items track by $index" ng-class="{ resource: isSubcomponent(input)}" title="{{isSubcomponent(input) ? 'Subcomponent' : null}}">
                 <td>{{reqs1.items[$index].count}}</td>
                 <td>{{input.item.name}}</td>
                 <td>{{input.count}}</td>
@@ -19,11 +19,12 @@
         <i class="fa fa-circle"></i>
         <span>x{{recipe.output.count * input.count}}</span>
     </div>
-    <div class="ttc info-box" title="Total time to craft">
+    <div class="ttc info-box" title="Time to craft">
         <i class="fa fa-clock-o"></i>
         <span>{{reqs.ttc | friendlyTime}}</span>
     </div>
     <div class="input-container">
+        <input type="checkbox" ng-model="input.calculateTotalRequirements" title="Calculate total requirements" />
         <button ng-click="changeCount(-1)"><i class="fa fa-minus"></i></button>
         <input type="number" min="1" max="99999" ng-change="onCountChanged()" ng-model="input.count" />
         <button ng-click="changeCount(1)"><i class="fa fa-plus"></i></button>

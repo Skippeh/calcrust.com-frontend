@@ -22,7 +22,7 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
                     $scope.input.count = 99999;
             };
 
-            $scope.input = { count: parseInt($stateParams.count) };
+            $scope.input = { count: parseInt($stateParams.count), calculateTotalRequirements: true };
             $scope.cleanCount();
 
             if (isNaN($scope.input.count))
@@ -40,28 +40,37 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
 
             $scope.onCountChanged = function ()
             {
-                $scope.reqs = $scope.recipe.calculateTotalRequirements($scope.input.count);
-
+                $scope.reqs = $scope.recipe.calculateRequirements($scope.input.count, $scope.input.calculateTotalRequirements);
                 $state.go(".", { id: $scope.recipe.output.item.id, count: $scope.input.count }, { notify: false });
             };
             
-            $scope.isResource = function (item)
+            $scope.isSubcomponent = function (item)
             {
-                return item.item.recipe == null && $scope.recipeInputItems.indexOf(item.item.id) == -1;
+                return $scope.recipeInputItems.indexOf(item.item.id) == -1;
             };
 
-            $scope.$watch("recipe", function (recipe, oldVal)
+            function onInputChanged()
             {
-                $scope.reqs1 = $scope.recipe.calculateTotalRequirements(1);
-                $scope.reqs = $scope.recipe.calculateTotalRequirements($scope.input.count);
+                $scope.reqs1 = $scope.recipe.calculateRequirements(1, $scope.input.calculateTotalRequirements);
+                $scope.reqs = $scope.recipe.calculateRequirements($scope.input.count, $scope.input.calculateTotalRequirements);
 
                 $scope.recipeInputItems = [];
 
-                for (var i = 0; i < recipe.input.length; ++i)
+                for (var i = 0; i < $scope.recipe.input.length; ++i)
                 {
-                    $scope.recipeInputItems.push(recipe.input[i].item.id);
+                    $scope.recipeInputItems.push($scope.recipe.input[i].item.id);
                 }
+            }
+
+            $scope.$watch("recipe", function ()
+            {
+                onInputChanged();
             });
+
+            $scope.$watch("input.calculateTotalRequirements", function()
+            {
+                onInputChanged();
+            })
         }
     };
 }
