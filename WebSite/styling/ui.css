@@ -37,8 +37,7 @@ div.main-ui {
   color: #d3cdc9; }
   div.main-ui input[type=text],
   div.main-ui input[type=number],
-  div.main-ui
-input[type=password] {
+  div.main-ui input[type=password] {
     background-color: #333;
     color: #d3cdc9;
     border: none;
@@ -50,11 +49,12 @@ input[type=password] {
     outline: 1px solid #3C3C3C; }
   div.main-ui input[type=text]:focus,
   div.main-ui input[type=number]:focus,
-  div.main-ui
-input[type=password]:focus {
+  div.main-ui input[type=password]:focus {
     outline-offset: 0; }
-  div.main-ui
-button {
+  div.main-ui input[type=checkbox] {
+    width: 16px;
+    height: 16px; }
+  div.main-ui button {
     padding: 10px;
     background-color: rgba(255, 255, 255, 0.3);
     color: #d3cdc9;
@@ -65,18 +65,14 @@ button {
     -o-transition: background-color ease-in-out 0.1s;
     -webkit-transition: background-color ease-in-out 0.1s;
     transition: background-color ease-in-out 0.1s; }
-    div.main-ui
-button:hover {
+    div.main-ui button:hover {
       background-color: rgba(255, 255, 255, 0.2); }
-    div.main-ui
-button:active {
+    div.main-ui button:active {
       background-color: rgba(255, 255, 255, 0.1); }
-    div.main-ui
-button:focus {
+    div.main-ui button:focus {
       outline: none; }
   div.main-ui input::-webkit-outer-spin-button,
-  div.main-ui
-input::-webkit-inner-spin-button {
+  div.main-ui input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; }
   div.main-ui .browsers-wrapper {
@@ -211,8 +207,7 @@ input::-webkit-inner-spin-button {
           width: 45px; }
         div.main-ui .main-window .nav-tabs .nav-tab i {
           color: #8E8E8E; }
-  div.main-ui
-.shadowed {
+  div.main-ui .shadowed {
     -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
@@ -286,6 +281,9 @@ input::-webkit-inner-spin-button {
           width: 50px;
           text-align: center;
           outline: none; }
+        div.main-ui .craft-screen div.input .input-container > input[type=checkbox] {
+          width: 16px;
+          vertical-align: middle; }
 
 span.header {
   font-family: Coolvetica, Helvetica, sans-serif;
