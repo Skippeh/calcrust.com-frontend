@@ -14,7 +14,7 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
             {
                 if (isNaN($scope.input.count))
                     $scope.input.count = 1;
-
+                
                 if ($scope.input.count < 1)
                     $scope.input.count = 1;
 
@@ -31,9 +31,26 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
                 $scope.input.count = 1;
             }
             
-            $scope.changeCount = function (delta)
+            $scope.changeCount = function (delta, $event)
             {
-                $scope.input.count += delta;
+                if ($event.ctrlKey)
+                {
+                    delta = delta > 0 ? 1 : -1;
+                    var roundFunc = delta > 0 ? Math.floor : Math.ceil;
+                    var amountForStack = ($scope.recipe.output.item.maxStack / $scope.recipe.output.count);
+                    var roundedStacks = Math.round(amountForStack);
+                    var difference = amountForStack - roundedStacks;
+
+                    var currentStacks = roundFunc($scope.input.count / amountForStack + (difference * delta));
+                    currentStacks += delta;
+                    
+                    $scope.input.count = Math.floor(currentStacks * amountForStack);
+                }
+                else
+                {
+                    $scope.input.count += delta;
+                }
+
                 $scope.cleanCount();
                 $scope.onCountChanged();
             }
