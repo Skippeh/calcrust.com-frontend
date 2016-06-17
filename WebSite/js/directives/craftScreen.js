@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").directive("craftScreen", ["$stateParams", "$rootScope", "$state", CraftScreenDirective]);
+﻿angular.module("RustCalc").directive("craftScreen", ["$stateParams", "$rootScope", "$state", "$localStorage", CraftScreenDirective]);
 
-function CraftScreenDirective ($stateParams, $rootScope, $state)
+function CraftScreenDirective ($stateParams, $rootScope, $state, $localStorage)
 {
     return {
         restrict: "E",
@@ -22,7 +22,7 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
                     $scope.input.count = 99999;
             };
 
-            $scope.input = { count: parseInt($stateParams.count), calculateTotalRequirements: true };
+            $scope.input = { count: parseInt($stateParams.count), calculateTotalRequirements: $localStorage.crafting.calcTotal };
             $scope.cleanCount();
 
             if (isNaN($scope.input.count))
@@ -68,6 +68,8 @@ function CraftScreenDirective ($stateParams, $rootScope, $state)
 
             function onInputChanged()
             {
+                $localStorage.crafting.calcTotal = $scope.input.calculateTotalRequirements;
+
                 $scope.reqs1 = $scope.recipe.calculateRequirements(1, $scope.input.calculateTotalRequirements);
                 $scope.reqs = $scope.recipe.calculateRequirements($scope.input.count, $scope.input.calculateTotalRequirements);
 
