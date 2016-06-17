@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", MasterCtrl]);
+﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", "$localStorage", MasterCtrl]);
 
-function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location)
+function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location, $localStorage)
 {
     $scope.stateParams = $stateParams;
     
@@ -23,6 +23,12 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
         $scope.lastUpdateText = moment($rustData.meta.lastUpdate).startOf("hour").calendar();
 
         $rootScope.$broadcast("rustDataLoaded");
+    });
+
+    $localStorage.$default({
+        crafting: {
+            calcTotal: true
+        }
     });
 
     // Send pageview to analytics on successful state change.
