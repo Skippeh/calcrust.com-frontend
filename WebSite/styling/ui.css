@@ -164,7 +164,7 @@ div.main-ui {
     div.main-ui .blueprint-browser div.browser-wrapper {
       text-align: left;
       /* Reset text alignment */
-      height: calc(100% - 168px); }
+      height: calc(100% - 85px); }
   div.main-ui .item-browser {
     position: absolute;
     left: 0;

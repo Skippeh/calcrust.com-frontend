@@ -6,8 +6,7 @@ function ItemBPsController ($scope, $filter, $rustData, $rootScope, $state)
 
     $scope.blueprintFilter =
     {
-        name: "",
-        categories: { "default": true, fragments: true, page: true, book: true, library: true }
+        name: ""
     };
 
     $scope.itemFilter = {
@@ -47,62 +46,14 @@ function ItemBPsController ($scope, $filter, $rustData, $rootScope, $state)
 
     $scope.filterBlueprints = function (recipe)
     {
-        return $scope.blueprintFilter.categories[recipe.rarity] === true && recipe.output.item.name.toLowerCase().indexOf($scope.blueprintFilter.name.toLowerCase()) != -1;
+        return recipe.output.item.name.toLowerCase().indexOf($scope.blueprintFilter.name.toLowerCase()) != -1;
     };
     
     $scope.filterItems = function (item)
     {
         return item.name.toLowerCase().indexOf($scope.itemFilter.name.toLowerCase()) != -1;
     };
-
-    $scope.toggleBpCategory = function (categoryName, $event)
-    {
-        var categories = $scope.blueprintFilter.categories;
-
-        var active = categories[categoryName] == true;
-
-        if ($event.ctrlKey)
-            categories[categoryName] = !active;
-        else
-        {
-            for (var key in categories)
-            {
-                if (!categories.hasOwnProperty(key))
-                    continue;
-
-                categories[key] = false;
-            }
-
-            categories[categoryName] = true;
-        }
-    };
-
-    $scope.resetBpCategories = function ()
-    {
-        var newValue = true;
-
-        if ($scope.allCategoriesActive())
-        {
-            newValue = false;
-        }
-
-        $scope.blueprintFilter.categories["default"] = newValue;
-        $scope.blueprintFilter.categories["fragments"] = newValue;
-        $scope.blueprintFilter.categories["page"] = newValue;
-        $scope.blueprintFilter.categories["book"] = newValue;
-        $scope.blueprintFilter.categories["library"] = newValue;
-    };
-
-    $scope.allCategoriesActive = function ()
-    {
-        return !Object.keys($scope.blueprintFilter.categories).filter(function (val) { return !$scope.blueprintFilter.categories[val]; }).length;
-    }
-
-    $scope.categoryActive = function (categoryName)
-    {
-        return $scope.blueprintFilter.categories[categoryName] === true;
-    };
-
+    
     $scope.bpActive = function (recipe)
     {
         return $scope.stateParams.id == recipe.output.item.id && $state.includes("itembps.item.recipe");
