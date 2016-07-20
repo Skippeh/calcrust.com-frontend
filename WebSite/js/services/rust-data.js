@@ -229,6 +229,7 @@ function RustDataService ($http)
         {
             $http({
                 method: "GET",
+                url: "https://api.calcrust.com/dump"
             }).then(
             function onSuccess(response)
             {
