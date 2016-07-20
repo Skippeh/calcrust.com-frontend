@@ -235,6 +235,23 @@ div.main-ui {
         width: 130px;
         max-height: 130px;
         vertical-align: middle; }
+    div.main-ui .craft-screen div.xp-info {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 5px; }
+      div.main-ui .craft-screen div.xp-info .box {
+        border-radius: 5px;
+        padding: 5px;
+        display: inline-block;
+        background-color: rgba(173, 173, 173, 0.22); }
+        div.main-ui .craft-screen div.xp-info .box i.text {
+          font-style: normal;
+          user-select: none;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          cursor: default; }
     div.main-ui .craft-screen div.table {
       min-height: 123px;
       max-height: 300px;
@@ -266,10 +283,21 @@ div.main-ui {
         background-color: rgba(0, 0, 0, 0.2);
         height: 25px;
         line-height: 25px;
-        color: rgba(255, 255, 255, 0.6); }
+        color: rgba(255, 255, 255, 0.6);
+        min-width: 40px;
+        margin-right: -1.5px;
+        text-align: center; }
         div.main-ui .craft-screen div.input .info-box > i {
           color: rgba(255, 255, 255, 0.3);
-          font-size: 1.1em; }
+          font-size: 1.1em;
+          font-style: normal; }
+          div.main-ui .craft-screen div.input .info-box > i.text {
+            font-size: 1em;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            cursor: default; }
         div.main-ui .craft-screen div.input .info-box a {
           color: rgba(255, 255, 255, 0.6); }
         div.main-ui .craft-screen div.input .info-box img {

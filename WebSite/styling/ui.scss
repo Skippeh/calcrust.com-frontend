@@ -383,6 +383,32 @@ div.main-ui
             }
         }
 
+        & div.xp-info
+        {
+            position: absolute;
+            left: 0;
+            top: 0;
+            padding: 5px;
+
+            & .box
+            {
+                border-radius: 5px;
+                padding: 5px;
+                display: inline-block;
+                background-color: rgba(173, 173, 173, 0.22);
+
+                & i.text
+                {
+                    font-style: normal;
+                    user-select: none;
+                    -moz-user-select: none;
+                    -webkit-user-select: none;
+                    -ms-user-select: none;
+                    cursor: default;
+                }
+            }
+        }
+
         & div.table
         {
             min-height: 123px;
@@ -445,11 +471,25 @@ div.main-ui
                 height: 25px;
                 line-height: 25px;
                 color: rgba(255, 255, 255, 0.6);
+                min-width: 40px;
+                margin-right: -1.5px;
+                text-align: center;
 
                 & > i
                 {
                     color: rgba(255, 255, 255, 0.3);
                     font-size: 1.1em;
+                    font-style: normal;
+
+                    &.text
+                    {
+                        font-size: 1em;
+                        user-select: none;
+                        -moz-user-select: none;
+                        -webkit-user-select: none;
+                        -ms-user-select: none;
+                        cursor: default;
+                    }
                 }
 
                 & a
