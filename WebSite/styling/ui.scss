@@ -64,6 +64,7 @@ div.main-ui
         -o-transition: background-color ease-in-out 0.1s;
         -webkit-transition: background-color ease-in-out 0.1s;
         transition: background-color ease-in-out 0.1s;
+        font-weight: bold;
 
         &:hover
         {
@@ -335,6 +336,15 @@ div.main-ui
                     color: #8E8E8E;
                 }
             }
+        }
+
+        & > .window-header
+        {
+            position: absolute;
+            left: 0;
+            top: -1.35em;
+            font-weight: bold;
+            font-size: 2.15em;
         }
     }
 

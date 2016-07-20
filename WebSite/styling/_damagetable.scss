@@ -2,7 +2,12 @@
 {
     & .main-window.damage-table-window
     {
-        width: 800px;
+        width: 900px;
         min-height: 500px;
+
+        & > .container
+        {
+            padding: 5px;
+        }
     }
 }

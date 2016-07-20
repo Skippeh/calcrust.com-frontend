@@ -1,3 +1,14 @@
-﻿<div class="main-window shadowed damage-table-window centered-page">
-    <div class="centered-text">Not released yet, data is available though if you know where to look (although most likely inaccurate)</div>
+﻿<div class="main-window shadowed damage-table-window">
+    <loading-overlay ng-if="loading"></loading-overlay>
+    <div class="window-header">Damage tables</div>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td ng-repeat="building in buildingNames">{{building}}</td>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>

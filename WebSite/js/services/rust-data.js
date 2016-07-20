@@ -5,7 +5,6 @@ function RustDataService ($http)
     var items = {};
     var recipes = {};
     var cookables = {};
-    var damageInfo = {};
 
     // Recipe
     function Recipe(input, output, ttc, rarity, researchable)
@@ -185,45 +184,11 @@ function RustDataService ($http)
             this.usableOvens[i] = items[usableOvens[i]];
         }
     }
-
-    // DamageInfo
-    function DamageInfo(type, scales)
-    {
-        this.type = type;
-        this.scales = {};
-
-        for (var grade in scales)
-        {
-            if (!scales.hasOwnProperty(grade))
-                continue;
-
-            this.scales[grade] = new ScalesInfo(scales[grade].health, scales[grade].damages);
-        }
-    }
-
-    // ScalesInfo
-    function ScalesInfo (health, damages)
-    {
-        this.health = health;
-        this.damages = {};
-
-        for (var itemId in damages)
-        {
-            if (!damages.hasOwnProperty(itemId))
-                continue;
-
-            this.damages[itemId] = {
-                strongSide: damages[itemId].strongSide,
-                weakSide: damages[itemId].weakSide
-            };
-        }
-    }
     
     return {
         items: items,
         recipes: recipes,
         cookables: cookables,
-        damageInfo: damageInfo,
         load: function (callback)
         {
             $http({
@@ -317,18 +282,6 @@ function RustDataService ($http)
                     this.cookables[itemId] = cookable;
                 }
                 
-                // Parse damage infos
-                //for (var itemId in data.damageInfo)
-                //{
-                //    if (!data.damageInfo.hasOwnProperty(itemId))
-                //        continue;
-                //
-                //    var loadInfo = data.damageInfo[itemId];
-                //    var info = new DamageInfo(loadInfo.type, loadInfo.scales);
-                //
-                //    this.damageInfo[itemId] = info;
-                //}
-
                 callback && callback(this, null);
             }.bind(this),
             function onError(response)
@@ -337,6 +290,27 @@ function RustDataService ($http)
                 console.error("Failed loading data:", response);
                 callback && callback(null, response);
             });
+        },
+        requestDamageInfo: function(callback)
+        {
+            $http({
+                method: "GET",
+                url: "https://api.calcrust.com/damages"
+            }).then(function(response)
+            {
+                var data = response.data.data;
+                var items = this.items;
+
+                data = data.map(function(shortname)
+                {
+                    return items[shortname];
+                });
+
+                callback(data);
+            }.bind(this), function(error)
+            {
+                callback(null, error);
+            }.bind(this));
         }
     };
 }
