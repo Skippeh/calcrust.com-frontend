@@ -7,7 +7,6 @@
             <input type="text" ng-model="itemFilter.name" />
         </div>
         <perfect-scrollbar class="browser-wrapper scroller">
-            <!--<div class="item clearfix item-row" ng-repeat="(id, item) in itemsArray | orderBy: 'name' | filter: filterItems">-->
             <a ui-sref="itembps.item.info({ id: item.id })" ng-repeat="item in filteredItems">
                 <div class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
                     <div class="image">
@@ -38,6 +37,12 @@
                         <span class="name">{{recipe.output.item.name}}</span>
                         <br />
                         <span class="description" title="{{recipe.input | friendlyRecipeInput}}">{{recipe.input | friendlyRecipeInput | limitLength: 65}}</span>
+                    </div>
+                    <div class="xp-info">
+                        <div class="box level" title="Level">
+                            <i class="fa fa-star"></i>
+                            {{recipe.level}}
+                        </div>
                     </div>
                 </div>
             </a>

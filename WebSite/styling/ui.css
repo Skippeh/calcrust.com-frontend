@@ -235,23 +235,6 @@ div.main-ui {
         width: 130px;
         max-height: 130px;
         vertical-align: middle; }
-    div.main-ui .craft-screen div.xp-info {
-      position: absolute;
-      left: 0;
-      top: 0;
-      padding: 5px; }
-      div.main-ui .craft-screen div.xp-info .box {
-        border-radius: 5px;
-        padding: 5px;
-        display: inline-block;
-        background-color: rgba(173, 173, 173, 0.22); }
-        div.main-ui .craft-screen div.xp-info .box i.text {
-          font-style: normal;
-          user-select: none;
-          -moz-user-select: none;
-          -webkit-user-select: none;
-          -ms-user-select: none;
-          cursor: default; }
     div.main-ui .craft-screen div.table {
       min-height: 123px;
       max-height: 300px;
@@ -312,6 +295,27 @@ div.main-ui {
         div.main-ui .craft-screen div.input .input-container > input[type=checkbox] {
           width: 16px;
           vertical-align: middle; }
+    div.main-ui .craft-screen div.xp-info {
+      top: 0;
+      left: 0;
+      right: unset; }
+      div.main-ui .craft-screen div.xp-info .box {
+        border-radius: 5px;
+        background-color: rgba(173, 173, 173, 0.22); }
+  div.main-ui div.xp-info {
+    position: absolute;
+    right: 0;
+    padding: 6px; }
+    div.main-ui div.xp-info .box {
+      padding: 5px;
+      display: inline-block; }
+      div.main-ui div.xp-info .box i.text {
+        font-style: normal;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        cursor: default; }
 
 span.header {
   font-family: Coolvetica, Helvetica, sans-serif;
