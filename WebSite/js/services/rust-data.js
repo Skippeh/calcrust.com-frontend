@@ -7,13 +7,14 @@ function RustDataService ($http)
     var cookables = {};
 
     // Recipe
-    function Recipe(input, output, ttc, rarity, researchable)
+    function Recipe(input, output, ttc, rarity, level, price, parent)
     {
         this.input = input; // Array of RecipeItem
         this.output = output; // RecipeItem
         this.ttc = ttc; // Int (time to craft)
-        this.rarity = rarity; // String (fragments/page/book/library)
-        this.researchable = researchable; // Bool
+        this.level = level; // Int (level required to unlock)
+        this.price = price; // Int (xp required to unlock)
+        this.parent = parent; // Item (parent item required to be unlocked to unlock this)
 
         this.calculateRequirements = function (count, calculateTotalRequirements)
         {
@@ -247,7 +248,7 @@ function RustDataService ($http)
 
                     output = new RecipeItem(item, loadItem.count);
 
-                    this.recipes[key] = new Recipe(input, output, loadRecipe.ttc, loadRecipe.rarity, loadRecipe.researchable);
+                    this.recipes[key] = new Recipe(input, output, loadRecipe.ttc, loadRecipe.rarity, loadRecipe.level, loadRecipe.price, this.items[loadRecipe.parent] || null);
                 }
 
                 // Set the items recipe if they have one and id.

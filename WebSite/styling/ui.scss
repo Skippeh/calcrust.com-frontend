@@ -256,7 +256,7 @@ div.main-ui
         & div.browser-wrapper
         {
             text-align: left; /* Reset text alignment */
-            height: calc(100% - 168px);
+            height: calc(100% - 85px);
         }
     }
 
@@ -455,11 +455,25 @@ div.main-ui
                 height: 25px;
                 line-height: 25px;
                 color: rgba(255, 255, 255, 0.6);
+                min-width: 40px;
+                margin-right: -1.5px;
+                text-align: center;
 
                 & > i
                 {
                     color: rgba(255, 255, 255, 0.3);
                     font-size: 1.1em;
+                    font-style: normal;
+
+                    &.text
+                    {
+                        font-size: 1em;
+                        user-select: none;
+                        -moz-user-select: none;
+                        -webkit-user-select: none;
+                        -ms-user-select: none;
+                        cursor: default;
+                    }
                 }
 
                 & a
@@ -490,6 +504,42 @@ div.main-ui
                     width: 16px;
                     vertical-align: middle;
                 }
+            }
+        }
+
+        & div.xp-info
+        {
+            top: 0;
+            left: 0;
+            right: unset;
+
+            & .box
+            {
+                border-radius: 5px;
+                background-color: rgba(173, 173, 173, 0.22);
+            }
+        }
+    }
+
+    & div.xp-info
+    {
+        position: absolute;
+        right: 0;
+        padding: 6px;
+
+        & .box
+        {
+            padding: 5px;
+            display: inline-block;
+
+            & i.text
+            {
+                font-style: normal;
+                user-select: none;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                cursor: default;
             }
         }
     }
