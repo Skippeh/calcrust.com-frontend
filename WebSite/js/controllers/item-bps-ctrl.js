@@ -61,7 +61,6 @@ function ItemBPsController ($scope, $filter, $rustData, $rootScope, $state)
 
     $scope.itemActive = function (item)
     {
-        console.log($state);
         return $scope.stateParams.id == item.id && $state.includes("itembps.item.info");
     }
 
