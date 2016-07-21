@@ -56,12 +56,13 @@ function ItemBPsController ($scope, $filter, $rustData, $rootScope, $state)
     
     $scope.bpActive = function (recipe)
     {
-        return $scope.stateParams.id == recipe.output.item.id && $state.includes("itembps.item.recipe");
+        return $scope.stateParams.id == recipe.output.item.id && ($state.includes("itembps.item.recipe") || $state.includes("itembps.item.recipes"));
     }
 
     $scope.itemActive = function (item)
     {
-        return $scope.stateParams.id == item.id && $state.includes("itembps.item");
+        console.log($state);
+        return $scope.stateParams.id == item.id && $state.includes("itembps.item.info");
     }
 
     $scope.rustData = $rustData;
