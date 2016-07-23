@@ -10,7 +10,8 @@ var gulp = require("gulp"),
 	ngHtml2Js = require("gulp-ng-html2js"),
 	babel = require("gulp-babel"),
 	print = require("gulp-print")
-	livereload = require("gulp-livereload");
+	livereload = require("gulp-livereload")
+	hashSrc = require("gulp-hash-src");
 
 var paths = {
 	scripts: "src/js/**/*.js",
@@ -77,10 +78,10 @@ gulp.task("custom-templates", () => {
 
 gulp.task("watch", () => {
 	livereload.listen();
-	gulp.watch(paths.index, ["usemin"]);
-	gulp.watch(paths.styles, ["custom-less"]);
+	gulp.watch(paths.index, ["usemin", "hash"]);
+	gulp.watch(paths.styles, ["custom-sass", "hash"]);
 	gulp.watch(paths.scripts, ["custom-js"]);
-	gulp.watch(paths.templates, ["custom-templates"]);
+	gulp.watch(paths.templates, ["custom-templates", "hash"]);
 });
 
 gulp.task("webserver", () => {
@@ -91,5 +92,14 @@ gulp.task("webserver", () => {
 	});
 });
 
-gulp.task("build", ["usemin", "build-assets", "build-custom"]);
+gulp.task("hash", () => {
+	return gulp.src(["dist/**/*.html", "dist/**/*.css"])
+		.pipe(hashSrc({
+			build_dir: "dist",
+			src_path: "dist"
+		}))
+		.pipe(gulp.dest("dist"));
+});
+
+gulp.task("build", ["usemin", "build-assets", "build-custom", "hash"]);
 gulp.task("default", ["build", "webserver", "watch"]);
