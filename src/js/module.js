@@ -1,4 +1,4 @@
-﻿angular.module("RustCalc", ["perfect_scrollbar", "ui.router", "ngDialog", "ngStorage"]).config(["$locationProvider", "$compileProvider", ModuleConfig]);
+﻿angular.module("RustCalc", ["templates", "perfect_scrollbar", "ui.router", "ngDialog", "ngStorage"]).config(["$locationProvider", "$compileProvider", ModuleConfig]);
 
 function ModuleConfig ($locationProvider, $compileProvider)
 {

@@ -16,8 +16,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.6.1/css/ngDialog.min.css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.6.1/css/ngDialog-theme-default.min.css"/>
 
-        <link rel="stylesheet" href="styling/master.min.css" />
-        <link rel="stylesheet" href="styling/ui.min.css"/>
+        <link rel="stylesheet" href="css/style.min.css" />
 
         <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
         <script type="text/javascript">
@@ -52,7 +51,6 @@
         <script src="https://cdn.rawgit.com/itsdrewmiller/angular-perfect-scrollbar/master/bower_components/perfect-scrollbar/min/perfect-scrollbar.with-mousewheel.min.js"></script>
         <script src="https://cdn.rawgit.com/noelboss/featherlight/master/release/featherlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-        <script src="/libs/JSONFormatter.js"></script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.17/angular-ui-router.min.js"></script>
@@ -60,31 +58,12 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.6.1/js/ngDialog.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 
-        <script src="js/module.js"></script>
-        <script src="js/routes.js"></script>
+        <!-- build:js js/libraries.min.js -->
+        <script src="libs/JSONFormatter.js"></script>
+        <!-- endbuild -->
 
-        <!-- Controllers -->
-        <script src="js/controllers/master-ctrl.js"></script>
-        <script src="js/controllers/item-page-recipe-ctrl.js"></script>
-        <script src="js/controllers/item-bps-ctrl.js"></script>
-        <script src="js/controllers/damage-tables-ctrl.js"></script>
-        <script src="js/controllers/item-page-ctrl.js"></script>
-        <script src="js/controllers/item-page-recipes-ctrl.js"></script>
-        <script src="js/controllers/cooking-calc-ctrl.js"></script>
-        <script src="js/controllers/bug-report-ctrl.js"></script>
-        <script src="js/controllers/api-docs-ctrl.js"></script>
-
-        <!-- Services and Factories -->
-        <script src="js/services/rust-data.js"></script>
-
-        <!-- Filters -->
-        <script src="js/filters/simple-filters.js"></script>
-
-        <!-- Directives -->
-        <script src="js/directives/craftScreen.js"></script>
-        <script src="js/directives/item-header.js"></script>
-        <script src="js/directives/nav-tab.js"></script>
-        <script src="js/directives/loading-overlay.js"></script>
+        <script src="js/templates.min.js"></script>
+        <script src="js/scripts.min.js"></script>
 
         <!-- Analytics -->
         <script>
