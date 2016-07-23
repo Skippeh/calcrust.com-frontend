@@ -62,22 +62,4 @@ function RouteConfig ($stateProvider)
             url: "*path",
             templateUrl: "templates/not-found.html"
         });
-
-    //$routeProvider
-    //.when("/", {
-    //    templateUrl: "templates/home.html"
-    //})
-    //.when("/blueprint/:id/:count?", {
-    //    templateUrl: "templates/blueprint.html",
-    //    controller: "BlueprintPageCtrl"
-    //})
-    //.when("/item/:id", {
-    //    templateUrl: "templates/item.html"
-    //})
-    //.when("/not-found", {
-    //    templateUrl: "templates/not-found.html"
-    //})
-    //.otherwise({
-    //    redirectTo: "/not-found"
-    //});
 }
