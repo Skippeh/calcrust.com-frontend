@@ -517,6 +517,11 @@ div.main-ui
             {
                 border-radius: 5px;
                 background-color: rgba(173, 173, 173, 0.22);
+
+                &:not(:last-of-type)
+                {
+                    margin-right: 3px;
+                }
             }
         }
     }
@@ -531,6 +536,11 @@ div.main-ui
         {
             padding: 5px;
             display: inline-block;
+
+            &:not(:last-of-type)
+            {
+                margin-right: 3px;
+            }
 
             & i.text
             {
