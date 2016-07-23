@@ -10,8 +10,6 @@ function ModuleConfig ($locationProvider, $compileProvider)
     $compileProvider.debugInfoEnabled(false);
 }
 
-console.log("Hello! If you want the item and blueprint data it's available as a global variable: RustData, or at /api-docs.");
-
 Object.values = function (obj)
 {
     var result = [];
@@ -26,3 +24,5 @@ Object.values = function (obj)
 
     return result;
 };
+
+console.log("Hello! If you want the item and blueprint data it's available as a global variable: RustData, or at /api-docs.");
