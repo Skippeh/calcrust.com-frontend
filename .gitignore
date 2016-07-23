@@ -289,4 +289,8 @@ $RECYCLE.BIN/
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
 
-WebSite/img/icons/**/*.*
+# Game item icons
+src/img/icons/**/*.*
+
+# Build output
+build/**/*.*
