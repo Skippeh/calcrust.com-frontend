@@ -48,11 +48,6 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/cookingcalc.html",
             controller: "CookingCalcCtrl"
         })
-        .state("bugreport", {
-            url: "/bugreport",
-            templateUrl: "templates/bugreport.html",
-            controller: "BugReportCtrl"
-        })
         .state("api-docs", {
             url: "/api-docs",
             templateUrl: "templates/api-docs.html",
