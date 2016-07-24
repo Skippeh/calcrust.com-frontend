@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "The frontend for www.calcrust.com.",
   "author": "Jonathan Lindahl",
-  "main": "src/js/main.js",
+  "license": "GPLv3",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/Skipcast/rustcalculator.git"
+    "url": "https://github.com/Skippeh/calcrust.com-frontend"
   },
   "dependencies": {
     "babel-preset-es2015": "^6.9.0",
