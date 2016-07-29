@@ -2,10 +2,12 @@
 
 function RouteConfig ($stateProvider)
 {
+
     $stateProvider
         .state("default", {
             url: "/",
-            templateUrl: "templates/home.html"
+            templateUrl: "templates/itembps.html",
+            controller: "ItemBPsController"
         })
         .state("itembps", {
             url: "/items",
@@ -47,6 +49,10 @@ function RouteConfig ($stateProvider)
             url: "/cookingcalc",
             templateUrl: "templates/cookingcalc.html",
             controller: "CookingCalcCtrl"
+        })
+        .state("changelog", {
+            url: "/changelog",
+            templateUrl: "templates/changelog.html"
         })
         .state("api-docs", {
             url: "/api-docs",
