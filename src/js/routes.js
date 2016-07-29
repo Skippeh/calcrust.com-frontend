@@ -46,7 +46,8 @@ function RouteConfig ($stateProvider)
         })
         .state("changelog", {
             url: "/changelog",
-            templateUrl: "templates/changelog.html"
+            templateUrl: "templates/changelog.html",
+            controller: "ChangelogCtrl"
         })
         .state("api-docs", {
             url: "/api-docs",
