@@ -4,7 +4,7 @@
 
 ## How to build
 
-The project uses gulp for development and generating dist files.
+The project uses gulp for development and generating dist files. **The gulp file  among other files uses es6 features, so make sure your node is up to date.**
 
 Start by navigating to the project folder in a terminal and write ***npm install*** to download all dependencies.
 
