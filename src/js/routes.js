@@ -55,6 +55,13 @@ function RouteConfig ($stateProvider)
         })
         .state("404", {
             url: "*path",
-            templateUrl: "templates/not-found.html"
+            templateUrl: "templates/not-found.html",
+            controller: ["$location", ($location) => {
+                // Redirect old item links (will probably remove this in the future).
+                const url = $location.url();
+                if (url.startsWith("/items")) {
+                    $location.url(url.substr("/items".length));
+                }
+            }]
         });
 }
