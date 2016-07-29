@@ -2,15 +2,9 @@
 
 function RouteConfig ($stateProvider)
 {
-
     $stateProvider
-        .state("default", {
-            url: "/",
-            templateUrl: "templates/itembps.html",
-            controller: "ItemBPsController"
-        })
         .state("itembps", {
-            url: "/items",
+            url: "/",
             abstract: true,
             templateUrl: "templates/itembps.html",
             controller: "ItemBPsController"
@@ -20,7 +14,7 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/itembps-default.html"
         })
         .state("itembps.item", {
-            url: "/:id",
+            url: ":id",
             abstract: true,
             templateUrl: "templates/item.html",
             controller: "ItemPageCtrl"
