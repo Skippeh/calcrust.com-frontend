@@ -25,7 +25,7 @@
                         </span>
                         <br />
                         <span class="description">
-                            <span ng-if="recipes[item.id]">{{::recipes[item.id].input | friendlyRecipeInput | limitLength: 61}}</span>
+                            <span ng-if="recipes[item.id]">{{::recipes[item.id].input | friendlyRecipeInput | limitLength: 75}}</span>
                             <span ng-if="!recipes[item.id]" class="no-recipe">No recipe</span>
                         </span>
                     </div>
