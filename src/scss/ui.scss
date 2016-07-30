@@ -213,10 +213,11 @@ div.main-ui
 
                 &.is-active
                 {
-                    background-color: rgba(180,255,180,.10);
+                    background-color: rgba(180, 255, 180, 0.10);
 
-                    &:hover {
-                        background-color: rgba(160,255,160,.2);
+                    &:hover
+                    {
+                        background-color: rgba(180, 255, 180, 0.14);
                     }
                 }
             }
