@@ -100,12 +100,14 @@ div.main-ui
 
     & div.browser
     {
+        $width-browser: 540px;
+
         & .browser-wrapper
         {
             position: relative;
-            height: calc(100% - 84px);
+            height: calc(100% - 134px);
 
-            width: 500px;
+            width: $width-browser;
 
             overflow: hidden;
 
@@ -183,6 +185,48 @@ div.main-ui
             & input[type=text]
             {
                 height: 20px;
+            }
+        }
+
+        & .categories
+        {
+            $num-categories: 12;
+            $size-category: ($width-browser / $num-categories);
+
+            display: flex;
+            justify-content: space-between;
+
+            list-style: none;
+            padding: 0;
+            margin: 0 0 5px 0;
+
+            & .category
+            {
+                background-color: rgba(255,255,255,.15);
+                width: $size-category;
+                height: $size-category;
+
+                &:hover
+                {
+                     background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                &.is-active
+                {
+                    background-color: rgba(180,255,180,.10);
+
+                    &:hover {
+                        background-color: rgba(160,255,160,.2);
+                    }
+                }
+            }
+
+            & .category-image
+            {
+                box-sizing: border-box;
+                width: $size-category;
+                height: $size-category;
+                padding: 10px;
             }
         }
     }

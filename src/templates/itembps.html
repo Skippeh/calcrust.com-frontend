@@ -7,8 +7,16 @@
             <input type="text" ng-model="itemFilter" ng-change="scrollToTop()" />
         </div>
 
+        <ul class="categories">
+            <li class="category" ng-repeat="category in ::categories" ng-class="{'is-active': category === selectedCategory}">
+                <a href="#" title="{{::category.name}}" ng-click="selectCategory(category)">
+                    <img class="category-image" ng-src="/img/category_{{::category.name}}.png" />
+                </a>
+            </li>
+        </ul>
+
         <perfect-scrollbar class="browser-wrapper scroller">
-            <div ng-repeat="item in items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
+            <div ng-repeat="item in selectedCategory.items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
                 <div ui-sref="itembps.item.info({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
                     <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
                     <div class="info" title="{{::item.description}}">
