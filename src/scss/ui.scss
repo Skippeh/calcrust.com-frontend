@@ -213,7 +213,11 @@ div.main-ui
 
                 &.is-active
                 {
-                    background-color: rgba(180,255,180,.15);
+                    background-color: rgba(180,255,180,.10);
+
+                    &:hover {
+                        background-color: rgba(160,255,160,.2);
+                    }
                 }
             }
 
@@ -222,7 +226,7 @@ div.main-ui
                 box-sizing: border-box;
                 width: $size-category;
                 height: $size-category;
-                padding: 12px;
+                padding: 10px;
             }
         }
     }
