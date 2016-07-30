@@ -4,52 +4,29 @@
         <span class="header large no-select">Items</span>
         <div class="searchbar">
             <span>Search:</span>
-            <input type="text" ng-model="itemFilter.name" />
+            <input type="text" ng-model="itemFilter" />
         </div>
+
         <perfect-scrollbar class="browser-wrapper scroller">
-            <a ui-sref="itembps.item.info({ id: item.id })" ng-repeat="item in filteredItems">
-                <div class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
-                    <div class="image">
-                        <img ng-src="/img/icons/{{item.id}}_small.png" />
-                    </div>
+            <div ng-repeat="item in items | filter:{name: itemFilter} track by item.id">
+                <div ui-sref="itembps.item.info({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
+                    <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
                     <div class="info">
-                        <span class="name">{{item.name}}</span>
+                        <span class="name">
+                            {{::item.name}}
+                        </span>
                         <br />
-                        <span class="description" title="{{item.description}}">{{item.description | limitLength: 61}}</span>
+                        <span class="description" title="{{::item.description}}">{{::item.description | limitLength: 61}}</span>
                     </div>
-                </div>
-            </a>
-        </perfect-scrollbar>
-    </div>
-    <div class="browser blueprint-browser">
-        <span class="header large no-select">Blueprints</span>
-        <div class="searchbar" style="text-align: left">
-            <span>Search:</span>
-            <input type="text" ng-model="blueprintFilter.name" />
-        </div>
-        <perfect-scrollbar class="browser-wrapper scroller">
-            <a ui-sref="itembps.item.recipe({ id: recipe.output.item.id, count: 1 })" ng-repeat="recipe in filteredRecipes">
-                <div class="blueprint clearfix item-row" ng-class="{ 'active': bpActive(recipe) }">
-                    <div class="image">
-                        <img ng-src="/img/icons/{{recipe.output.item.id}}_small.png" />
-                    </div>
-                    <div class="info">
-                        <span class="name">{{recipe.output.item.name}}</span>
-                        <br />
-                        <span class="description" title="{{recipe.input | friendlyRecipeInput}}">{{recipe.input | friendlyRecipeInput | limitLength: 65}}</span>
-                    </div>
-                    <div class="xp-info">
+                    <div class="xp-info" ng-if="recipes[item.id]">
+                        <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-if="recipes[item.id]" ng-click="$event.stopPropagation()">
+                            Recipe <i class="fa fa-flask"></i>
+                        </a>
+
                         <div class="box level" title="Level">
-                            <i class="fa fa-star"></i>
-                            {{recipe.level}}
+                            <i class="fa fa-star"></i> {{recipes[item.id].level}}
                         </div>
                     </div>
-                </div>
-            </a>
-            <div class="blueprint clearfix item-row" ng-show="!filteredRecipes.length">
-                <div class="image"></div>
-                <div class="info" style="margin-top: 0.6em">
-                    <span class="description">No items found with the current filter options.</span>
                 </div>
             </div>
         </perfect-scrollbar>

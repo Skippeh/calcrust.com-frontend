@@ -106,7 +106,7 @@ div.main-ui
             height: calc(100% - 84px);
 
             width: 500px;
-            
+
             overflow: hidden;
 
             & a:last-child .item-row
@@ -114,15 +114,10 @@ div.main-ui
                 margin-bottom: 0;
             }
 
-            & a > .item-row
-            {
-                color: $textColor;
-            }
-
             & .item-row
             {
-                width: 100%;
                 height: 80px;
+                cursor: pointer;
                 margin-bottom: 5px;
                 background-color: rgba(255, 255, 255, 0.15);
                 overflow: hidden;
@@ -142,17 +137,14 @@ div.main-ui
                 {
                     background-color: rgba(160, 255, 160, 0.2);
                 }
-                
+
                 & .image
                 {
                     float: left;
                     padding: 10px;
                     text-align: center;
-
-                    & > img
-                    {
-                        width: 60px;
-                    }
+                    width: 60px;
+                    height: 60px;
                 }
 
                 & .info
@@ -183,81 +175,6 @@ div.main-ui
             {
                 height: 20px;
             }
-        }
-    }
-
-    & .blueprint-browser
-    {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: 0 40px 40px 0;
-        text-align: right;
-
-        & > .categories-title
-        {
-            text-align: left;
-            font-family: Coolvetica;
-        }
-
-        & > .categories
-        {
-            background-color: rgba(255, 255, 255, 0.15);
-            text-align: left;
-            margin-bottom: 5px;
-            
-            & > .category
-            {
-                position: relative;
-                cursor: pointer;
-                display: inline-block;
-                padding: 5px 15px;
-
-                -moz-filter: grayscale(100%);
-                -webkit-filter: grayscale(100%);
-                filter: grayscale(100%);
-                opacity: 0.75;
-
-                & > img
-                {
-                    width: 50px;
-                    vertical-align: middle;
-                }
-
-                & > input[type=checkbox]
-                {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    margin: 2px 2px 0 0;
-                    display: none;
-                }
-
-                &:hover > input[type=checkbox]
-                {
-                    display: inline;
-                }
-
-                &:hover
-                {
-                    background-color: rgba(255, 255, 255, 0.1);
-                }
-
-                &.active
-                {
-                    -moz-filter: none;
-                    -webkit-filter: none;
-                    filter: none;
-                    opacity: 1;
-                }
-            }
-        }
-
-        & div.browser-wrapper
-        {
-            text-align: left; /* Reset text alignment */
-            height: calc(100% - 85px);
         }
     }
 
