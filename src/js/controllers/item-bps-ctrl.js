@@ -11,4 +11,9 @@ function ItemBPsController($scope, $rustData, $rootScope)
     {
         return $scope.stateParams.id === item.id;
     };
+
+    $scope.scrollToTop = function ()
+    {
+        $(".item-browser .browser-wrapper").scrollTop(0);
+    };
 }

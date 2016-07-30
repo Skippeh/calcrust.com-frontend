@@ -4,7 +4,7 @@
         <span class="header large no-select">Items</span>
         <div class="searchbar">
             <span>Search:</span>
-            <input type="text" ng-model="itemFilter" />
+            <input type="text" ng-model="itemFilter" ng-change="scrollToTop()" />
         </div>
 
         <perfect-scrollbar class="browser-wrapper scroller">
