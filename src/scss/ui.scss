@@ -206,12 +206,19 @@ div.main-ui
                 width: $size-category;
                 height: $size-category;
 
-                &.is-active {
+                &:hover
+                {
+                     background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                &.is-active
+                {
                     background-color: rgba(180,255,180,.15);
                 }
             }
 
-            & .category-image {
+            & .category-image
+            {
                 box-sizing: border-box;
                 width: $size-category;
                 height: $size-category;
