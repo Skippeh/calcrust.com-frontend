@@ -19,12 +19,12 @@
                         <span class="description" title="{{::item.description}}">{{::item.description | limitLength: 61}}</span>
                     </div>
                     <div class="xp-info" ng-if="recipes[item.id]">
-                        <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-if="recipes[item.id]" ng-click="$event.stopPropagation()">
+                        <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-click="$event.stopPropagation()">
                             Recipe <i class="fa fa-flask"></i>
                         </a>
 
                         <div class="box level" title="Level">
-                            <i class="fa fa-star"></i> {{recipes[item.id].level}}
+                            <i class="fa fa-star"></i> {{::recipes[item.id].level}}
                         </div>
                     </div>
                 </div>
