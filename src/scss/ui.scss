@@ -213,11 +213,12 @@ div.main-ui
 
                 &.is-active
                 {
-                    background-color: rgba(180, 255, 180, 0.10);
+                    background-color: rgba(180,255,180,.15);
+                    box-shadow: inset 2px 0px 2px -2px rgba(0,0,0,0.75), inset -2px 0px 2px -2px rgba(0,0,0,0.75); /* inset border on the left and right */
 
                     &:hover
                     {
-                        background-color: rgba(180, 255, 180, 0.14);
+                        background-color: rgba(160, 255, 160, 0.2);
                     }
                 }
             }
