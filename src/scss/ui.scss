@@ -260,7 +260,7 @@ div.main-ui
 
     & .main-window
     {
-        width: 570px;
+        width: 600px;
         background: rgba(255, 255, 255, 0.15);
         min-height: 320px;
         margin: 0 auto;
@@ -550,7 +550,7 @@ span.header
     }
 }
 
-@media (min-width: 1680px)
+@media (min-width: 1891px)
 {
     div.main-ui div.browsers-wrapper
     {
@@ -561,13 +561,23 @@ span.header
     }
 }
 
-@media (max-width: 1679px)
+@media (max-width: 1890px)
 {
     div.main-ui
     {
+        padding: 0 20px;
+
         & .browsers-wrapper
         {
-            bottom: -30px;
+            position: relative;
+            margin-top: 10px;
+
+            & .browser
+            {
+                max-width: 600px;
+                position: relative;
+                margin: 0 auto 28px auto;
+            }
         }
     }
 }
