@@ -167,6 +167,9 @@ div.main-ui
 
                 &:hover .xp-info .blueprint-text
                 {
+                    -moz-transition: opacity 0.1s ease-out;
+                    -o-transition: opacity 0.1s ease-out;
+                    -webkit-transition: opacity 0.1s ease-out;
                     transition: opacity 0.1s ease-out;
                     opacity: 1;
                 }
