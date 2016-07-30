@@ -164,6 +164,12 @@ div.main-ui
                         font-size: 0.95em;
                     }
                 }
+
+                &:hover .xp-info .blueprint-text
+                {
+                    transition: opacity 0.1s ease-out;
+                    opacity: 1;
+                }
             }
         }
 
@@ -449,6 +455,11 @@ div.main-ui
         position: absolute;
         right: 0;
         padding: 6px;
+
+        & .blueprint-text
+        {
+            opacity: 0;
+        }
 
         & .box
         {
