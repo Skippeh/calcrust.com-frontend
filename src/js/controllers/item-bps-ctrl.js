@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("ItemBPsController", ["$scope", "$rustData", "$rootScope", "$stateParams", ItemBPsController]);
+﻿angular.module("RustCalc").controller("ItemBPsController", ["$scope", "$rustData", "$rootScope", ItemBPsController]);
 
-function ItemBPsController($scope, $rustData, $rootScope, $stateParams)
+function ItemBPsController($scope, $rustData, $rootScope)
 {
     $rootScope.page.titlePrefix = "Items & Blueprints";
 
@@ -9,6 +9,6 @@ function ItemBPsController($scope, $rustData, $rootScope, $stateParams)
 
     $scope.itemActive = function (item)
     {
-        return $stateParams.id === item.id;
+        return $scope.stateParams.id === item.id;
     };
 }
