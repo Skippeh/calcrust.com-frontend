@@ -9,7 +9,7 @@
 
         <ul class="categories">
             <li class="category" ng-repeat="category in ::categories" ng-class="{'is-active': category === selectedCategory}">
-                <img class="category-image" ng-src="/img/category_{{::category.name}}.png" ng-click="selectCategory(category)" />
+                <img title="{{::category.name | capitalize}}" class="category-image" ng-src="/img/category_{{::category.name}}.png" ng-click="selectCategory(category)" />
             </li>
         </ul>
 
