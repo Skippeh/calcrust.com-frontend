@@ -8,15 +8,18 @@
         </div>
 
         <perfect-scrollbar class="browser-wrapper scroller">
-            <div ng-repeat="item in items | filter:{name: itemFilter} track by item.id">
+            <div ng-repeat="item in items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
                 <div ui-sref="itembps.item.info({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
                     <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
-                    <div class="info">
+                    <div class="info" title="{{::item.description}}">
                         <span class="name">
                             {{::item.name}}
                         </span>
                         <br />
-                        <span class="description" title="{{::item.description}}">{{::item.description | limitLength: 61}}</span>
+                        <span class="description">
+                            <span ng-if="recipes[item.id]">{{::recipes[item.id].input | friendlyRecipeInput | limitLength: 61}}</span>
+                            <span ng-if="!recipes[item.id]" class="no-recipe">No recipe</span>
+                        </span>
                     </div>
                     <div class="xp-info" ng-if="recipes[item.id]">
                         <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-click="$event.stopPropagation()">
