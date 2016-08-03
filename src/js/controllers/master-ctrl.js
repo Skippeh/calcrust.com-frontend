@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", "$localStorage", MasterCtrl]);
+﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", "$localStorage", "$notifications", MasterCtrl]);
 
-function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location, $localStorage)
+function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location, $localStorage, $notifications)
 {
     $scope.stateParams = $stateParams;
     
@@ -28,6 +28,9 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
     $localStorage.$default({
         crafting: {
             calcTotal: true
+        },
+        notifications: {
+
         }
     });
 
@@ -36,6 +39,8 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
     {
         ga('send', 'pageview', { page: $location.url() });
     });
+
+    $notifications.show();
 
     //var draggableOptions = {
     //    cursor: "default",

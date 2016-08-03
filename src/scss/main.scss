@@ -178,3 +178,22 @@ a:visited
     height: auto !important;
     width: auto !important;
 }
+
+#toast-container
+{
+    & .toast-info
+    {
+        background-color: #306879;
+
+        &:hover
+        {
+            cursor: default;
+        }
+    }
+
+    & > div
+    {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}

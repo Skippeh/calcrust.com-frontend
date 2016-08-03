@@ -8,6 +8,14 @@ function ModuleConfig ($locationProvider, $compileProvider)
     $locationProvider.html5Mode(true);
 
     $compileProvider.debugInfoEnabled(false);
+
+    window.toastr.options = {
+        closeButton: true,
+        timeOut: 0,
+        extendedTimeOut: 0,
+        tapToDismiss: false,
+        newestOnTop: false
+    };
 }
 
 Object.values = function (obj)
