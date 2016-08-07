@@ -1,3 +1,27 @@
-﻿<div class="main-window shadowed damage-table-window centered-page">
-    <div class="centered-text">Not released yet, data is available though if you know where to look</div>
+﻿<div class="main-window shadowed cookingcalc-window centered-page" ui-view></div>
+<div class="browsers-wrapper">
+    <div class="browser item-browser">
+        <span class="header large no-select">Ovens</span>
+        <div class="searchbar">
+            <span>Search:</span>
+            <input type="text" ng-model="itemFilter" ng-change="scrollToTop()" />
+        </div>
+
+        <perfect-scrollbar class="browser-wrapper scroller">
+            <div ng-repeat="item in items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
+                <div ui-sref="cookingcalc.item({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
+                    <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
+                    <div class="info" title="{{::item.description}}">
+                        <span class="name">
+                            {{::item.name}}
+                        </span>
+                        <br />
+                        <span class="description">
+                            <span>{{::item.meta.slots}} slot<span ng-if="item.meta.slots != 1">s</span></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
 </div>

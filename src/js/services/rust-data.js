@@ -144,6 +144,9 @@ function RustDataService ($http)
         this.category = category;
         this.meta = meta;
 
+        if (this.meta && this.meta.type == "oven")
+            this.meta.cookables = [];
+
         this.getRecipesWhereInput = function ()
         {
             var inputRecipes = [];
@@ -279,6 +282,14 @@ function RustDataService ($http)
 
                     var loadCookable = data.cookables[itemId];
                     var cookable = new Cookable(loadCookable.ovenList, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count);
+
+                    for (var i in cookable.usableOvens)
+                    {
+                        if (!cookable.usableOvens.hasOwnProperty(i))
+                            continue;
+
+                        cookable.usableOvens[i].meta.cookables.push(cookable);
+                    }
 
                     this.cookables[itemId] = cookable;
                 }

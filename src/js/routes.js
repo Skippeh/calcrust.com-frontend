@@ -41,8 +41,18 @@ function RouteConfig ($stateProvider)
         })
         .state("cookingcalc", {
             url: "/cookingcalc",
+            abstract: true,
             templateUrl: "templates/cookingcalc.html",
             controller: "CookingCalcCtrl"
+        })
+        .state("cookingcalc.default", {
+            url: "",
+            templateUrl: "templates/cookingcalc-default.html"
+        })
+        .state("cookingcalc.item", {
+            url: "/:id",
+            templateUrl: "templates/oven.html",
+            controller: "OvenPageCtrl"
         })
         .state("changelog", {
             url: "/changelog",
