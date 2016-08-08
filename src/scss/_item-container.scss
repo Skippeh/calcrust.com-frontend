@@ -1,22 +1,56 @@
+$slotSize: 90px;
+$iconSize: 75px;
+
 div.item-container
 {
 	& .item-slot
 	{
+		width: $slotSize;
+		height: $slotSize;
+		display: inline-block;
+		background-color: rgba(0, 0, 0, 0.25);
+		margin-bottom: 1px;
+		position: relative;
+		cursor: pointer;
+
+		&.output
+		{
+			cursor: default;
+		}
+
 		&:not(:last-of-type)
 		{
 			margin-right: 6px;
 		}
-
-		margin-bottom: 1px;
 
 		&:nth-child(6n+6)
 		{
 			margin-right: 0;
 		}
 
-		width: 90px;
-		height: 90px;
-		display: inline-block;
-		background-color: rgba(0, 0, 0, 0.25);
+		&:hover:not(.output)
+		{
+			background-color: rgba(25, 25, 25, 0.25);
+		}
+
+		& .stack-size
+		{
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			padding: 3px;
+			font-weight: bold;
+			font-size: 1.05em;
+			color: #C3C3C3;
+		}
+
+		& img.icon
+		{
+			position: absolute;
+			width: $iconSize;
+			height: $iconSize;
+			left: ($slotSize / 2) - ($iconSize / 2);
+			top: ($slotSize / 2) - ($iconSize / 2);
+		}
 	}
 }

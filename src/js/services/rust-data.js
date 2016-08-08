@@ -175,7 +175,7 @@ function RustDataService ($http)
     // Cookable
     function Cookable(usableOvens, ttc, outputId, outputCount)
     {
-        this.usableOvens = []; // Array of Items that can cook this.
+        this.usableOvens = {}; // Dictionary of objects containing the item that can cook this and the amount of fuel used for 1.
         this.ttc = ttc; // Time to cook
         this.output = {
             count: outputCount,
@@ -185,7 +185,7 @@ function RustDataService ($http)
         // Set oven items to their item definitions.
         for (var i = 0; i < usableOvens.length; ++i)
         {
-            this.usableOvens[i] = items[usableOvens[i]];
+            this.usableOvens[usableOvens[i].item] = { fuelConsumed: usableOvens[i].fuelConsumed, item: items[usableOvens[i].item] };
         }
     }
     
@@ -302,7 +302,7 @@ function RustDataService ($http)
                         if (!cookable.usableOvens.hasOwnProperty(i))
                             continue;
 
-                        cookable.usableOvens[i].meta.cookables.push(cookable);
+                        cookable.usableOvens[i].item.meta.cookables.push(cookable);
                     }
 
                     this.cookables[itemId] = cookable;

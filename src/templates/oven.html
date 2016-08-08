@@ -2,9 +2,11 @@
 	<div class="item-name">
 		{{::item.name}}
 	</div>
+	<h3 style="text-align: center">Select items by clicking on the item slots.</h3>
 	<div class="item-container">
-		<div class="item-slot" ng-repeat="i in slots track by $index">
-
+		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots track by $index" draggable="{{!slot.output && !!slot.item}}">
+			<img class="icon" ng-src="/img/icons/{{slot.item.id}}.png" ng-if="slot.item" draggable="false" />
+			<div class="stack-size" ng-if="slot.item && slot.count != 1">x{{slot.count}}</div>
 		</div>
 	</div>
 </div>
