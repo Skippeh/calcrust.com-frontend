@@ -9,6 +9,8 @@ $textColor: #d3cdc9;
 @import "damagetable";
 @import "api-docs-page";
 @import "changelog";
+@import "item-container";
+@import "cookingcalc";
 
 div.main-ui
 {
@@ -333,17 +335,17 @@ div.main-ui
         box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
 
+    & div.item-name
+    {
+        position: absolute;
+        top: -1.35em;
+        font-weight: bold;
+        font-size: 2.15em;
+    }
+
     & .craft-screen
     {
         position: relative;
-
-        & div.item-name
-        {
-            position: absolute;
-            top: -1.35em;
-            font-weight: bold;
-            font-size: 2.15em;
-        }
 
         & div.description
         {

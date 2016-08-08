@@ -3,6 +3,7 @@ angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$
 function OvenPageCtrl($scope, $rustData, $stateParams)
 {
 	$scope.item = $rustData.items[$stateParams.id];
+	$scope.slots = new Array($scope.item.meta.slots);
 
 	if ($scope.item == null || $scope.item.meta == null || $scope.item.meta.type != "oven" || !$scope.item.meta.cookables.length)
 	{

@@ -1,5 +1,12 @@
 <div ng-if="item" class="oven-screen clearfix">
+	<div class="item-name">
+		{{::item.name}}
+	</div>
+	<div class="item-container">
+		<div class="item-slot" ng-repeat="i in slots track by $index">
 
+		</div>
+	</div>
 </div>
 <div ng-if="!item" class="centered-page">
 	This oven does not exist or can't cook/smelt any items.

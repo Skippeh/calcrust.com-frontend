@@ -1,0 +1,22 @@
+div.item-container
+{
+	& .item-slot
+	{
+		&:not(:last-of-type)
+		{
+			margin-right: 6px;
+		}
+
+		margin-bottom: 1px;
+
+		&:nth-child(6n+6)
+		{
+			margin-right: 0;
+		}
+
+		width: 90px;
+		height: 90px;
+		display: inline-block;
+		background-color: rgba(0, 0, 0, 0.25);
+	}
+}
