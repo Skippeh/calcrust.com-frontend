@@ -2,6 +2,12 @@ div.oven-screen
 {
 	padding: 5px;
 
+	& button
+	{
+    	font-family: 'Roboto Condensed', sans-serif;
+    	font-size: 0.95em;
+	}
+
 	& .item-container
 	{
 		margin: 10px;
