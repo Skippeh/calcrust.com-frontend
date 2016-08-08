@@ -217,16 +217,16 @@ function RustDataService ($http)
                 }
                 
                 // Set oven fueltypes
-                for (var itemId in data.items)
+                for (var itemId in this.items)
                 {
-                    if (!data.items.hasOwnProperty(itemId))
+                    if (!this.items.hasOwnProperty(itemId))
                         continue;
 
-                    let item = data.items[itemId];
+                    let item = this.items[itemId];
 
                     if (item.meta != null && item.meta.type == "oven" && item.meta.fuelType != null)
                     {
-                        item.meta.fuelType = data.items[item.meta.fuelType];
+                        item.meta.fuelType = this.items[item.meta.fuelType];
                     }
                 }
 
