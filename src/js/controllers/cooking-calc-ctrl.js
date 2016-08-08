@@ -2,7 +2,7 @@
 
 function CookingCalcCtrl ($scope, $rootScope, $rustData)
 {
-    $rootScope.page.titlePrefix = "Cooking/Smelting Calculator";
+    $rootScope.page.titlePrefix = "Cooking & Smelting";
 
     $scope.itemActive = item =>
     {
