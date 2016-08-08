@@ -216,6 +216,20 @@ function RustDataService ($http)
                     this.items[itemId] = new Item(loadItem.name, loadItem.description, loadItem.maxStack, loadItem.category, loadItem.meta);
                 }
                 
+                // Set oven fueltypes
+                for (var itemId in data.items)
+                {
+                    if (!data.items.hasOwnProperty(itemId))
+                        continue;
+
+                    let item = data.items[itemId];
+
+                    if (item.meta != null && item.meta.type == "oven" && item.meta.fuelType != null)
+                    {
+                        item.meta.fuelType = data.items[item.meta.fuelType];
+                    }
+                }
+
                 // Parse recipes
                 for (var key in data.recipes)
                 {
