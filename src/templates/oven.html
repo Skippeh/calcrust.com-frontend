@@ -3,8 +3,11 @@
 		{{::item.name}}
 	</div>
 	<h3 style="text-align: center">Select items by clicking on the item slots.</h3>
+	<div class="buttons">
+		<button title="Automatically add the needed fuel for the inputted cookables." ng-click="autoAddFuel()">Auto fuel</button>
+	</div>
 	<div class="item-container">
-		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots track by $index" draggable="{{!slot.output && !!slot.item}}">
+		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots track by $index" draggable="{{!slot.output && !!slot.item}}" ng-click="test(slot)">
 			<img class="icon" ng-src="/img/icons/{{slot.item.id}}.png" ng-if="slot.item" draggable="false" />
 			<div class="stack-size" ng-if="slot.item && slot.count != 1">x{{slot.count}}</div>
 		</div>

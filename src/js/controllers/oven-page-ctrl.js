@@ -4,6 +4,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 {
 	$scope.item = $rustData.items[$stateParams.id];
 	$scope.slots = new Array($scope.item.meta.slots);
+	$scope.overflow = {};
 
 	for (let i = 0; i < $scope.slots.length; ++i)
 		$scope.slots[i] = {};
@@ -55,13 +56,14 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 
 	$scope.getCookables = () =>
 	{
-		let items = $scope.slots.filter(slot => slot.item != null && slot.item.meta.type == "cookable" && !slot.output);
+		let items = $scope.slots.filter(slot => slot.item != null && !slot.output && slot.item.meta.type == "cookable");
 		items = items.map(slot => ({ count: slot.count, item: $rustData.cookables[slot.item.id] }));
 		return items;
 	};
 
 	$scope.clearOutput = () =>
 	{
+		$scope.overflow = {};
 		$scope.slots.forEach(slot => {
 			if (slot.output)
 			{
@@ -133,6 +135,54 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 		}
 	}
 
+	$scope.test = (slot) =>
+	{
+		if (!slot.item)
+		{
+			slot.item = $rustData.items["wood"];
+			slot.count = 0;
+		}
+
+		slot.count += 10;
+
+		if (slot.count > slot.item.maxStack)
+			slot.count = slot.item.maxStack;
+
+		$scope.calculate();
+	};
+
+	$scope.autoAddFuel = () =>
+	{
+		// First clear all fuel
+		$scope.slots.forEach(slot => {
+			if (slot.item && !slot.output && slot.item.meta.type == "burnable")
+			{
+				slot.item = null;
+				slot.count = 0;
+			}
+		});
+
+		let cookables = $scope.getCookables();
+		let mostFuelNeeded = 0;
+
+		cookables.forEach(cookable => {
+			let oven = cookable.item.usableOvens[$scope.item.id];
+			let fuelNeeded = oven.fuelConsumed * cookable.count;
+
+			if (fuelNeeded > mostFuelNeeded)
+				mostFuelNeeded = fuelNeeded;
+		});
+
+		let fuel = $scope.getFuel();
+		let toAdd = mostFuelNeeded - fuel.count;
+
+		if (toAdd > 0)
+		{
+			addToSlots(1, { item: $scope.item.meta.fuelType, count: toAdd });
+			$scope.calculate();
+		}
+	};
+
 	$scope.calculate = () =>
 	{
 		var startDate = new Date();
@@ -152,9 +202,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 
 				if (totalFuel > fuel.count)
 				{
-					console.log("old count", count);
-					count = Math.floor(fuel.count / fuelPerItem);
-					console.log("new count", count, cookable.item.output.item.name);
+					count = Math.ceil(fuel.count / fuelPerItem);
 				}
 
 				addToSlots(-1, { item: cookable.item.output.item, count: count * cookable.item.output.count }, true);
