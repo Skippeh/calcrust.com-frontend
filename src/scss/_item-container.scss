@@ -16,7 +16,7 @@ div.item-container
 		background-color: rgba(0, 0, 0, 0.25);
 		margin-bottom: 1px;
 		position: relative;
-		cursor: pointer;
+		cursor: default;
 
 		& *
 		{
@@ -25,7 +25,7 @@ div.item-container
 
 		&.output
 		{
-			cursor: default;
+			cursor: not-allowed;
 		}
 
 		&:not(:last-of-type)
