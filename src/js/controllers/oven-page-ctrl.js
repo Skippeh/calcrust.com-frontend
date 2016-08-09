@@ -120,14 +120,19 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		});
 	};
 
-	function getFreeSlot(direction, itemType, outputsOnly) // direction is either 1 or -1. if 1, search starts from 0, if -1 then search starts from num slots and counts down.
+	function getFreeSlot(direction, itemType, outputsOnly, startIndex) // direction is either 1 or -1. if 1, search starts from 0, if -1 then search starts from num slots and counts down.
 	{
 		if (direction < -1)
 			direction = -1;
 		if (direction > 1)
 			direction = 1;
 
-		let start = direction == 1 ? 0 : $scope.slots.length - 1;
+		let start;
+
+		if (typeof startIndex == "number")
+			start = startIndex;
+		else
+			start = direction == 1 ? 0 : $scope.slots.length - 1;
 
 		// Just an overly complicated loop that loops from start to end or end to start depending on the value of direction.
 		for (let i = start; (direction == 1 && i < $scope.slots.length) || (direction == -1 && i >= 0); i += direction)
@@ -153,14 +158,14 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		return null;
 	}
 
-	function addToSlots(direction, item, outputsOnly)
+	function addToSlots(direction, item, outputsOnly, startIndex)
 	{
 		if (Array.isArray(item))
 		{
 			for (let i = 0; i < item.length; ++i)
 			{
 				console.log(item[i]);
-				addToSlots(direction, item[i], outputsOnly);
+				addToSlots(direction, item[i], outputsOnly, startIndex);
 			}
 
 			return;
@@ -169,7 +174,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		let count = item.count;
 		while (count > 0)
 		{
-			let slot = getFreeSlot(direction, item.item, outputsOnly);
+			let slot = getFreeSlot(direction, item.item, outputsOnly, startIndex);
 
 			if (slot == null)
 				throw "not implemented";
