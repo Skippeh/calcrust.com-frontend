@@ -325,7 +325,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 
 		if (fuelByproduct != null)
 		{
-			addToSlots(-1, { item: fuelByproduct, count: fuel.count * fuelType.meta.byproductChance }); // stupid but testing predicting average byproduct creation.
+			addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
 		}
 
 		cookables.forEach(cookable => {
