@@ -3,6 +3,11 @@ $iconSize: 75px;
 
 div.item-container
 {
+	-moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+
 	& .item-slot
 	{
 		width: $slotSize;
@@ -12,6 +17,11 @@ div.item-container
 		margin-bottom: 1px;
 		position: relative;
 		cursor: pointer;
+
+		& *
+		{
+			pointer-events: none; /* Allows user to drag item slot by children. */
+		}
 
 		&.output
 		{

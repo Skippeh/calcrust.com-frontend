@@ -1,13 +1,13 @@
-angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", OvenPageCtrl]);
+angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", OvenPageCtrl]);
 
-function OvenPageCtrl($scope, $rustData, $stateParams)
+function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 {
 	$scope.item = $rustData.items[$stateParams.id];
 	$scope.slots = new Array($scope.item.meta.slots);
 	$scope.overflow = {};
 
 	for (let i = 0; i < $scope.slots.length; ++i)
-		$scope.slots[i] = {};
+		$scope.slots[i] = { index: i };
 
 	if ($scope.item == null || $scope.item.meta == null || $scope.item.meta.type != "oven" || !$scope.item.meta.cookables.length)
 	{
@@ -18,18 +18,65 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 	// Get all cookables that can be cooked using the current oven.
 	$scope.cookables = $scope.item.meta.cookables;
 
-	// Fill with hardcoded data for now.
-	$scope.slots[0].item = $rustData.items["wood"];
-	$scope.slots[0].count = 100;
+	// Handle dragging
+	let sourceSlot = null;
 
-	$scope.slots[1].item = $rustData.items["metal.ore"];
-	$scope.slots[1].count = 500;
+	$element.on("dragstart", ".item-container .item-slot", ev => {
+		if (sourceSlot != null)
+			return;
 
-	$scope.slots[2].item = $rustData.items["sulfur.ore"];
-	$scope.slots[2].count = 1000;
+		let dragEv = ev.originalEvent;
+		let slot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
+		sourceSlot = slot;
 
-	$scope.slots[3].item = $rustData.items["metal.ore"];
-	$scope.slots[3].count = 925;
+		if (slot.item == null || slot.output)
+		{
+			return;
+		}
+
+		let image = $(ev.target).find("img")[0];
+		let offsetX = 0;
+		let offsetY = 0;
+
+		let imagePosition = $(image).offset();
+		let mousePosition = { top: ev.pageY, left: ev.pageX };
+		let offset = { top: mousePosition.top - imagePosition.top, left: mousePosition.left - imagePosition.left };
+
+		dragEv.dataTransfer.setDragImage(image, offset.left, offset.top);
+		dragEv.dataTransfer.setData("text/plain", slot.index.toString());
+		$scope.$apply();
+	});
+
+	$element.on("dragover", ".item-container .item-slot", ev => {
+		let attribute = ev.target.attributes["data-slot"];
+
+		if (attribute == null || sourceSlot == null)
+			return;
+
+		let slot = $scope.slots[parseInt(attribute.value)];
+
+		if (!slot.output)
+		{
+			ev.preventDefault();
+		}
+	});
+
+	$element.on("drop", ".item-container .item-slot", ev => {
+		if (sourceSlot == null)
+			return;
+
+		let dragEv = ev.originalEvent;
+		let destSlot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
+
+		if (sourceSlot != destSlot)
+		{
+			moveSlotItems(sourceSlot, destSlot);
+		}
+
+		sourceSlot = null;
+		$scope.calculate();
+		$scope.$apply();
+	});
 
 	$scope.getFuel = () =>
 	{
@@ -109,6 +156,17 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 
 	function addToSlots(direction, item, outputsOnly)
 	{
+		if (Array.isArray(item))
+		{
+			for (let i = 0; i < item.length; ++i)
+			{
+				console.log(item[i]);
+				addToSlots(direction, item[i], outputsOnly);
+			}
+
+			return;
+		}
+
 		let count = item.count;
 		while (count > 0)
 		{
@@ -132,6 +190,69 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 
 			slot.count += add;
 			count -= add;
+		}
+	}
+
+	function moveSlotItems(sourceSlot, destSlot, amount)
+	{
+		if (typeof amount == "undefined")
+			amount = sourceSlot.count;
+
+		if (amount > sourceSlot.item.maxStack)
+			amount = sourceSlot.item.maxStack;
+
+		if (destSlot.item == null)
+		{
+			destSlot.item = sourceSlot.item;
+			destSlot.count = amount;
+
+			sourceSlot.count -= amount;
+
+			if (sourceSlot.count <= 0)
+			{
+				sourceSlot.item = null;
+				sourceSlot.count = 0;
+			}
+
+			return;
+		}
+		else
+		{
+			if (sourceSlot.item != destSlot.item)
+			{
+				if (amount != sourceSlot.count) // Don't do anything if we're not moving the full stack.
+					return;
+
+				let destItem = destSlot.item;
+				let destCount = destSlot.count;
+
+				destSlot.item = sourceSlot.item;
+				destSlot.count = sourceSlot.count;
+				sourceSlot.item = destItem;
+				sourceSlot.count = destCount;
+				return;
+			}
+			else
+			{
+				let newCount = destSlot.count + amount;
+				let overflow = newCount - destSlot.item.maxStack;
+				newCount -= (overflow > 0 ? overflow : 0)
+
+				destSlot.count = newCount;
+				sourceSlot.count -= amount;
+
+				// Empty source slot if empty
+				if (sourceSlot.count <= 0)
+				{
+					sourceSlot.item = null;
+					sourceSlot.count = 0;
+				}
+
+				if (overflow > 0)
+				{
+					addToSlots(1, { item: destSlot.item, count: overflow }, false);
+				}
+			}
 		}
 	}
 
@@ -167,10 +288,14 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 
 		cookables.forEach(cookable => {
 			let oven = cookable.item.usableOvens[$scope.item.id];
-			let fuelNeeded = oven.fuelConsumed * cookable.count;
 
-			if (fuelNeeded > mostFuelNeeded)
-				mostFuelNeeded = fuelNeeded;
+			if (oven != null)
+			{
+				let fuelNeeded = oven.fuelConsumed * cookable.count;
+
+				if (fuelNeeded > mostFuelNeeded)
+					mostFuelNeeded = fuelNeeded;
+			}
 		});
 
 		let fuel = $scope.getFuel();
@@ -212,5 +337,11 @@ function OvenPageCtrl($scope, $rustData, $stateParams)
 		console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
 	};
 
+	// Add debug items
+	addToSlots(1, [
+		{ item: $rustData.items["metal.ore"], count: 100 }
+	]);
+
+	$scope.autoAddFuel();
 	$scope.calculate();
 }
