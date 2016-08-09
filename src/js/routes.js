@@ -50,7 +50,7 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/cookingcalc-default.html"
         })
         .state("cookingcalc.item", {
-            url: "/:id",
+            url: "/:id?state",
             templateUrl: "templates/oven.html",
             controller: "OvenPageCtrl"
         })

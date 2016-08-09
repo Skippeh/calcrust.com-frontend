@@ -1,7 +1,11 @@
-angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", OvenPageCtrl]);
+angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", "$state", OvenPageCtrl]);
 
-function OvenPageCtrl($scope, $rustData, $stateParams, $element)
+function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 {
+	$scope.options = {
+		predictByproduct: true
+	};
+
 	$scope.item = $rustData.items[$stateParams.id];
 	$scope.slots = new Array($scope.item.meta.slots);
 	$scope.overflow = {};
@@ -260,6 +264,23 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		}
 	}
 
+	function getStateString()
+	{
+		let result = "";
+
+		for (let i = 0; i < $scope.slots.length; ++i)
+		{
+			let slot = $scope.slots[i];
+
+			if (slot.item != null && slot.item.meta != null && (slot.item.meta.type == "burnable" || slot.item.meta.type == "cookable"))
+			{
+				result += slot.index.toString() + "," + slot.item.id + "," + slot.count + ";";
+			}
+		}
+
+		return result.substr(0, result.length - 1); // Exclude last semi colon.
+	}
+
 	$scope.test = (slot) =>
 	{
 		if (!slot.item)
@@ -312,20 +333,26 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		}
 	};
 
-	$scope.calculate = () =>
+	$scope.calculate = (updateUrl) =>
 	{
+		if (typeof updateUrl == "undefined")
+			updateUrl = true;
+
 		var startDate = new Date();
 
 		$scope.clearOutput();
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
 
-		let fuelType = $scope.item.meta.fuelType;
-		let fuelByproduct = fuelType.meta.byproductItem;
-
-		if (fuelByproduct != null)
+		if ($scope.options.predictByproduct)
 		{
-			addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
+			let fuelType = $scope.item.meta.fuelType;
+			let fuelByproduct = fuelType.meta.byproductItem;
+
+			if (fuelByproduct != null)
+			{
+				addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
+			}
 		}
 
 		cookables.forEach(cookable => {
@@ -345,14 +372,53 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 			}
 		});
 
+		if (updateUrl)
+		{
+			let state = btoa(getStateString());
+			$state.go(".", { id: $stateParams.id, state: state }, { notify: false });
+		}
+
 		console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
 	};
 
-	// Add debug items
-	addToSlots(1, [
-		{ item: $rustData.items["metal.ore"], count: 100 }
-	]);
 
-	$scope.autoAddFuel();
-	$scope.calculate();
+	if ($stateParams.state != null)
+	{
+		// Load state from url
+		try
+		{
+			let state = atob($stateParams.state);
+			let strItems = state.split(/;/g);
+			let items = strItems.map(strItem => {
+				let values = strItem.split(/,/g);
+				let item = $rustData.items[values[1]];
+
+				if (item == null)
+				{
+					throw "No item found with id \"" + values[1] + "\".";
+				}
+
+				return { index: parseInt(values[0]), item: item, count: parseInt(values[2]) };
+			});
+
+			items.forEach(item => {
+				addToSlots(1, { item: item.item, count: item.count }, false, item.index);
+			});
+		}
+		catch (ex)
+		{
+			alert("Failed to load state: " + ex);
+		}
+	}
+	else
+	{
+		// Add debug items
+		addToSlots(1, [
+			{ item: $rustData.items["metal.ore"], count: 100 }
+		]);
+
+		$scope.autoAddFuel();
+	}
+
+	$scope.calculate(false);
 }
