@@ -319,7 +319,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		$scope.clearOutput();
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
-		console.log(fuel, cookables);
 
 		cookables.forEach(cookable => {
 			let oven = cookable.item.usableOvens[$scope.item.id];
