@@ -216,7 +216,7 @@ function RustDataService ($http)
                     this.items[itemId] = new Item(loadItem.name, loadItem.description, loadItem.maxStack, loadItem.category, loadItem.meta);
                 }
                 
-                // Set oven fueltypes
+                // Set various meta values
                 for (var itemId in this.items)
                 {
                     if (!this.items.hasOwnProperty(itemId))
@@ -224,9 +224,18 @@ function RustDataService ($http)
 
                     let item = this.items[itemId];
 
-                    if (item.meta != null && item.meta.type == "oven" && item.meta.fuelType != null)
+                    if (item.meta != null)
                     {
-                        item.meta.fuelType = this.items[item.meta.fuelType];
+                        // Set oven fuel type item.
+                        if (item.meta.type == "oven" && item.meta.fuelType != null)
+                        {
+                            item.meta.fuelType = this.items[item.meta.fuelType];
+                        }
+                        // Set burnable byproduct item.
+                        else if (item.meta.type == "burnable" && item.meta.byproductItem != null)
+                        {
+                            item.meta.byproductItem = this.items[item.meta.byproductItem];
+                        }
                     }
                 }
 

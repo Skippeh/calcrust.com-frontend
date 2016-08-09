@@ -102,7 +102,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 
 	$scope.getCookables = () =>
 	{
-		let items = $scope.slots.filter(slot => slot.item != null && !slot.output && slot.item.meta.type == "cookable");
+		let items = $scope.slots.filter(slot => slot.item != null && !slot.output && slot.item.meta != null &&  slot.item.meta.type == "cookable");
 		items = items.map(slot => ({ count: slot.count, item: $rustData.cookables[slot.item.id] }));
 		return items;
 	};
@@ -319,6 +319,14 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element)
 		$scope.clearOutput();
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
+
+		let fuelType = $scope.item.meta.fuelType;
+		let fuelByproduct = fuelType.meta.byproductItem;
+
+		if (fuelByproduct != null)
+		{
+			addToSlots(-1, { item: fuelByproduct, count: fuel.count * fuelType.meta.byproductChance }); // stupid but testing predicting average byproduct creation.
+		}
 
 		cookables.forEach(cookable => {
 			let oven = cookable.item.usableOvens[$scope.item.id];
