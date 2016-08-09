@@ -4,7 +4,7 @@
 	</div>
 	<h3 style="text-align: center">Select items by clicking on the item slots.</h3>
 	<div class="buttons clearfix">
-		<button title="Automatically add the needed fuel for the inputted cookables." ng-click="autoAddFuel()">Auto fuel</button>
+		<button title="Automatically add the needed fuel for the inputted cookables." ng-click="autoAddFuel(); calculate()">Auto fuel</button>
 	</div>
 	<div class="item-container">
 		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots track by $index" draggable="{{!slot.output && !!slot.item}}" ng-click="test(slot)" data-slot="{{::slot.index}}">

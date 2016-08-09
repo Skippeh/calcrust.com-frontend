@@ -329,7 +329,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 		if (toAdd > 0)
 		{
 			addToSlots(1, { item: $scope.item.meta.fuelType, count: toAdd });
-			$scope.calculate();
 		}
 	};
 
@@ -344,7 +343,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
 
-		if ($scope.options.predictByproduct)
+		if ($scope.options.predictByproduct && $scope.item.meta.allowByproductCreation)
 		{
 			let fuelType = $scope.item.meta.fuelType;
 			let fuelByproduct = fuelType.meta.byproductItem;
