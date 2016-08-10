@@ -34,4 +34,14 @@ div.oven-screen
 		margin-top: 4px;
 		margin-bottom: 5px;
 	}
+
+	& .byproduct-checkbox-container
+	{
+		padding-left: 10px;
+
+		& label span
+		{
+			vertical-align: top;
+		}
+	}
 }

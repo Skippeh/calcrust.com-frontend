@@ -6,6 +6,12 @@
 	<div class="buttons clearfix">
 		<button title="Automatically add the needed fuel for the inputted cookables." ng-click="autoAddFuel(); calculate()">Auto fuel</button>
 	</div>
+	<div class="byproduct-checkbox-container clearfix">
+		<label>
+			<input type="checkbox" ng-model="options.predictByproduct" ng-change="calculate()" />
+			<span>Estimate byproduct produce</span>
+		</label>
+	</div>
 	<div class="item-container">
 		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots track by $index" draggable="{{!slot.output && !!slot.item}}" ng-click="test(slot)" data-slot="{{::slot.index}}">
 			<img class="icon" ng-src="/img/icons/{{slot.item.id}}.png" ng-if="slot.item" draggable="false" />
