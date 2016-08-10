@@ -1,0 +1,11 @@
+<div class="context-menu oven item-slot-context-menu" ng-controller="SlotContextMenuCtrl">
+	<div ng-if="slot.output">
+		This slot is output only
+	</div>
+	<div ng-if="!slot.output">
+		<div class="count-slider" ng-if="slot.item">
+			<input type="number" class="no-arrows" ng-model="slot.count" ng-change="strCount = slot.count.toString(); calculate()" />
+			<input type="range" ng-model="slot.count" min="1" max="{{::slot.item.maxStack}}" ng-change="parseCount(); calculate();" />
+		</div>
+	</div>
+</div>

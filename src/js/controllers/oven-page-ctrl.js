@@ -1,9 +1,19 @@
-angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", "$state", OvenPageCtrl]);
+angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", "$state", "$templateCache", "$compile", OvenPageCtrl]);
 
-function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
+function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templateCache, $compile)
 {
 	$scope.options = {
-		predictByproduct: true
+		predictByproduct: false
+	};
+
+	$scope.slotContextMenuOptions = {
+		closeOnClick: false,
+		onOpen: ev => {
+			if ($(ev.target).hasClass("output"))
+			{
+				ev.preventDefault();
+			}
+		}
 	};
 
 	$scope.item = $rustData.items[$stateParams.id];
@@ -23,77 +33,105 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 	$scope.cookables = $scope.item.meta.cookables;
 
 	// Handle dragging
-	let sourceSlot = null;
-	let validDrop = false;
+	{
+		let sourceSlot = null;
+		let validDrop = false;
+		let moveHalf = false;
+		let copySlot = false;
 
-	$element.on("dragstart", ".item-container .item-slot", ev => {
-		if (sourceSlot != null)
-			return;
+		$element.on("dragstart", ".item-container .item-slot", ev => {
+			if (sourceSlot != null)
+				return;
 
-		let dragEv = ev.originalEvent;
-		let slot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
-		sourceSlot = slot;
+			let dragEv = ev.originalEvent;
+			let slot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
+			sourceSlot = slot;
 
-		if (slot.item == null || slot.output)
-		{
-			return;
-		}
+			if (slot.item == null || slot.output)
+			{
+				return;
+			}
 
-		let image = $(ev.target).find("img")[0];
-		let offsetX = 0;
-		let offsetY = 0;
+			let image = $(ev.target).find("img")[0];
+			let offsetX = 0;
+			let offsetY = 0;
 
-		let imagePosition = $(image).offset();
-		let mousePosition = { top: ev.pageY, left: ev.pageX };
-		let offset = { top: mousePosition.top - imagePosition.top, left: mousePosition.left - imagePosition.left };
+			let imagePosition = $(image).offset();
+			let mousePosition = { top: ev.pageY, left: ev.pageX };
+			let offset = { top: mousePosition.top - imagePosition.top, left: mousePosition.left - imagePosition.left };
 
-		dragEv.dataTransfer.setDragImage(image, offset.left, offset.top);
-		$scope.$apply();
-	});
+			dragEv.dataTransfer.setDragImage(image, offset.left, offset.top);
 
-	$element.on("dragover", ".item-container .item-slot", ev => {
-		let attribute = ev.target.attributes["data-slot"];
+			if (ev.ctrlKey)
+			{
+				dragEv.dataTransfer.effectAllowed = "copy";
+				moveHalf = true;
+			}
+			else if (ev.shiftKey)
+			{
+				console.log("shift");
+				dragEv.dataTransfer.effectAllowed = "copy";
+				copySlot = true;
+			}
 
-		if (attribute == null || sourceSlot == null)
-			return;
+			$scope.$apply();
+		});
 
-		let slot = $scope.slots[parseInt(attribute.value)];
+		$element.on("dragover", ".item-container .item-slot", ev => {
+			let attribute = ev.target.attributes["data-slot"];
 
-		if (!slot.output)
-		{
-			ev.preventDefault();
-		}
-	});
+			if (attribute == null || sourceSlot == null)
+				return;
 
-	$element.on("drop", ".item-container .item-slot", ev => {
-		if (sourceSlot == null)
-			return;
+			let slot = $scope.slots[parseInt(attribute.value)];
 
-		let dragEv = ev.originalEvent;
-		let destSlot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
+			if (!slot.output)
+			{
+				ev.preventDefault();
+				return;
+			}
+		});
 
-		if (sourceSlot != destSlot)
-		{
-			moveSlotItems(sourceSlot, destSlot);
-		}
+		$element.on("drop", ".item-container .item-slot", ev => {
+			if (sourceSlot == null)
+				return;
 
-		validDrop = true;
-	});
+			let dragEv = ev.originalEvent;
+			let destSlot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
 
-	// Unset source slot since the drop event is only called if dropped on a valid element.
-	$element.on("dragend", ".item-container .item-slot", ev => {
-		if (!validDrop)
-		{
-			sourceSlot.item = null;
-			sourceSlot.count = 0;
-		}
+			if (sourceSlot != destSlot)
+			{
+				if (!copySlot)
+					moveSlotItems(sourceSlot, destSlot, moveHalf ? Math.ceil(sourceSlot.count / 2) : sourceSlot.count);
+				else
+					addToSlots(1, sourceSlot, false, destSlot.index);
+			}
 
-		validDrop = false;
-		sourceSlot = null;
+			validDrop = true;
+		});
 
-		$scope.calculate();
-		$scope.$apply();
-	});
+		// Unset source slot since the drop event is only called if dropped on a valid element.
+		$element.on("dragend", ".item-container .item-slot", ev => {
+			if (!validDrop)
+			{
+				sourceSlot.item = null;
+				sourceSlot.count = 0;
+			}
+
+			validDrop = false;
+			sourceSlot = null;
+			moveHalf = false;
+			copySlot = false;
+
+			$scope.calculate();
+			$scope.$apply();
+		});
+
+		// Unsubscribe from events
+		$scope.$on("$destroy", ev => {
+			$element.off("dragstart drop dragend", ".item-container .item-slot");
+		});
+	}
 
 	$scope.getFuel = () =>
 	{
@@ -295,22 +333,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 		return result.substr(0, result.length - 1); // Exclude last semi colon.
 	}
 
-	$scope.test = (slot) =>
-	{
-		if (!slot.item)
-		{
-			slot.item = $rustData.items["wood"];
-			slot.count = 0;
-		}
-
-		slot.count += 10;
-
-		if (slot.count > slot.item.maxStack)
-			slot.count = slot.item.maxStack;
-
-		$scope.calculate();
-	};
-
 	$scope.autoAddFuel = () =>
 	{
 		// First clear all fuel
@@ -330,7 +352,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 
 			if (oven != null)
 			{
-				let fuelNeeded = oven.fuelConsumed * cookable.count;
+				let fuelNeeded = Math.ceil(oven.fuelConsumed * cookable.count);
 
 				if (fuelNeeded > mostFuelNeeded)
 					mostFuelNeeded = fuelNeeded;
@@ -351,7 +373,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 		if (typeof updateUrl == "undefined")
 			updateUrl = true;
 
-		var startDate = new Date();
+		let startDate = new Date();
 
 		$scope.clearOutput();
 		let fuel = $scope.getFuel();
@@ -427,7 +449,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 	{
 		// Add debug items
 		addToSlots(1, [
-			{ item: $rustData.items["metal.ore"], count: 100 }
+			{ item: $rustData.items["sulfur.ore"], count: 100 }
 		]);
 
 		$scope.autoAddFuel();

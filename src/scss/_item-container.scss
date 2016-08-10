@@ -64,3 +64,18 @@ div.item-container
 		}
 	}
 }
+
+.context-menu.item-slot-context-menu
+{
+	background: rgba(0, 0, 0, 0.75);
+	border: 1px solid #2b2b2b;
+	padding: 5px;
+	color: #e2e2e2;
+	max-height: 300px;
+	overflow-y: auto;
+
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+	box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+}
