@@ -58,7 +58,7 @@ function CraftScreenDirective ($stateParams, $rootScope, $state, $localStorage)
             $scope.onCountChanged = function ()
             {
                 $scope.reqs = $scope.recipe.calculateRequirements($scope.input.count, $scope.input.calculateTotalRequirements);
-                $state.go(".", { id: $scope.recipe.output.item.id, count: $scope.input.count }, { notify: false });
+                $state.go(".", { id: $scope.recipe.output.item.id, count: $scope.input.count }, { notify: false, location: "replace" });
             };
             
             $scope.isSubcomponent = function (item)

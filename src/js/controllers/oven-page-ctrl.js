@@ -374,7 +374,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 		if (updateUrl)
 		{
 			let state = btoa(getStateString());
-			$state.go(".", { id: $stateParams.id, state: state }, { notify: false });
+			$state.go(".", { id: $stateParams.id, state: state }, { notify: false, location: "replace" });
 		}
 
 		console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
