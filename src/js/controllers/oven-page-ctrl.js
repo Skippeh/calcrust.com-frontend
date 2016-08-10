@@ -24,6 +24,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 
 	// Handle dragging
 	let sourceSlot = null;
+	let validDrop = false;
 
 	$element.on("dragstart", ".item-container .item-slot", ev => {
 		if (sourceSlot != null)
@@ -76,7 +77,20 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state)
 			moveSlotItems(sourceSlot, destSlot);
 		}
 
+		validDrop = true;
+	});
+
+	// Unset source slot since the drop event is only called if dropped on a valid element.
+	$element.on("dragend", ".item-container .item-slot", ev => {
+		if (!validDrop)
+		{
+			sourceSlot.item = null;
+			sourceSlot.count = 0;
+		}
+
+		validDrop = false;
 		sourceSlot = null;
+
 		$scope.calculate();
 		$scope.$apply();
 	});
