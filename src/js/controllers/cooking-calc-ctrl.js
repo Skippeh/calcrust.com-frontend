@@ -10,5 +10,5 @@ function CookingCalcCtrl ($scope, $rootScope, $rustData)
     };
 
     // Only show ovens that can cook items (lanterns etc are considered ovens since they use fuel).
-    $scope.items = Object.values($rustData.items).filter(item => item.meta != null && item.meta.type == "oven" && item.meta.cookables.length);
+    $scope.items = Object.values($rustData.items).filter(item => item.meta.oven != null && item.meta.oven.cookables.length);
 }

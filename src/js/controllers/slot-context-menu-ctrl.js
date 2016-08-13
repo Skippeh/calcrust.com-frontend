@@ -2,7 +2,7 @@ angular.module("RustCalc").controller("SlotContextMenuCtrl", ["$scope", "$rustDa
 
 function SlotContextMenuCtrl($scope, $rustData, $element, $timeout)
 {
-	$scope.fuel = $scope.item.meta.fuelType;
+	$scope.fuel = $scope.item.meta.oven.fuelType;
 	console.log($scope.fuel);
 
 	$scope.clampCount = () => {

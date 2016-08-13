@@ -135,7 +135,7 @@ function RustDataService ($http)
     }
 
     // Item
-    function Item(name, description, maxStack, category, meta)
+    function Item(name, description, maxStack, category, meta, descriptions)
     {
         this.name = name;
         this.description = description;
@@ -143,9 +143,10 @@ function RustDataService ($http)
         this.recipe = null; // The recipe that produces this item. May be null.
         this.category = category;
         this.meta = meta;
+        this.descriptions = descriptions;
 
-        if (this.meta && this.meta.type == "oven")
-            this.meta.cookables = [];
+        if (this.meta.oven != null)
+            this.meta.oven.cookables = [];
 
         this.getRecipesWhereInput = function ()
         {
@@ -214,7 +215,7 @@ function RustDataService ($http)
                         continue;
 
                     var loadItem = data.items[itemId];
-                    this.items[itemId] = new Item(loadItem.name, loadItem.description, loadItem.maxStack, loadItem.category, loadItem.meta);
+                    this.items[itemId] = new Item(loadItem.name, loadItem.description, loadItem.maxStack, loadItem.category, loadItem.meta, loadItem.descriptions);
                 }
                 
                 // Set various meta values
@@ -225,18 +226,16 @@ function RustDataService ($http)
 
                     let item = this.items[itemId];
 
-                    if (item.meta != null)
+                    // Set oven fuel type item.
+                    if (item.meta.oven != null && item.meta.oven.fuelType != null)
                     {
-                        // Set oven fuel type item.
-                        if (item.meta.type == "oven" && item.meta.fuelType != null)
-                        {
-                            item.meta.fuelType = this.items[item.meta.fuelType];
-                        }
-                        // Set burnable byproduct item.
-                        else if (item.meta.type == "burnable" && item.meta.byproductItem != null)
-                        {
-                            item.meta.byproductItem = this.items[item.meta.byproductItem];
-                        }
+                        item.meta.oven.fuelType = this.items[item.meta.oven.fuelType];
+                    }
+
+                    // Set burnable byproduct item.
+                    if (item.meta.burnable != null && item.meta.burnable.byproductItem != null)
+                    {
+                        item.meta.burnable.byproductItem = this.items[item.meta.burnable.byproductItem];
                     }
                 }
 
@@ -312,7 +311,7 @@ function RustDataService ($http)
                         if (!cookable.usableOvens.hasOwnProperty(i))
                             continue;
 
-                        cookable.usableOvens[i].item.meta.cookables.push(cookable);
+                        cookable.usableOvens[i].item.meta.oven.cookables.push(cookable);
                     }
 
                     this.cookables[itemId] = cookable;

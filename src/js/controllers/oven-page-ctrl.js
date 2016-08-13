@@ -17,20 +17,20 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 	};
 
 	$scope.item = $rustData.items[$stateParams.id];
-	$scope.slots = new Array($scope.item.meta.slots);
+	$scope.slots = new Array($scope.item.meta.oven.slots);
 	$scope.overflow = {};
 
 	for (let i = 0; i < $scope.slots.length; ++i)
 		$scope.slots[i] = { index: i };
 
-	if ($scope.item == null || $scope.item.meta == null || $scope.item.meta.type != "oven" || !$scope.item.meta.cookables.length)
+	if ($scope.item == null || $scope.item.meta.oven == null || !$scope.item.meta.oven.cookables.length)
 	{
 		$scope.item = null;
 		return;
 	}
 
 	// Get all cookables that can be cooked using the current oven.
-	$scope.cookables = $scope.item.meta.cookables;
+	$scope.cookables = $scope.item.meta.oven.cookables;
 
 	// Handle dragging
 	{
@@ -135,7 +135,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 	$scope.getFuel = () =>
 	{
-		let fuelType = $scope.item.meta.fuelType;
+		let fuelType = $scope.item.meta.oven.fuelType;
 
 		if (fuelType == null)
 		{
@@ -158,7 +158,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 	$scope.getCookables = () =>
 	{
-		let items = $scope.slots.filter(slot => slot.item != null && !slot.output && slot.item.meta != null &&  slot.item.meta.type == "cookable");
+		let items = $scope.slots.filter(slot => slot.item != null && !slot.output && slot.item.meta.cookable != null);
 		items = items.map(slot => ({ count: slot.count, item: $rustData.cookables[slot.item.id] }));
 		return items;
 	};
@@ -325,7 +325,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		{
 			let slot = $scope.slots[i];
 
-			if (slot.item != null && slot.item.meta != null && (slot.item.meta.type == "burnable" || slot.item.meta.type == "cookable"))
+			if (slot.item != null && (slot.item.meta.burnable != null || slot.item.meta.cookable != null || slot.item.meta.consumable != null))
 			{
 				result += slot.index.toString() + "," + slot.item.id + "," + slot.count + ";";
 			}
@@ -338,7 +338,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 	{
 		// First clear all fuel
 		$scope.slots.forEach(slot => {
-			if (slot.item && !slot.output && slot.item.meta.type == "burnable")
+			if (slot.item && !slot.output && slot.item.meta.burnable != null)
 			{
 				slot.item = null;
 				slot.count = 0;
@@ -365,7 +365,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 		if (toAdd > 0)
 		{
-			addToSlots(1, { item: $scope.item.meta.fuelType, count: toAdd });
+			addToSlots(1, { item: $scope.item.meta.oven.fuelType, count: toAdd });
 		}
 	};
 
@@ -374,20 +374,20 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		if (typeof updateUrl == "undefined")
 			updateUrl = true;
 
-		let startDate = new Date();
+		//let startDate = new Date();
 
 		$scope.clearOutput();
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
 
-		if ($scope.options.predictByproduct && $scope.item.meta.allowByproductCreation)
+		if ($scope.options.predictByproduct && $scope.item.meta.oven.allowByproductCreation)
 		{
-			let fuelType = $scope.item.meta.fuelType;
-			let fuelByproduct = fuelType.meta.byproductItem;
+			let fuelType = $scope.item.meta.oven.fuelType;
+			let fuelByproduct = fuelType.meta.burnable.byproductItem;
 
 			if (fuelByproduct != null)
 			{
-				addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
+				addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.burnable.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
 			}
 		}
 
@@ -414,7 +414,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			$state.go(".", { id: $stateParams.id, state: state }, { notify: false, location: "replace" });
 		}
 
-		console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
+		//console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
 	};
 
 
