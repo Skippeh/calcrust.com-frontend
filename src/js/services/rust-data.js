@@ -173,7 +173,7 @@ function RustDataService ($http)
     };
 
     // Cookable
-    function Cookable(usableOvens, ttc, outputId, outputCount)
+    function Cookable(usableOvens, ttc, outputId, outputCount, inputItem)
     {
         this.usableOvens = {}; // Dictionary of objects containing the item that can cook this and the amount of fuel used for 1.
         this.ttc = ttc; // Time to cook
@@ -181,6 +181,7 @@ function RustDataService ($http)
             count: outputCount,
             item: items[outputId]
         };
+        this.input = inputItem;
 
         // Set oven items to their item definitions.
         for (var i = 0; i < usableOvens.length; ++i)
@@ -197,7 +198,7 @@ function RustDataService ($http)
         {
             $http({
                 method: "GET",
-                url: "https://api.calcrust.com/dump"
+                url: "http://localhost:7545/dump" // TODO: CHANGE ME BEFORE PRODUCTION
             }).then(
             function onSuccess(response)
             {
@@ -304,7 +305,7 @@ function RustDataService ($http)
                         continue;
 
                     var loadCookable = data.cookables[itemId];
-                    var cookable = new Cookable(loadCookable.ovenList, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count);
+                    var cookable = new Cookable(loadCookable.ovenList, loadCookable.ttc, loadCookable.output.item, loadCookable.output.count, this.items[itemId]);
 
                     for (var i in cookable.usableOvens)
                     {
