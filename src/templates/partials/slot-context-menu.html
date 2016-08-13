@@ -10,15 +10,15 @@
 			<hr/>
 		</div>
 		<h3>Fuel</h3>
-		<div class="cookables-browser">
-			<div class="cookable" title="{{fuel.name}}" ng-click="addItem(fuel, 1)">
+		<div class="cookables-browser" ng-if="fuel">
+			<div class="cookable" title="{{::fuel.name}}" ng-click="addItem(fuel, 1)">
 				<img class="icon" ng-src="/img/icons/{{fuel.id}}.png" />
 			</div>
 		</div>
 		<h3>Cookables</h3>
 		<div class="cookables-browser">
-			<div class="cookable" ng-repeat="cookable in cookables" title="{{cookable.input.name}}" ng-click="addItem(cookable.input, 1)">
-				<img class="icon" ng-src="/img/icons/{{cookable.input.id}}.png" />
+			<div class="cookable" ng-repeat="cookable in cookables" title="{{::cookable.input.name}}" ng-click="addItem(cookable.input, 1)">
+				<img class="icon" ng-src="/img/icons/{{::cookable.input.id}}.png" />
 			</div>
 		</div>
 	</div>
