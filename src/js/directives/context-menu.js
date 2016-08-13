@@ -35,7 +35,6 @@ function ContextMenuDirective($parse, $templateRequest, $sce, $compile)
 					$("body").append(element);
 
 					element.css({
-						position: "fixed",
 						top: y,
 						left: x
 					});
