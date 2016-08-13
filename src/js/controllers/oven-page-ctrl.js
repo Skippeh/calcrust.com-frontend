@@ -21,7 +21,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 	$scope.overflow = {};
 
 	for (let i = 0; i < $scope.slots.length; ++i)
-		$scope.slots[i] = { index: i };
+		$scope.slots[i] = { index: i, output: false, item: null, count: 0 };
 
 	if ($scope.item == null || $scope.item.meta.oven == null || !$scope.item.meta.oven.cookables.length)
 	{
@@ -178,6 +178,9 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 	function getFreeSlot(direction, itemType, outputsOnly, startIndex) // direction is either 1 or -1. if 1, search starts from 0, if -1 then search starts from num slots and counts down.
 	{
+		if (typeof outputsOnly == "undefined")
+			outputsOnly = false;
+
 		if (direction < -1)
 			direction = -1;
 		if (direction > 1)
@@ -190,6 +193,9 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		else
 			start = direction == 1 ? 0 : $scope.slots.length - 1;
 
+		if (start < 0 || start >= $scope.slots.length)
+			throw "getFreeSlot startIndex out of range";
+
 		// Just an overly complicated loop that loops from start to end or end to start depending on the value of direction.
 		for (let i = start; (direction == 1 && i < $scope.slots.length) || (direction == -1 && i >= 0); i += direction)
 		{
@@ -197,14 +203,12 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 			if (slot.item == null)
 			{
-				if (slot.output == outputsOnly)
-				{
-					return slot;
-				}
+				slot.output = outputsOnly;
+				return slot;
 			}
 			else if (itemType != null)
 			{
-				if (slot.item == itemType && slot.count < itemType.maxStack)
+				if (slot.output == outputsOnly && slot.item == itemType && slot.count < itemType.maxStack)
 				{
 					return slot;
 				}
@@ -220,7 +224,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		{
 			for (let i = 0; i < item.length; ++i)
 			{
-				console.log(item[i]);
 				addToSlots(direction, item[i], outputsOnly, startIndex);
 			}
 
@@ -325,7 +328,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		{
 			let slot = $scope.slots[i];
 
-			if (slot.item != null && (slot.item.meta.burnable != null || slot.item.meta.cookable != null || slot.item.meta.consumable != null))
+			if (slot.item != null && !slot.output && (slot.item.meta.burnable != null || slot.item.meta.cookable != null || slot.item.meta.consumable != null))
 			{
 				result += slot.index.toString() + "," + slot.item.id + "," + slot.count + ";";
 			}
@@ -360,12 +363,9 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			}
 		});
 
-		let fuel = $scope.getFuel();
-		let toAdd = mostFuelNeeded - fuel.count;
-
-		if (toAdd > 0)
+		if (mostFuelNeeded > 0)
 		{
-			addToSlots(1, { item: $scope.item.meta.oven.fuelType, count: toAdd });
+			addToSlots(1, { item: $scope.item.meta.oven.fuelType, count: mostFuelNeeded });
 		}
 	};
 
@@ -401,7 +401,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 				if (totalFuel > fuel.count)
 				{
-					count = Math.ceil(fuel.count / fuelPerItem);
+					count = Math.floor(fuel.count / fuelPerItem);
 				}
 
 				addToSlots(-1, { item: cookable.item.output.item, count: count * cookable.item.output.count }, true);
