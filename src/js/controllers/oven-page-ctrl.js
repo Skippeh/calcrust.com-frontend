@@ -197,7 +197,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 			if (slot.item == null)
 			{
-				if (!slot.output || (outputsOnly && slot.output))
+				if (slot.output == outputsOnly)
 				{
 					return slot;
 				}
