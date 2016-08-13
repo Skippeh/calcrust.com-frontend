@@ -3,7 +3,6 @@ angular.module("RustCalc").controller("SlotContextMenuCtrl", ["$scope", "$rustDa
 function SlotContextMenuCtrl($scope, $rustData, $element, $timeout)
 {
 	$scope.fuel = $scope.item.meta.oven.fuelType;
-	console.log($scope.fuel);
 
 	$scope.clampCount = () => {
 		if ($scope.slot.count < 1)
@@ -31,6 +30,4 @@ function SlotContextMenuCtrl($scope, $rustData, $element, $timeout)
 			$element.scrollTop(0);
 		});
 	};
-
-	console.log($scope.cookables);
 }
