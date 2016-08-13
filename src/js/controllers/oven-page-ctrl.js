@@ -417,7 +417,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		//console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
 	};
 
-
 	if ($stateParams.state != null)
 	{
 		// Load state from url
