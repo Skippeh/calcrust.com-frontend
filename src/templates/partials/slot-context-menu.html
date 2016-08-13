@@ -4,9 +4,22 @@
 	</div>
 	<div ng-if="!slot.output">
 		<div class="count-slider" ng-if="slot.item">
-			<input type="number" class="no-arrows" ng-model="slot.count" ng-change="strCount = slot.count.toString(); calculate()" />
-			<!--<input type="range" ng-model="slot.count" min="1" max="{{::slot.item.maxStack}}" ng-change="parseCount(); calculate();" />-->
-			<ng-range ng-model="slot.count" ng-range-min="1" ng-range-max="{{::slot.item.maxStack}}" ng-change="calculate()"></ng-range>
+			<input type="number" class="no-arrows" ng-model="slot.count" ng-change="clampCount(); calculate()" />
+			<br/>
+			<ng-range ng-model="slot.count" ng-range-step="::getRounding(slot.item.maxStack)" ng-range-max="{{::slot.item.maxStack}}" ng-change="clampCount(); calculate()"></ng-range>
+			<hr/>
+		</div>
+		<h3>Fuel</h3>
+		<div class="cookables-browser">
+			<div class="cookable" title="{{fuel.name}}" ng-click="addItem(fuel, 1)">
+				<img class="icon" ng-src="/img/icons/{{fuel.id}}.png" />
+			</div>
+		</div>
+		<h3>Cookables</h3>
+		<div class="cookables-browser">
+			<div class="cookable" ng-repeat="cookable in cookables" title="{{cookable.input.name}}" ng-click="addItem(cookable.input, 1)">
+				<img class="icon" ng-src="/img/icons/{{cookable.input.id}}.png" />
+			</div>
 		</div>
 	</div>
 </div>

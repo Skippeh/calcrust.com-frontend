@@ -252,6 +252,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			count -= add;
 		}
 	}
+	$scope.addToSlots = addToSlots;
 
 	function moveSlotItems(sourceSlot, destSlot, amount)
 	{
