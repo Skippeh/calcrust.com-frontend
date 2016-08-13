@@ -17,7 +17,7 @@ function ContextMenuDirective($parse, $templateRequest, $sce, $compile)
 		{
 			let options = angular.extend(defaultOptions, $scope.ngContextOptions);
 			let templatePath = attrs.ngContextMenu;
-			let scope = ($scope.ngContextScope && angular.extend($scope, $scope.ngContextScope)) || $scope;
+			let scope = ($scope.ngContextScope && angular.extend($scope.$parent || $scope, $scope.ngContextScope)) || $scope.$parent || $scope;
 
 			$scope.element = null;
 
@@ -57,7 +57,6 @@ function ContextMenuDirective($parse, $templateRequest, $sce, $compile)
 						}
 						else
 						{
-							console.log("contained");
 							if (options.closeOnClick)
 							{
 								$scope.element.remove();
@@ -68,9 +67,9 @@ function ContextMenuDirective($parse, $templateRequest, $sce, $compile)
 
 					$("body").on("click", onBodyClicked);
 
-					// Unsubscribe if scope is destroyed.
+					// Unsubscribe when scope is destroyed.
 					$scope.$on("$destroy", () => {
-						$document.off("click", onBodyClicked);
+						$("body").off("click", onBodyClicked);
 					});
 				});
 			}
@@ -89,8 +88,14 @@ function ContextMenuDirective($parse, $templateRequest, $sce, $compile)
 
 			function onBodyContextMenu(ev)
 			{
-				if ($scope.element)
+				if (($scope.element && options.closeOnClick) || ($scope.element && (!$.contains($element[0], ev.target) || $element[0] != ev.target)))
 				{
+					// Don't close if right clicking the context menu and closeOnClick is disabled.
+					if (!$scope.closeOnClick && $.contains($scope.element[0], ev.target) || $scope.element[0] == ev.target)
+					{
+						return;
+					}
+
 					$scope.element.remove();
 				}
 			}

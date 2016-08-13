@@ -5,7 +5,8 @@
 	<div ng-if="!slot.output">
 		<div class="count-slider" ng-if="slot.item">
 			<input type="number" class="no-arrows" ng-model="slot.count" ng-change="strCount = slot.count.toString(); calculate()" />
-			<input type="range" ng-model="slot.count" min="1" max="{{::slot.item.maxStack}}" ng-change="parseCount(); calculate();" />
+			<!--<input type="range" ng-model="slot.count" min="1" max="{{::slot.item.maxStack}}" ng-change="parseCount(); calculate();" />-->
+			<ng-range ng-model="slot.count" ng-range-min="1" ng-range-max="{{::slot.item.maxStack}}" ng-change="calculate()"></ng-range>
 		</div>
 	</div>
 </div>
