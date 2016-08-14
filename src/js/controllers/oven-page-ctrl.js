@@ -1,10 +1,14 @@
-angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", "$state", "$templateCache", "$compile", OvenPageCtrl]);
+angular.module("RustCalc").controller("OvenPageCtrl", ["$scope", "$rustData", "$stateParams", "$element", "$state", "$templateCache", "$compile", "$localStorage", OvenPageCtrl]);
 
-function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templateCache, $compile)
+function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templateCache, $compile, $localStorage)
 {
 	$scope.options = {
-		predictByproduct: false
+		estimateByproduct: $localStorage.cooking.estimateByproduct
 	};
+
+	$scope.$watch("options.estimateByproduct", value => {
+		$localStorage.cooking.estimateByproduct = value;
+	});
 
 	$scope.slotContextMenuOptions = {
 		closeOnClick: false,
@@ -161,7 +165,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 		// Unset source slot since the drop event is only called if dropped on a valid element.
 		$element.on("dragend", ".item-container .item-slot", ev => {
-			if (!validDrop)
+			if (!validDrop && !evenSlots)
 			{
 				sourceSlot.item = null;
 				sourceSlot.count = 0;
@@ -399,7 +403,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		return fuelUnits / (ovenTemp / 200);
 	}
 
-	function addOverflow (item)
+	function addOverflow(item)
 	{
 		let overflowSlot = $scope.overflow[item.item.id];
 
@@ -410,6 +414,17 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 		overflowSlot.count += item.count;
 	}
+
+	$scope.hasOverflow = function()
+	{
+		for (let key in $scope.overflow)
+		{
+			if ($scope.overflow.hasOwnProperty(key))
+				return true;
+		}
+
+		return false;
+	};
 
 	$scope.autoAddFuel = () =>
 	{
@@ -471,7 +486,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			}
 		});
 
-		if ($scope.options.predictByproduct && $scope.item.meta.oven.allowByproductCreation)
+		if ($scope.options.estimateByproduct && $scope.item.meta.oven.allowByproductCreation)
 		{
 			let fuelType = $scope.item.meta.oven.fuelType;
 			let fuelByproduct = fuelType.meta.burnable.byproductItem;

@@ -29,6 +29,9 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
         crafting: {
             calcTotal: true
         },
+        cooking: {
+            estimateByproduct: false
+        },
         notifications: {
 
         }
