@@ -496,7 +496,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			}
 		}
 
-		$scope.meta.ttc = getFuelTime();
+		$scope.meta.ttc = Math.ceil(getFuelTime());
 
 		if (updateUrl)
 		{
