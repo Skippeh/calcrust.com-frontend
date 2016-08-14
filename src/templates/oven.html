@@ -9,7 +9,7 @@
 	<div class="byproduct-checkbox-container clearfix" ng-if="item.meta.oven.allowByproductCreation">
 		<label>
 			<input type="checkbox" ng-model="options.predictByproduct" ng-change="calculate()" />
-			<span>Estimate byproduct produce</span>
+			<span>Estimate {{item.meta.oven.fuelType.meta.burnable.byproductItem.name.toLowerCase()}} amount</span>
 		</label>
 	</div>
 	<div class="item-container">
