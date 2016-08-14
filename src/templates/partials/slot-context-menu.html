@@ -6,7 +6,7 @@
 		<input type="number" class="no-arrows" ng-model="slot.count" ng-change="clampCount(); calculate()" />
 		<br/>
 		<div class="input-container">
-			<ng-range class="slider" ng-model="slot.count" ng-range-step="::getRounding(slot.item.maxStack)" ng-range-max="{{::slot.item.maxStack}}" ng-change="clampCount(); calculate()"></ng-range>
+			<ng-range class="slider" ng-model="slot.count" ng-range-step="::getRounding(slot.item.maxStack)" ng-range-min="1" ng-range-max="{{::slot.item.maxStack}}" ng-change="clampCount(); calculate()"></ng-range>
 		</div>
 	</div>
 	<perfect-scrollbar class="scroller" ng-if="!slot.item">
