@@ -458,15 +458,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			alert("Failed to load state: " + ex);
 		}
 	}
-	else
-	{
-		// Add debug items
-		addToSlots(1, [
-			{ item: $rustData.items["sulfur.ore"], count: 100 }
-		]);
-
-		$scope.autoAddFuel();
-	}
 
 	$scope.calculate(false);
 }
