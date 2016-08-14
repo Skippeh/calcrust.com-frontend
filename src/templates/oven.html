@@ -19,6 +19,9 @@
 			<div class="stack-size" ng-if="slot.item && slot.count != 1">x{{slot.count}}</div>
 		</div>
 	</div>
+	<div class="meta-info">
+		<span>Time to cook: {{meta.ttc | friendlyTime}}</span>
+	</div>
 </div>
 <div ng-if="!item" class="centered-page">
 	This oven does not exist or can't cook/smelt any items.

@@ -16,6 +16,10 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		}
 	};
 
+	$scope.meta = {
+		ttc: 0 // total time to cook
+	};
+
 	$scope.item = $rustData.items[$stateParams.id];
 	$scope.slots = new Array($scope.item.meta.oven.slots);
 	$scope.overflow = {};
@@ -69,7 +73,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			}
 			else if (ev.shiftKey)
 			{
-				console.log("shift");
 				dragEv.dataTransfer.effectAllowed = "copy";
 				copySlot = true;
 			}
@@ -337,6 +340,14 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		return result.substr(0, result.length - 1); // Exclude last semi colon.
 	}
 
+	function getFuelTime()
+	{
+		let fuel = $scope.getFuel();
+		let fuelUnits = fuel.count * fuel.item.meta.burnable.fuelAmount;
+		let ovenTemp = $scope.item.meta.oven.temperature;
+		return fuelUnits / (ovenTemp / 200);
+	}
+
 	$scope.autoAddFuel = () =>
 	{
 		// First clear all fuel
@@ -407,6 +418,8 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 				addToSlots(-1, { item: cookable.item.output.item, count: count * cookable.item.output.count }, true);
 			}
 		});
+
+		$scope.meta.ttc = getFuelTime();
 
 		if (updateUrl)
 		{
