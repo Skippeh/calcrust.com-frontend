@@ -9,7 +9,7 @@
 	<div class="byproduct-checkbox-container clearfix" ng-if="item.meta.oven.allowByproductCreation">
 		<label>
 			<input type="checkbox" ng-model="options.estimateByproduct" ng-change="calculate()" />
-			<span>Estimate {{item.meta.oven.fuelType.meta.burnable.byproductItem.name.toLowerCase()}} amount</span>
+			<span>Estimate {{item.meta.oven.fuelType.meta.burnable.byproductItem.name.toLowerCase()}} amount ({{item.meta.oven.fuelType.meta.burnable.byproductChance * 100}}% chance per {{item.meta.oven.fuelType.name.toLowerCase()}})</span>
 		</label>
 	</div>
 	<div class="item-container">
