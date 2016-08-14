@@ -379,7 +379,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 	function getStateString()
 	{
-		let result = "";
+		let result = {};
 
 		for (let i = 0; i < $scope.slots.length; ++i)
 		{
@@ -387,11 +387,17 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 			if (slot.item != null && !slot.output && (slot.item.meta.burnable != null || slot.item.meta.cookable != null || slot.item.meta.consumable != null))
 			{
-				result += slot.index.toString() + "," + slot.item.id + "," + slot.count + ";";
+				if (result[slot.item.id] == null)
+				{
+					result[slot.item.id] = [];
+				}
+
+				let stateItem = result[slot.item.id];
+				stateItem.push([slot.index, slot.count]);
 			}
 		}
 
-		return result.substr(0, result.length - 1); // Exclude last semi colon.
+		return JSON.stringify(result);
 	}
 
 	function getFuelTime()
@@ -512,23 +518,32 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		// Load state from url
 		try
 		{
-			let state = atob($stateParams.state);
-			let strItems = state.split(/;/g);
-			let items = strItems.map(strItem => {
-				let values = strItem.split(/,/g);
-				let item = $rustData.items[values[1]];
+			let state = JSON.parse(atob($stateParams.state));
+
+			let items = [];
+			for (let itemId in state)
+			{
+				if (!state.hasOwnProperty(itemId))
+					continue;
+
+				let stateItem = state[itemId];
+				let item = $rustData.items[itemId];
 
 				if (item == null)
 				{
-					throw "No item found with id \"" + values[1] + "\".";
+					throw "No item found with id '" + itemId + "'.";
 				}
+				
+				for (let i = 0; i < stateItem.length; ++i)
+				{
+					let itemSlot = stateItem[i];
+					let index = itemSlot[0];
+					let count = itemSlot[1];
 
-				return { index: parseInt(values[0]), item: item, count: parseInt(values[2]) };
-			});
-
-			items.forEach(item => {
-				addToSlots(1, { item: item.item, count: item.count }, false, item.index);
-			});
+					items.push({ item: item, count: count, index: index });
+					addToSlots(-1, { item: item, count: count }, false, index);
+				}
+			}
 		}
 		catch (ex)
 		{
