@@ -124,9 +124,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 					if (amountLeft > 0)
 					{
-						if (amountLeft > numSlots)
-							throw "not implemented";
-
 						for (let i = slots.length - 1; i >= 0; --i)
 						{
 							++slots[i].count;
