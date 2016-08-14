@@ -74,6 +74,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			let offset = { top: mousePosition.top - imagePosition.top, left: mousePosition.left - imagePosition.left };
 
 			dragEv.dataTransfer.setDragImage && dragEv.dataTransfer.setDragImage(image, offset.left, offset.top);
+			dragEv.dataTransfer.setData("text/plain", "");
 
 			if (ev.ctrlKey)
 			{
