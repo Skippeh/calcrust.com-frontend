@@ -245,8 +245,10 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		else
 			start = direction == 1 ? 0 : $scope.slots.length - 1;
 
-		if (start < 0 || start >= $scope.slots.length)
-			throw "getFreeSlot startIndex out of range";
+		if (start < 0)
+			start = 0;
+		if (start >= $scope.slots.length)
+			start = $scope.slots.length - 1;
 
 		// Just an overly complicated loop that loops from start to end or end to start depending on the value of direction.
 		for (let i = start; (direction == 1 && i < $scope.slots.length) || (direction == -1 && i >= 0); i += direction)
