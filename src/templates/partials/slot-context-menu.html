@@ -2,24 +2,25 @@
 	<div ng-if="slot.output">
 		This slot is output only
 	</div>
-	<div ng-if="!slot.output">
-		<div class="count-slider" ng-if="slot.item">
-			<input type="number" class="no-arrows" ng-model="slot.count" ng-change="clampCount(); calculate()" />
-			<br/>
-			<ng-range ng-model="slot.count" ng-range-step="::getRounding(slot.item.maxStack)" ng-range-max="{{::slot.item.maxStack}}" ng-change="clampCount(); calculate()"></ng-range>
-			<hr/>
+	<div class="count-slider" ng-if="slot.item">
+		<input type="number" class="no-arrows" ng-model="slot.count" ng-change="clampCount(); calculate()" />
+		<br/>
+		<div class="input-container">
+			<ng-range class="slider" ng-model="slot.count" ng-range-step="::getRounding(slot.item.maxStack)" ng-range-max="{{::slot.item.maxStack}}" ng-change="clampCount(); calculate()"></ng-range>
 		</div>
-		<h3>Fuel</h3>
+	</div>
+	<perfect-scrollbar class="scroller" ng-if="!slot.item">
+		<h3 class="category-title">Fuel</h3>
 		<div class="cookables-browser" ng-if="fuel">
 			<div class="cookable" title="{{::fuel.name}}" ng-click="addItem(fuel, 1)">
 				<img class="icon" ng-src="/img/icons/{{fuel.id}}.png" />
 			</div>
 		</div>
-		<h3>Cookables</h3>
+		<h3 class="category-title">Cookables</h3>
 		<div class="cookables-browser">
 			<div class="cookable" ng-repeat="cookable in cookables" title="{{::cookable.input.name}}" ng-click="addItem(cookable.input, 1)">
 				<img class="icon" ng-src="/img/icons/{{::cookable.input.id}}.png" />
 			</div>
 		</div>
-	</div>
+	</perfect-scrollbar>
 </div>
