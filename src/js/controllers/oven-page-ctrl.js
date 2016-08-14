@@ -134,6 +134,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 						}
 					}
 
+					$scope.calculate();
 					$scope.$apply();
 				}
 
