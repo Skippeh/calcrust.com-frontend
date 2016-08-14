@@ -6,7 +6,7 @@
 	<div class="buttons clearfix">
 		<button title="Automatically add the needed fuel for the inputted cookables." ng-click="autoAddFuel(); calculate()">Auto fuel</button>
 	</div>
-	<div class="byproduct-checkbox-container clearfix">
+	<div class="byproduct-checkbox-container clearfix" ng-if="item.meta.oven.allowByproductCreation">
 		<label>
 			<input type="checkbox" ng-model="options.predictByproduct" ng-change="calculate()" />
 			<span>Estimate byproduct produce</span>
