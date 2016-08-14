@@ -287,7 +287,10 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			let slot = getFreeSlot(direction, item.item, outputsOnly, startIndex);
 
 			if (slot == null)
-				throw "not implemented";
+			{
+				addOverflow(item);
+				break;
+			}
 
 			if (slot.item == null)
 			{
@@ -396,6 +399,18 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		return fuelUnits / (ovenTemp / 200);
 	}
 
+	function addOverflow (item)
+	{
+		let overflowSlot = $scope.overflow[item.item.id];
+
+		if (overflowSlot == null)
+		{
+			$scope.overflow[item.item.id] = overflowSlot = { item: item.item, count: 0 };
+		}
+
+		overflowSlot.count += item.count;
+	}
+
 	$scope.autoAddFuel = () =>
 	{
 		// First clear all fuel
@@ -439,17 +454,6 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
 
-		if ($scope.options.predictByproduct && $scope.item.meta.oven.allowByproductCreation)
-		{
-			let fuelType = $scope.item.meta.oven.fuelType;
-			let fuelByproduct = fuelType.meta.burnable.byproductItem;
-
-			if (fuelByproduct != null)
-			{
-				addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.burnable.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
-			}
-		}
-
 		cookables.forEach(cookable => {
 			let oven = cookable.item.usableOvens[$scope.item.id];
 			if (oven != null)
@@ -466,6 +470,17 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 				addToSlots(-1, { item: cookable.item.output.item, count: count * cookable.item.output.count }, true);
 			}
 		});
+
+		if ($scope.options.predictByproduct && $scope.item.meta.oven.allowByproductCreation)
+		{
+			let fuelType = $scope.item.meta.oven.fuelType;
+			let fuelByproduct = fuelType.meta.burnable.byproductItem;
+
+			if (fuelByproduct != null)
+			{
+				addToSlots(-1, { item: fuelByproduct, count: Math.floor(fuel.count * fuelType.meta.burnable.byproductChance) }, true); // stupid but testing predicting average byproduct creation.
+			}
+		}
 
 		$scope.meta.ttc = getFuelTime();
 
