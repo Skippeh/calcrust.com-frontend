@@ -42,6 +42,9 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		let validDrop = false;
 		let moveHalf = false;
 		let copySlot = false;
+		let evenSlots = false;
+		let evenedSlots = {};
+		let startCount = 0; // The starting stack size of the slot we're evening over multiple slots.
 
 		$element.on("dragstart", ".item-container .item-slot", ev => {
 			if (sourceSlot != null)
@@ -50,6 +53,8 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			let dragEv = ev.originalEvent;
 			let slot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
 			sourceSlot = slot;
+			startCount = slot.count;
+			evenedSlots[slot.index] = slot;
 
 			if (slot.item == null || slot.output)
 			{
@@ -76,6 +81,11 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 				dragEv.dataTransfer.effectAllowed = "copy";
 				copySlot = true;
 			}
+			else if (ev.altKey)
+			{
+				dragEv.dataTransfer.effectAllowed = "copy";
+				evenSlots = true;
+			}
 
 			$scope.$apply();
 		});
@@ -90,6 +100,42 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 			if (!slot.output)
 			{
+				if (evenSlots && slot.item == null && evenedSlots[slot.index] == null)
+				{
+					evenedSlots[slot.index] = slot;
+					let slots = Object.values(evenedSlots);
+					let numSlots = slots.length;
+					let splitCount = Math.floor(startCount / numSlots);
+
+					if (splitCount < 1)
+						return;
+
+					Object.values(evenedSlots).forEach(slot => {
+						slot.count = splitCount;
+						slot.item = sourceSlot.item;
+					});
+
+					let currentSum = splitCount * numSlots;
+					let amountLeft = startCount - currentSum;
+
+					if (amountLeft > 0)
+					{
+						if (amountLeft > numSlots)
+							throw "not implemented";
+
+						for (let i = slots.length - 1; i >= 0; --i)
+						{
+							++slots[i].count;
+							--amountLeft;
+
+							if (amountLeft <= 0)
+								break;
+						}
+					}
+
+					$scope.$apply();
+				}
+
 				ev.preventDefault();
 				return;
 			}
@@ -102,7 +148,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			let dragEv = ev.originalEvent;
 			let destSlot = $scope.slots[parseInt(ev.target.attributes["data-slot"].value)];
 
-			if (sourceSlot != destSlot)
+			if (sourceSlot != destSlot && !evenSlots)
 			{
 				if (!copySlot)
 					moveSlotItems(sourceSlot, destSlot, moveHalf ? Math.ceil(sourceSlot.count / 2) : sourceSlot.count);
@@ -125,6 +171,8 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			sourceSlot = null;
 			moveHalf = false;
 			copySlot = false;
+			evenSlots = false;
+			evenedSlots = {};
 
 			$scope.calculate();
 			$scope.$apply();
