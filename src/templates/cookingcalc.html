@@ -9,7 +9,7 @@
 
         <perfect-scrollbar class="browser-wrapper scroller">
             <div ng-repeat="item in items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
-                <div ui-sref="cookingcalc.item({ id: item.id, state: null })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
+                <div ui-sref="cookingcalc.item({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }">
                     <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
                     <div class="info" title="{{::item.description}}">
                         <span class="name">
