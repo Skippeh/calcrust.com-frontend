@@ -199,7 +199,7 @@ function RustDataService ($http)
         {
             $http({
                 method: "GET",
-                url: "http://localhost:7545/dump" // TODO: CHANGE ME BEFORE PRODUCTION
+                url: "https://api.calcrust.com/dump" // TODO: CHANGE ME BEFORE PRODUCTION
             }).then(
             function onSuccess(response)
             {
