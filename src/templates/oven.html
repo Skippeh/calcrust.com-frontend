@@ -15,7 +15,7 @@
 	<div class="item-container">
 		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots" draggable="{{!slot.output && !!slot.item}}" data-slot="{{::slot.index}}"
 			 ng-context-menu="templates/partials/slot-context-menu.html" ng-context-options="slotContextMenuOptions" ng-context-scope="{ slot: slot }">
-			<img class="icon" ng-src="/img/icons/{{slot.item.id}}.png" ng-if="slot.item" draggable="false" />
+			<img class="icon" ng-src="/img/icons/{{slot.item.id}}_small.png" ng-if="slot.item" draggable="false" />
 			<div class="stack-size" ng-if="slot.item && slot.count != 1">x{{slot.count.toLocaleString()}}</div>
 		</div>
 	</div>
