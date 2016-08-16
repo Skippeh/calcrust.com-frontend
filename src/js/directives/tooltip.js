@@ -24,7 +24,6 @@ function NgTooltipDirective($compile, $templateRequest)
 
 			function onTemplate(template)
 			{
-				console.log("template", template);
 				let content;
 
 				if (options.html)
