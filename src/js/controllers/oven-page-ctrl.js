@@ -432,6 +432,12 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		overflowSlot.count += item.count;
 	}
 
+	function updateUrlState()
+	{
+		let state = btoa(getStateString());
+		$state.go(".", { id: $stateParams.id, state: state }, { notify: false, location: "replace" });
+	}
+
 	$scope.hasOverflow = function()
 	{
 		for (let key in $scope.overflow)
@@ -518,8 +524,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 		if (updateUrl)
 		{
-			let state = btoa(getStateString());
-			$state.go(".", { id: $stateParams.id, state: state }, { notify: false, location: "replace" });
+			updateUrlState();
 		}
 
 		//console.log("exec time (ms): " + new Date(new Date() - startDate).getMilliseconds());
