@@ -12,6 +12,7 @@
 			<span>Estimate {{item.meta.oven.fuelType.meta.burnable.byproductItem.name.toLowerCase()}} amount ({{item.meta.oven.fuelType.meta.burnable.byproductChance * 100}}% chance per {{item.meta.oven.fuelType.name.toLowerCase()}})</span>
 		</label>
 		<div style="float: right; margin-right: 15px">
+			<i class="fa fa-keyboard-o" ng-tooltip="templates/partials/tooltips/oven-controls.html" ng-tooltip-options="{ template: true }"></i>
 			<i ng-click="clear()" class="fa fa-trash" title="Clear"></i>
 		</div>
 	</div>
