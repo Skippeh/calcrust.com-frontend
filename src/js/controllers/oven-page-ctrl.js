@@ -181,9 +181,19 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			$scope.$apply();
 		});
 
+		function onKeyUp($event)
+		{
+			// Prevent toolbar from opening in some browsers.
+			if ($event.keyCode == 18 || $event.which == 18)
+				$event.preventDefault();
+		}
+
+		$("body").on("keyup", onKeyUp);
+
 		// Unsubscribe from events
 		$scope.$on("$destroy", ev => {
 			$element.off("dragstart drop dragend", ".item-container .item-slot");
+			$("body").off("keyup", onKeyUp);
 		});
 	}
 
