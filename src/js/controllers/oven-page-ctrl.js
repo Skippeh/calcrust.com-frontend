@@ -81,12 +81,12 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 				dragEv.dataTransfer.effectAllowed = "copy";
 				moveHalf = true;
 			}
-			else if (ev.shiftKey)
+			else if (ev.altKey)
 			{
 				dragEv.dataTransfer.effectAllowed = "copy";
 				copySlot = true;
 			}
-			else if (ev.altKey)
+			else if (ev.shiftKey)
 			{
 				dragEv.dataTransfer.effectAllowed = "copy";
 				evenSlots = true;
