@@ -11,6 +11,9 @@
 			<input type="checkbox" ng-model="options.estimateByproduct" ng-change="calculate()" />
 			<span>Estimate {{item.meta.oven.fuelType.meta.burnable.byproductItem.name.toLowerCase()}} amount ({{item.meta.oven.fuelType.meta.burnable.byproductChance * 100}}% chance per {{item.meta.oven.fuelType.name.toLowerCase()}})</span>
 		</label>
+		<div style="float: right; margin-right: 15px">
+			<i ng-click="clear()" class="fa fa-trash" title="Clear"></i>
+		</div>
 	</div>
 	<div class="item-container">
 		<div title="{{slot.item.name}}" class="item-slot" ng-class="{ output: slot.output }" ng-repeat="slot in slots" draggable="{{!slot.output && !!slot.item}}" data-slot="{{::slot.index}}"

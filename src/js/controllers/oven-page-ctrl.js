@@ -227,17 +227,23 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 		return items;
 	};
 
-	$scope.clearOutput = () =>
+	$scope.clear = (includeInputs) =>
 	{
+		if (typeof includeInputs === "undefined")
+			includeInputs = true;
+
 		$scope.overflow = {};
 		$scope.slots.forEach(slot => {
-			if (slot.output)
+			if (slot.output || includeInputs)
 			{
 				slot.output = false;
 				slot.item = null;
 				slot.count = 0;
 			}
 		});
+
+		if (includeInputs)
+			updateUrlState();
 	};
 
 	function getFreeSlot(direction, itemType, outputsOnly, startIndex) // direction is either 1 or -1. if 1, search starts from 0, if -1 then search starts from num slots and counts down.
@@ -409,6 +415,9 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 			}
 		}
 
+		if (!Object.keys(result).length)
+			return "";
+
 		return JSON.stringify(result);
 	}
 
@@ -488,7 +497,7 @@ function OvenPageCtrl($scope, $rustData, $stateParams, $element, $state, $templa
 
 		//let startDate = new Date();
 
-		$scope.clearOutput();
+		$scope.clear(false);
 		let fuel = $scope.getFuel();
 		let cookables = $scope.getCookables();
 
