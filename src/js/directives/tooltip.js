@@ -16,7 +16,6 @@ function NgTooltipDirective($compile, $templateRequest)
 		link: function ($scope, $element, attrs)
 		{
 			let options = angular.extend(defaultOptions, $scope.ngTooltipOptions());
-			console.log(options);
 
 			// Force html to be true if the template bool is true.
 			if (options.template)
