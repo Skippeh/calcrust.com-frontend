@@ -341,6 +341,27 @@ function RustDataService ($http)
             {
                 callback(null, error);
             }.bind(this));
+        },
+        requestDamageInfo: function (id, callback)
+        {
+            $http({
+                method: "GET",
+                url: API_URL + "damages/items/" + id
+            }).then(function(response)
+            {
+                var data = response.data.data;
+
+                // Change item id's to their respective item objects.
+                for (var i = 0; i < data.data.length; ++i)
+                {
+                    data.data[i].item = this.items[data.data[i].item];
+                }
+
+                callback(data);
+            }.bind(this), function (error)
+            {
+                callback(null, error);
+            }.bind(this));
         }
     };
 }
