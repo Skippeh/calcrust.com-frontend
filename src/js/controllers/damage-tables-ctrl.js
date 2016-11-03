@@ -13,7 +13,30 @@ function DamageTablesCtrl ($scope, $rootScope, $rustData, $q, $http)
         }).then(function(response)
         {
             $scope.loading = false;
-            var damageInfos = response.data.data;
+            let damageInfos = response.data.data;
+
+            for (let i = 0; i < damageInfos.length; ++i)
+            {
+                var damageInfo = damageInfos[i];
+
+                if (!damageInfo.isBuildingBlock)
+                {
+                    damageInfo.item = $rustData.items[damageInfo.id];
+
+                    if (damageInfo.item == null)
+                    {
+                        console.error("Unknown non building block item: " + damageInfo.id);
+                    }
+
+                    damageInfo.imageSrc = "/img/icons/" + damageInfo.id + "_small.png";
+                    damageInfo.name = damageInfo.item.name;
+                }
+                else
+                {
+                    damageInfo.imageSrc = "/img/planner_" + damageInfo.id + ".png";
+                    damageInfo.name = damageInfo.id; // Todo: Get actual building block name.
+                }
+            }
             
             console.log(damageInfos);
             $scope.damageInfos = damageInfos;

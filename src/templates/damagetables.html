@@ -1,7 +1,29 @@
-﻿<div class="main-window shadowed damage-table-window">
-    <loading-overlay ng-if="loading"></loading-overlay>
-    <div class="window-header">Damage Info</div>
-    <div class="container">
-        
+﻿<loading-overlay ng-if="loading"></loading-overlay>
+<div ng-if="!loading">
+    <div class="main-window shadowed damage-table-window" ui-view></div>
+    <div class="browsers-wrapper">
+        <div class="browser item-browser">
+            <span class="header large no-select">Items</span>
+            <div class="searchbar">
+                <span>Search:</span>
+                <input type="text" ng-model="itemFilter" ng-change="scrollToTop()" />
+            </div>
+
+            <perfect-scrollbar class="browser-wrapper scroller">
+                <div ng-repeat="item in damageInfos | filter: { name: itemFilter } | orderBy: 'name' track by item.id">
+                    <div class="item clearfix item-row">
+                        <img class="image" ng-src="{{item.imageSrc}}" />
+                        <div class="info">
+                            <span class="name">
+                                {{::item.name}}
+                            </span>
+                            <br />
+                            <span class="description">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
     </div>
 </div>
