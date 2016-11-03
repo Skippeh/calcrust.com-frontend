@@ -29,12 +29,10 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $q, $http)
                     }
 
                     damageInfo.imageSrc = "/img/icons/" + damageInfo.id + "_small.png";
-                    damageInfo.name = damageInfo.item.name;
                 }
                 else
                 {
                     damageInfo.imageSrc = "/img/planner_" + damageInfo.id + ".png";
-                    damageInfo.name = damageInfo.id; // Todo: Get actual building block name.
                 }
             }
             
