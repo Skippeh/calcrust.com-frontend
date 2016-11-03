@@ -482,24 +482,6 @@ div.item-name
             }
         }
     }
-
-    & div.xp-info
-    {
-        top: 0;
-        left: 0;
-        right: unset;
-
-        & .box
-        {
-            border-radius: 5px;
-            background-color: rgba(173, 173, 173, 0.22);
-
-            &:not(:last-of-type)
-            {
-                margin-right: 3px;
-            }
-        }
-    }
 }
 
 div.xp-info

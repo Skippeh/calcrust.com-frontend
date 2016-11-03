@@ -14,17 +14,6 @@
         </nav-tab>
     </nav-tabs>
 
-    <div class="xp-info" ng-if="item.recipe">
-        <div class="box level" title="Level">
-            <i class="fa fa-star"></i>
-            {{item.recipe.level}}
-        </div>
-        <div class="box price" title="Required XP">
-            <i class="text">XP</i>
-            {{item.recipe.price}}
-        </div>
-    </div>
-
     <item-header item="item"></item-header>
     <ui-view />
 </div>
