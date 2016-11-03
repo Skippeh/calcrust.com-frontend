@@ -190,6 +190,8 @@ function RustDataService ($http)
             this.usableOvens[usableOvens[i].item] = { fuelConsumed: usableOvens[i].fuelConsumed, item: items[usableOvens[i].item] };
         }
     }
+
+    let API_URL = "http://localhost:7545/";
     
     return {
         items: items,
@@ -199,7 +201,7 @@ function RustDataService ($http)
         {
             $http({
                 method: "GET",
-                url: "https://api.calcrust.com/dump" // TODO: CHANGE ME BEFORE PRODUCTION
+                url: API_URL + "dump"
             }).then(
             function onSuccess(response)
             {
@@ -326,21 +328,14 @@ function RustDataService ($http)
                 callback && callback(null, response);
             });
         },
-        requestDamageInfo: function(callback)
+        requestDamageInfoItems: function(callback)
         {
             $http({
                 method: "GET",
-                url: "https://api.calcrust.com/damages"
+                url: API_URL + "damages/items"
             }).then(function(response)
             {
                 var data = response.data.data;
-                var items = this.items;
-
-                data = data.map(function(shortname)
-                {
-                    return items[shortname];
-                });
-
                 callback(data);
             }.bind(this), function(error)
             {

@@ -36,8 +36,18 @@ function RouteConfig ($stateProvider)
         })
         .state("damageinfo", {
             url: "/damageinfo",
+            abstract: true,
             templateUrl: "templates/damageinfo.html",
             controller: "DamageInfoCtrl"
+        })
+        .state("damageinfo.default", {
+            url: "",
+            templateUrl: "templates/damageinfo-default.html"
+        })
+        .state("damageinfo.item", {
+            url: "/:id",
+            templateUrl: "templates/damageinfo-item.html",
+            controller: "DamageInfoItemCtrl"
         })
         .state("cookingcalc", {
             url: "/cookingcalc",
