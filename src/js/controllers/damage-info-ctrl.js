@@ -1,8 +1,8 @@
-﻿angular.module("RustCalc").controller("DamageTablesCtrl", ["$scope", "$rootScope", "$rustData", "$q", "$http", DamageTablesCtrl]);
+﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$q", "$http", DamageInfoCtrl]);
 
-function DamageTablesCtrl ($scope, $rootScope, $rustData, $q, $http)
+function DamageInfoCtrl ($scope, $rootScope, $rustData, $q, $http)
 {
-    $rootScope.page.titlePrefix = "Damage Tables";
+    $rootScope.page.titlePrefix = "Damage Info";
     $scope.loading = true;
 
     $rustData.requestDamageInfo(function(items, error)

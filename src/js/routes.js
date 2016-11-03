@@ -34,10 +34,10 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/item-blueprint.html",
             controller: "ItemRecipePageCtrl"
         })
-        .state("damagetables", {
-            url: "/damagetables",
-            templateUrl: "templates/damagetables.html",
-            controller: "DamageTablesCtrl"
+        .state("damageinfo", {
+            url: "/damageinfo",
+            templateUrl: "templates/damageinfo.html",
+            controller: "DamageInfoCtrl"
         })
         .state("cookingcalc", {
             url: "/cookingcalc",
