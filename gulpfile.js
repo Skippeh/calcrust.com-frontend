@@ -60,7 +60,7 @@ gulp.task("custom-js", () => {
 
 gulp.task("custom-sass", () => {
     return gulp.src(paths.styles)
-        .pipe(sass())
+        .pipe(sass().on("error", sass.logError))
         .pipe(minifyCss())
         .pipe(concat("style.min.css"))
         .pipe(gulp.dest("dist/css"))
