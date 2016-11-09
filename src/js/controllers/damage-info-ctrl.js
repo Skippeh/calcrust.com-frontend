@@ -1,11 +1,11 @@
-﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$q", "$http", DamageInfoCtrl]);
+﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", DamageInfoCtrl]);
 
-function DamageInfoCtrl ($scope, $rootScope, $rustData, $q, $http)
+function DamageInfoCtrl ($scope, $rootScope, $rustData)
 {
     $rootScope.page.titlePrefix = "Damage Info";
     $scope.loading = true;
 
-    $rustData.requestDamageInfoItems(function(damageInfos, error)
+    $rustData.requestDestructibles(function(destructibles, error)
     {
         $scope.loading = false;
 
@@ -15,28 +15,27 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $q, $http)
             return;
         }
 
-        for (let i = 0; i < damageInfos.length; ++i)
+        for (let i = 0; i < destructibles.length; ++i)
         {
-            var damageInfo = damageInfos[i];
+            var destructible = destructibles[i];
 
-            if (!damageInfo.isBuildingBlock)
+            if (destructible.type != "buildingBlock")
             {
-                damageInfo.item = $rustData.items[damageInfo.id];
+                destructible.item = $rustData.items[destructible.id];
 
-                if (damageInfo.item == null)
+                if (destructible.item == null)
                 {
-                    console.error("Unknown non building block item: " + damageInfo.id);
+                    console.error("Unknown non building block item: " + destructible.id);
                 }
 
-                damageInfo.imageSrc = "/img/icons/" + damageInfo.id + "_small.png";
+                destructible.imageSrc = "/img/icons/" + destructible.id + "_small.png";
             }
             else
             {
-                damageInfo.imageSrc = "/img/planner_" + damageInfo.id + ".png";
+                destructible.imageSrc = "/img/planner_" + destructible.id + ".png";
             }
-         }
-            
-        console.log(damageInfos);
-        $scope.damageInfos = damageInfos;
+        }
+
+        $scope.damageInfos = destructibles;
     });
 }

@@ -325,40 +325,33 @@ function RustDataService ($http)
                 callback && callback(null, response);
             });
         },
-        requestDamageInfoItems: function(callback)
+        requestDestructibles: function(callback)
         {
             $http({
                 method: "GET",
-                url: API_URL + "damages/items"
+                url: API_URL + "destructibles"
             }).then(function(response)
             {
                 var data = response.data.data;
                 callback(data);
-            }.bind(this), function(error)
+            }, function(error)
             {
                 callback(null, error);
-            }.bind(this));
+            });
         },
-        requestDamageInfo: function (id, callback)
+        requestDestructible: function (id, grade, callback)
         {
             $http({
                 method: "GET",
-                url: API_URL + "damages/items/" + id
-            }).then(function(response)
+                url: API_URL + "destructibles/" + id + (grade != null ? "/" + grade : "")
+            }).then(function (response)
             {
                 var data = response.data.data;
-
-                // Change item id's to their respective item objects.
-                for (var i = 0; i < data.data.length; ++i)
-                {
-                    data.data[i].item = this.items[data.data[i].item];
-                }
-
                 callback(data);
-            }.bind(this), function (error)
+            }, function (error)
             {
                 callback(null, error);
-            }.bind(this));
+            });
         }
     };
 }
