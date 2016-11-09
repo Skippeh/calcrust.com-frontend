@@ -45,7 +45,7 @@ function RouteConfig ($stateProvider)
             templateUrl: "templates/damageinfo-default.html"
         })
         .state("damageinfo.item", {
-            url: "/:id?grade",
+            url: "/:id",
             templateUrl: "templates/damageinfo-item.html",
             controller: "DamageInfoItemCtrl"
         })
