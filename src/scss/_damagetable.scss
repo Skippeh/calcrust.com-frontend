@@ -1,10 +1,6 @@
 ﻿div.main-ui
 {
-    & .main-window.damage-table-window
+    & div.damageinfo-screen
     {
-        & > .container
-        {
-            padding: 5px;
-        }
     }
 }
