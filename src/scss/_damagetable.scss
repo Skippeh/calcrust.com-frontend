@@ -16,5 +16,15 @@
                 vertical-align: top;
             }
         }
+
+        & .table-container
+        {
+            margin-top: 40px;
+            
+            & table
+            {
+                text-align: left;
+            }
+        }
     }
 }

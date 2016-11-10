@@ -20,7 +20,10 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 			return;
 		}
 
-		console.log(data);
 		$scope.data = data;
+		$scope.dataArray = Object.keys(data.values).map(key => {
+			data.values[key].item = $rustData.items[key];
+			return data.values[key];
+		});
 	});
 }

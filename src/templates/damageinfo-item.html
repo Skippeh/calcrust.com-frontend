@@ -9,4 +9,16 @@
 			<input type="checkbox" ng-model="options.showStrongSide" />
 		</label>
 	</div>
+	<div class="table-container">
+		<table>
+			<tr>
+				<th>Item name</th>
+				<th>Hits</th>
+			</tr>
+			<tr ng-repeat="attackInfo in dataArray">
+				<th>{{::attackInfo.item.name}}</th>
+				<th>1</th>
+			</tr>
+		</table>
+	</div>
 </div>
