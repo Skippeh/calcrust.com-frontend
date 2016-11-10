@@ -3,5 +3,10 @@
 	<div class="item-name">
 		{{::data.name}}
 	</div>
-	
+	<div class="side-select-container">
+		<label title="If checked, the values below will indicate the number of shots required to destroy the item from the strong side.">
+			<span>Strong side</strong>
+			<input type="checkbox" ng-model="options.showStrongSide" />
+		</label>
+	</div>
 </div>

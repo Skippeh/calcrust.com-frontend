@@ -6,6 +6,10 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 	let buildingGrade = $stateParams.grade;
 	$scope.loading = true;
 
+	$scope.options = {
+		showStrongSide: true
+	};
+
 	$rustData.requestDestructible($stateParams.id, buildingGrade, function (data, error)
 	{
 		$scope.loading = false;

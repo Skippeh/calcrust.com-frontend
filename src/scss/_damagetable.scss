@@ -2,6 +2,19 @@
 {
     & div.damageinfo-screen
     {
+        position: relative;
         min-height: 500px;
+
+        div.side-select-container
+        {
+            position: absolute;
+            right: 0;
+            padding: 5px;
+
+            & label span
+            {
+                vertical-align: top;
+            }
+        }
     }
 }
