@@ -3,13 +3,12 @@
     & div.damageinfo-screen
     {
         position: relative;
-        min-height: 500px;
+        padding: 5px;
 
         div.side-select-container
         {
             position: absolute;
-            right: 0;
-            padding: 5px;
+            right: 5px;
 
             & label span
             {
@@ -17,11 +16,14 @@
             }
         }
 
-        & .table-container
+        & .search-container
         {
-            padding: 0 5px;
-            margin-top: 40px;
-            
+            margin-left: 5px;
+            margin-bottom: 10px;
+        }
+
+        & .table-container
+        {            
             & table
             {
                 text-align: left;

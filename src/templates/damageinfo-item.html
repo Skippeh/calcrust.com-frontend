@@ -9,13 +9,18 @@
 			<input type="checkbox" ng-model="options.showStrongSide" />
 		</label>
 	</div>
+	<div class="search-container">
+		<label>
+			<input type="text" autocomplete="off" ng-model="options.search" placeholder="Search item" />
+		</label>
+	</div>
 	<div class="table-container">
 		<table>
 			<tr>
 				<th>Item name</th>
 				<th>Hits</th>
 			</tr>
-			<tr ng-repeat="hitValues in dataArray">
+			<tr ng-repeat="hitValues in dataArray | filter: { name: options.search }">
 				<td>{{::hitValues.name}}</td>
 				<td ng-if="options.showStrongSide">{{::(hitValues.values.totalStrongHits != -1 ? ceil(hitValues.values.totalStrongHits) : "∞")}}</td>
 				<td ng-if="!options.showStrongSide">{{::(hitValues.values.totalWeakHits != -1 ? ceil(hitValues.values.totalWeakHits) : "∞")}}</td>
