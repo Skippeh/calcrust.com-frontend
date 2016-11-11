@@ -57,7 +57,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 					$scope.dataArray.push({
 						name: $rustData.items[key].name,
 						values: attackInfos.values,
-						type: attackInfos.type
+						type: attackInfos.type,
+						time: null
 					});
 					break;
 				}
@@ -76,7 +77,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 						$scope.dataArray.push({
 							name: $rustData.items[key].name + " - " + ammoItem.name,
 							values: ammunition,
-							type: attackInfos.type
+							type: attackInfos.type,
+							time: null
 						});
 					}
 

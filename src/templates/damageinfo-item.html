@@ -18,11 +18,13 @@
 		<table>
 			<tr>
 				<th>Item name</th>
+				<th>Time</th>
 				<th>Type</th>
 				<th>Hits</th>
 			</tr>
 			<tr ng-repeat="hitValues in dataArray | filter: { name: options.search }">
 				<td>{{::hitValues.name}}</td>
+				<td>{{::(hitValues.time != null ? (hitValues.time | friendlyTime) : "-")}}</td>
 				<td>{{::hitValues.type | capitalize }}
 				<td ng-if="options.showStrongSide">{{::(hitValues.values.totalStrongHits != -1 ? ceil(hitValues.values.totalStrongHits) : "∞")}}</td>
 				<td ng-if="!options.showStrongSide">{{::(hitValues.values.totalWeakHits != -1 ? ceil(hitValues.values.totalWeakHits) : "∞")}}</td>
