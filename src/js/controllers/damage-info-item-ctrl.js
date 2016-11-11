@@ -15,6 +15,38 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 		return Math.ceil(val);
 	};
 
+	function calculateTime(numHits, fireDelay, reloadTime, magazineSize)
+	{
+		if (numHits <= 1)
+		{
+			return 0;
+		}
+
+		var totalFireTime = numHits * fireDelay;
+		var totalReloads = magazineSize > 0 ? Math.floor(numHits / magazineSize) : 0;
+		totalFireTime += reloadTime * totalReloads;
+
+		return totalFireTime;
+	}
+
+	function getTimes(hitValues, weapon)
+	{
+		let weaponMeta = weapon.meta.weapon;
+
+		let strongTime = calculateTime(hitValues.totalStrongHits, weaponMeta.fireDelay,
+																  weaponMeta.reloadTime,
+																  weaponMeta.magazineSize);
+
+		let weakTime = calculateTime(hitValues.totalWeakHits,	  weaponMeta.fireDelay,
+																  weaponMeta.reloadTime,
+																  weaponMeta.magazineSize);
+
+		return {
+			strongTime,
+			weakTime
+		};
+	}
+
 	$rustData.requestDestructible($stateParams.id, buildingGrade, function (data, error)
 	{
 		$scope.loading = false;
@@ -45,6 +77,7 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 				continue;
 
 			let attackInfos = values[key];
+			let weaponItem = $rustData.items[key];
 
 			switch (attackInfos.type)
 			{
@@ -54,12 +87,20 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 					if (attackInfos.values.weakDps <= 0 && attackInfos.values.strongDps <= 0)
 						continue;
 
-					$scope.dataArray.push({
+					let result = {
 						name: $rustData.items[key].name,
 						values: attackInfos.values,
-						type: attackInfos.type,
-						time: null
-					});
+						type: attackInfos.type
+					};
+
+					if (attackInfos.type == "melee")
+					{
+						let times = getTimes(attackInfos.values, weaponItem);
+						result.strongTime = times.strongTime;
+						result.weakTime = times.weakTime;
+					}
+
+					$scope.dataArray.push(result);
 					break;
 				}
 				case "weapon":
@@ -73,12 +114,15 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 
 						if (ammunition.weakDps <= 0 && ammunition.strongDps <= 0)
 							continue;
+							
+						let times = getTimes(ammunition, weaponItem);
 
 						$scope.dataArray.push({
 							name: $rustData.items[key].name + " - " + ammoItem.name,
 							values: ammunition,
 							type: attackInfos.type,
-							time: null
+							strongTime: times.strongTime,
+							weakTime: times.weakTime
 						});
 					}
 
