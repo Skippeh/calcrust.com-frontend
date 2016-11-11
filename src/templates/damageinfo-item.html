@@ -15,9 +15,10 @@
 				<th>Item name</th>
 				<th>Hits</th>
 			</tr>
-			<tr ng-repeat="attackInfo in dataArray">
-				<th>{{::attackInfo.item.name}}</th>
-				<th>1</th>
+			<tr ng-repeat="hitValues in dataArray">
+				<td>{{::hitValues.name}}</td>
+				<td ng-if="options.showStrongSide">{{::(hitValues.values.totalStrongHits != -1 ? ceil(hitValues.values.totalStrongHits) : "∞")}}</td>
+				<td ng-if="!options.showStrongSide">{{::(hitValues.values.totalWeakHits != -1 ? ceil(hitValues.values.totalWeakHits) : "∞")}}</td>
 			</tr>
 		</table>
 	</div>

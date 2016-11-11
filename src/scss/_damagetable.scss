@@ -19,11 +19,43 @@
 
         & .table-container
         {
+            padding: 0 5px;
             margin-top: 40px;
             
             & table
             {
                 text-align: left;
+
+                & td
+                {
+                    padding: 3px 5px;
+                }
+
+                & th:nth-child(1)
+                {
+                    width: 100%;
+                }
+
+                & tr:nth-child(even) td
+                {
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+
+                & tr:nth-child(odd) td
+                {
+                    background-color: rgba(0, 0, 0, 0.15);
+                }
+
+                & tr:hover td
+                {
+                    background-color: rgba(0, 0, 0, 0.3);
+                }
+
+                & th:nth-child(2),
+                & td:nth-child(2)
+                {
+                    text-align: right;
+                }
             }
         }
     }
