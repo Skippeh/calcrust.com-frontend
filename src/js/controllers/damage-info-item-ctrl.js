@@ -10,37 +10,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		showStrongSide: true
 	};
 
-	$scope.ceil = (val) =>
-	{
-		return Math.ceil(val);
-	};
-
-	$scope.getItemHref = (hitValues) =>
-	{
-		let hits = $scope.options.showStrongSide ? hitValues.values.totalStrongHits : hitValues.values.totalWeakHits;
-
-		if (hits == -1)
-		{
-			hits = 1;
-		}
-		
-		let count = Math.ceil(hits);
-		let item = $rustData.items[hitValues.id];
-
-		if (hitValues.type == "weapon")
-		{
-			count = Math.ceil(count / item.recipe.output.count);
-		}
-		else if (hitValues.type == "melee")
-		{
-			count = 1;
-		}
-		else if (hitValues.type == "explosive")
-		{
-			count = Math.ceil(hits);
-		}
-
-		return $state.href("itembps.item.recipe", { id: hitValues.id, count: count });
+	$scope.filter = {
+		name: ""
 	};
 
 	function calculateTime(numHits, fireDelay, reloadTime, magazineSize)
@@ -71,7 +42,9 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 
 		return {
 			strongTime,
-			weakTime
+			weakTime,
+			weakItemsRequired: 2,
+			strongItemsRequired: 3
 		};
 	}
 
@@ -86,7 +59,9 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		}
 
 		$scope.data = data;
-		$scope.dataArray = [];
+		$scope.explosiveArray = [];
+		$scope.meleeArray = [];
+		$scope.weaponArray = [];
 
 		let values;
 
@@ -127,9 +102,20 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 						let times = getTimes(attackInfos.values, weaponItem);
 						result.strongTime = times.strongTime;
 						result.weakTime = times.weakTime;
+
+						result.strongItemsRequired = times.strongItemsRequired;
+						result.weakItemsRequired= times.weakItemsRequired;
+
+						$scope.meleeArray.push(result);
+						continue;
+					}
+					else
+					{
+						result.strongItemsRequired = Math.ceil(result.values.totalStrongHits);
+						result.weakItemsRequired = Math.ceil(result.values.totalWeakHits);
 					}
 
-					$scope.dataArray.push(result);
+					$scope.explosiveArray.push(result);
 					break;
 				}
 				case "weapon":
@@ -146,13 +132,15 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 							
 						let times = getTimes(ammunition, weaponItem);
 
-						$scope.dataArray.push({
+						$scope.weaponArray.push({
 							id: ammoKey,
 							name: $rustData.items[key].name + " - " + ammoItem.name,
 							values: ammunition,
 							type: attackInfos.type,
 							strongTime: times.strongTime,
-							weakTime: times.weakTime
+							weakTime: times.weakTime,
+							strongItemsRequired: times.strongItemsRequired,
+							weakItemsRequired: times.weakItemsRequired
 						});
 					}
 
@@ -161,12 +149,22 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 			}
 		}
 
-		// Sort
-		$scope.dataArray.sort((a, b) =>
-		{
-			return a.values.totalStrongHits - b.values.totalStrongHits;
-		});
+		let sortArray = (array) => {
+			array.sort(firstBy((a, b) => {
+				return a.values.totalStrongHits - b.values.totalStrongHits;
+			}).thenBy((a, b) => {
+				if (a.strongTime != null && b.strongTime == null)
+					return 1;
 
-		console.log($scope.dataArray);
+				if (b.strongTime != null && a.strongTime == null)
+					return -1;
+
+				return a.strongTime - b.strongTime;
+			}));
+		};
+
+		sortArray($scope.meleeArray);
+		sortArray($scope.weaponArray);
+		sortArray($scope.explosiveArray);
 	});
 }

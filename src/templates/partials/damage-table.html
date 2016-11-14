@@ -1,0 +1,25 @@
+<div class="table-container">
+	<table>
+		<tr>
+			<th>Total items</th>
+			<th>Item name</th>
+			<th>Time</th>
+			<th>Hits</th>
+		</tr>
+		<tr ng-repeat="hitValues in values | filter: { name: filter.name } as results">
+			<td>{{(strongSide ? hitValues.strongItemsRequired : hitValues.weakItemsRequired)}}</td>
+			<td>
+				<a ng-href="{{getItemHref(hitValues)}}">
+					{{::hitValues.name}}
+				</a>
+			</td>
+			<td ng-if="strongSide">{{::(hitValues.strongTime != null ? (ceil(hitValues.strongTime) | friendlyTime) : "-")}}</td>
+			<td ng-if="!strongSide">{{::(hitValues.weakTime != null ? (ceil(hitValues.weakTime) | friendlyTime) : "-")}}</td>
+			<td ng-if="strongSide">{{::(hitValues.values.totalStrongHits != -1 ? ceil(hitValues.values.totalStrongHits) : "∞")}}</td>
+			<td ng-if="!strongSide">{{::(hitValues.values.totalWeakHits != -1 ? ceil(hitValues.values.totalWeakHits) : "∞")}}</td>
+		</tr>
+		<tr ng-if="!results.length">
+			<td colspan="4">No results found</td>
+		</tr>
+	</table>
+</div>
