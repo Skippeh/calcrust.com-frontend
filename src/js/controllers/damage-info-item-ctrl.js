@@ -31,9 +31,13 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		{
 			count = Math.ceil(count / item.recipe.output.count);
 		}
-		else
+		else if (hitValues.type == "melee")
 		{
 			count = 1;
+		}
+		else if (hitValues.type == "explosive")
+		{
+			count = Math.ceil(hits);
 		}
 
 		return $state.href("itembps.item.recipe", { id: hitValues.id, count: count });
