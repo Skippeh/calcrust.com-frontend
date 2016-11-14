@@ -26,6 +26,20 @@ body
     }
 }
 
+hr
+{
+    border: 0;
+    height: 1px;
+
+    $transparent: rgba(0,0,0,0);
+    $colored: #949494;
+
+    background-image: -webkit-linear-gradient(left, transparent, $colored, $transparent);
+    background-image: -moz-linear-gradient(left, $transparent, $colored, $transparent);
+    background-image: -ms-linear-gradient(left, $transparent, $colored, $transparent);
+    background-image: -o-linear-gradient(left, $transparent, $colored, $transparent);
+}
+
 .footer
 {
     display: inline-block;
