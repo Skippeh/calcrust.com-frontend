@@ -1,6 +1,6 @@
-angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", DamageInfoItemCtrl]);
+angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", "$state", DamageInfoItemCtrl]);
 
-function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
+function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 {
 	let itemId = $stateParams.id;
 	let buildingGrade = $stateParams.grade;
@@ -13,6 +13,30 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 	$scope.ceil = (val) =>
 	{
 		return Math.ceil(val);
+	};
+
+	$scope.getItemHref = (hitValues) =>
+	{
+		let hits = $scope.options.showStrongSide ? hitValues.values.totalStrongHits : hitValues.values.totalWeakHits;
+
+		if (hits == -1)
+		{
+			hits = 1;
+		}
+		
+		let count = Math.ceil(hits);
+		let item = $rustData.items[hitValues.id];
+
+		if (hitValues.type == "weapon")
+		{
+			count = Math.ceil(count / item.recipe.output.count);
+		}
+		else
+		{
+			count = 1;
+		}
+
+		return $state.href("itembps.item.recipe", { id: hitValues.id, count: count });
 	};
 
 	function calculateTime(numHits, fireDelay, reloadTime, magazineSize)
@@ -88,6 +112,7 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 						continue;
 
 					let result = {
+						id: key,
 						name: $rustData.items[key].name,
 						values: attackInfos.values,
 						type: attackInfos.type
@@ -118,6 +143,7 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams)
 						let times = getTimes(ammunition, weaponItem);
 
 						$scope.dataArray.push({
+							id: ammoKey,
 							name: $rustData.items[key].name + " - " + ammoItem.name,
 							values: ammunition,
 							type: attackInfos.type,

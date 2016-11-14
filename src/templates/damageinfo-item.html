@@ -23,7 +23,9 @@
 				<th>Hits</th>
 			</tr>
 			<tr ng-repeat="hitValues in dataArray | filter: { name: options.search }">
-				<td>{{::hitValues.name}}</td>
+				<td>
+					<a ng-href="{{::getItemHref(hitValues)}}">{{::hitValues.name}}</a>
+					</td>
 				<td ng-if="options.showStrongSide">{{::(hitValues.strongTime != null ? (ceil(hitValues.strongTime) | friendlyTime) : "-")}}</td>
 				<td ng-if="!options.showStrongSide">{{::(hitValues.weakTime != null ? (ceil(hitValues.weakTime) | friendlyTime) : "-")}}</td>
 				<td>{{::hitValues.type | capitalize }}
