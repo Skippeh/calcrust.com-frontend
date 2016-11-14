@@ -30,7 +30,7 @@ function DamageTableDirective($state, $rustData)
 				}
 				else if (hitValues.type == "melee")
 				{
-					count = 1;
+					count = Math.floor($scope.strongSide ? hitValues.totalStrongItems : hitValues.totalWeakItems);
 				}
 				else if (hitValues.type == "explosive")
 				{

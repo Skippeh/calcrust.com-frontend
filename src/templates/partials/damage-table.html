@@ -7,7 +7,7 @@
 			<th>Hits</th>
 		</tr>
 		<tr ng-repeat="hitValues in values | filter: { name: filter.name } as results">
-			<td>{{(strongSide ? hitValues.strongItemsRequired : hitValues.weakItemsRequired)}}</td>
+			<td>{{(strongSide ? hitValues.totalStrongItems : hitValues.totalWeakItems)}}</td>
 			<td>
 				<a ng-href="{{getItemHref(hitValues)}}">
 					{{::hitValues.name}}

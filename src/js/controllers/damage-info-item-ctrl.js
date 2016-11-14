@@ -42,10 +42,16 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 
 		return {
 			strongTime,
-			weakTime,
-			weakItemsRequired: 2,
-			strongItemsRequired: 3
+			weakTime
 		};
+	}
+
+	function min1(val)
+	{
+		if (val < 1)
+			return 1;
+
+		return val;
 	}
 
 	$rustData.requestDestructible($stateParams.id, buildingGrade, function (data, error)
@@ -94,7 +100,9 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 						id: key,
 						name: $rustData.items[key].name,
 						values: attackInfos.values,
-						type: attackInfos.type
+						type: attackInfos.type,
+						totalWeakItems: attackInfos.values.totalWeakItems,
+						totalStrongItems: attackInfos.values.totalStrongItems
 					};
 
 					if (attackInfos.type == "melee")
@@ -103,16 +111,11 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 						result.strongTime = times.strongTime;
 						result.weakTime = times.weakTime;
 
-						result.strongItemsRequired = times.strongItemsRequired;
-						result.weakItemsRequired= times.weakItemsRequired;
+						result.totalWeakItems = min1(Math.floor(result.totalWeakItems));
+						result.totalStrongItems = min1(Math.floor(result.totalStrongItems));
 
 						$scope.meleeArray.push(result);
 						continue;
-					}
-					else
-					{
-						result.strongItemsRequired = Math.ceil(result.values.totalStrongHits);
-						result.weakItemsRequired = Math.ceil(result.values.totalWeakHits);
 					}
 
 					$scope.explosiveArray.push(result);
@@ -139,8 +142,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 							type: attackInfos.type,
 							strongTime: times.strongTime,
 							weakTime: times.weakTime,
-							strongItemsRequired: times.strongItemsRequired,
-							weakItemsRequired: times.weakItemsRequired
+							totalWeakItems: min1(Math.floor(ammunition.totalWeakItems)),
+							totalStrongItems: min1(Math.floor(ammunition.totalStrongItems))
 						});
 					}
 
