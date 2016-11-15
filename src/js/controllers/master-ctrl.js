@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", "$localStorage", "$notifications", MasterCtrl]);
+﻿angular.module("RustCalc").controller("MasterCtrl", ["$scope", "$rustData", "$rootScope", "$stateParams", "$filter", "$state", "$location", "$localStorage", "$notifications", "$sessionStorage", MasterCtrl]);
 
-function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location, $localStorage, $notifications)
+function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $state, $location, $localStorage, $notifications, $sessionStorage)
 {
     $scope.stateParams = $stateParams;
     
@@ -37,6 +37,12 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
         },
         damageInfo: {
             showStrongSide: true
+        }
+    });
+
+    $sessionStorage.$default({
+        damageInfo: {
+            buildingGrade: "stone"
         }
     });
 

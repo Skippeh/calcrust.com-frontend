@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$state", DamageInfoCtrl]);
+﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$state", "$sessionStorage", DamageInfoCtrl]);
 
-function DamageInfoCtrl ($scope, $rootScope, $rustData, $state)
+function DamageInfoCtrl ($scope, $rootScope, $rustData, $state, $sessionStorage)
 {
     $rootScope.page.titlePrefix = "Damage Info";
     $scope.loading = true;
@@ -13,6 +13,16 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $state)
     $scope.scrollToTop = () =>
     {
         $(".item-browser .browser-wrapper").scrollTop(0);
+    };
+
+    $scope.getBuildingGrade = (item) =>
+    {
+        if (item.type != "buildingBlock")
+        {
+            return null;
+        }
+
+        return $sessionStorage.damageInfo.buildingGrade || ($sessionStorage.damageInfo.buildingGrade = "stone");
     };
 
     $rustData.requestDestructibles(function(destructibles, error)

@@ -1,6 +1,6 @@
-angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", "$state", "$localStorage", DamageInfoItemCtrl]);
+angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", "$state", "$localStorage", "$sessionStorage", DamageInfoItemCtrl]);
 
-function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $localStorage)
+function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $localStorage, $sessionStorage)
 {
 	let itemId = $stateParams.id;
 	let buildingGrade = $stateParams.grade;
@@ -83,6 +83,9 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 		{
 			$scope.options.showStrongSide = $localStorage.damageInfo.showStrongSide;
 		}
+
+		if (buildingGrade != null)
+			$sessionStorage.damageInfo.buildingGrade = buildingGrade;
 
 		$scope.data = data;
 		$scope.explosiveArray = [];
