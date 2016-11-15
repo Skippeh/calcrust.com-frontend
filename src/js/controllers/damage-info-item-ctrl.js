@@ -46,12 +46,15 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		};
 	}
 
-	function min1(val)
+	function cleanNumItems(val)
 	{
-		if (val < 1)
-			return 1;
+		if (val < 0.1)
+			return "<0.1";
 
-		return val;
+		if (val <= 5)
+			return +val.toFixed(2);
+
+		return Math.ceil(val);
 	}
 
 	$rustData.requestDestructible($stateParams.id, buildingGrade, function (data, error)
@@ -116,8 +119,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 						result.strongTime = times.strongTime;
 						result.weakTime = times.weakTime;
 
-						result.totalWeakItems = min1(Math.floor(result.totalWeakItems));
-						result.totalStrongItems = min1(Math.floor(result.totalStrongItems));
+						result.totalWeakItems = cleanNumItems(result.totalWeakItems);
+						result.totalStrongItems = cleanNumItems(result.totalStrongItems);
 
 						$scope.meleeArray.push(result);
 						continue;
@@ -147,8 +150,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 							type: attackInfos.type,
 							strongTime: times.strongTime,
 							weakTime: times.weakTime,
-							totalWeakItems: min1(Math.floor(ammunition.totalWeakItems)),
-							totalStrongItems: min1(Math.floor(ammunition.totalStrongItems))
+							totalWeakItems: cleanNumItems(ammunition.totalWeakItems),
+							totalStrongItems: cleanNumItems(ammunition.totalStrongItems)
 						});
 					}
 
