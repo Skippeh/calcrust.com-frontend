@@ -64,6 +64,11 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 			return;
 		}
 
+		if (!data.hasProtection)
+		{
+			$scope.options.showStrongSide = true;
+		}
+
 		$scope.data = data;
 		$scope.explosiveArray = [];
 		$scope.meleeArray = [];
