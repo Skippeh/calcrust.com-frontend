@@ -7,7 +7,7 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $state)
     
     $scope.itemActive = (item) =>
     {
-        return $state.is("damageinfo.item", { id: item.id });
+        return $state.params.id == item.id;
     };
 
     $scope.scrollToTop = () =>
