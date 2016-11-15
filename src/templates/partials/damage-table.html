@@ -1,25 +1,25 @@
 <div class="table-container">
 	<table>
 		<tr>
-			<th title="Total number of items required. Takes the weapon's item condition loss into consideration.">Total items</th>
 			<th>Item name</th>
+			<th title="Total number of items required. Takes the weapon's item condition loss into consideration.">Total items</th>
 			<th title="Total time required to destroy the item. Takes the weapon's fire/swing speed and reload time (if applicable) into consideration. Assumes the player is shooting and reloading without interruption.">Time</th>
 			<th title="Total number of hits required to destroy the item. Ammunition that shoots multiple projectiles assume all the projectiles hit the target.">Hits</th>
 		</tr>
 		<tr ng-repeat="hitValues in values | filter: { name: filter.name } as results">
-			<td>{{(strongSide ? hitValues.totalStrongItems : hitValues.totalWeakItems)}}</td>
 			<td>
 				<a ng-href="{{getItemHref(hitValues)}}">
 					{{::hitValues.name}}
 				</a>
 			</td>
+			<td>{{(strongSide ? hitValues.totalStrongItems : hitValues.totalWeakItems)}}</td>
 			<td ng-if="strongSide">{{::(hitValues.strongTime != null ? (ceil(hitValues.strongTime) | friendlyTime) : "-")}}</td>
 			<td ng-if="!strongSide">{{::(hitValues.weakTime != null ? (ceil(hitValues.weakTime) | friendlyTime) : "-")}}</td>
 			<td ng-if="strongSide">{{::(hitValues.values.totalStrongHits != -1 ? ceil(hitValues.values.totalStrongHits) : "∞")}}</td>
 			<td ng-if="!strongSide">{{::(hitValues.values.totalWeakHits != -1 ? ceil(hitValues.values.totalWeakHits) : "∞")}}</td>
 		</tr>
 		<tr ng-if="!results.length">
-			<td colspan="4">No results found</td>
+			<td colspan="4">No results found, or this item can't be damaged by the specified item.</td>
 		</tr>
 	</table>
 </div>
