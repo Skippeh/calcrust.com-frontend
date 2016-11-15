@@ -7,7 +7,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 	$scope.loading = true;
 
 	$scope.options = {
-		showStrongSide: true
+		showStrongSide: true,
+		buildingGrade: $stateParams.grade
 	};
 
 	$scope.filter = {
@@ -17,6 +18,11 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 	$scope.setPreferredSide = () =>
 	{
 		$localStorage.damageInfo.showStrongSide = $scope.options.showStrongSide;
+	};
+
+	$scope.changeGrade = () =>
+	{
+		$state.go("damageinfo.item", { id: itemId, grade: $scope.options.buildingGrade });
 	};
 
 	function calculateTime(numHits, fireDelay, reloadTime, magazineSize)

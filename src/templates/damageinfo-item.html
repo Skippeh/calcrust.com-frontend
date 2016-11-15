@@ -1,28 +1,40 @@
 <div class="clearfix damageinfo-screen">
 	<loading-overlay ng-if="loading"></loading-overlay>
-	<div class="item-name">
-		{{::data.name}}
-	</div>
-	<div class="side-select-container">
-		<label title="{{data.hasProtection ? 'If checked, the values below will indicate the number of attacks required to destroy the item from the strong side.' : 'Disabled because the selected item does not have a weak side.'}}'">
-			<span>Strong side</strong>
-			<input type="checkbox" ng-model="options.showStrongSide" ng-disabled="!data.hasProtection" ng-change="setPreferredSide()" />
-		</label>
-	</div>
-	<div class="search-container">
-		<label>
-			<input type="text" autocomplete="off" ng-model="filter.name" placeholder="Search item" />
-		</label>
-	</div>
-	<h2>Explosives</h2>
-	<hr/>
-	<damage-table values="explosiveArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
+	<div ng-if="!loading && data">
+		<div class="item-name">
+			{{::data.name}}
+		</div>
+		<div class="side-select-container" ng-if="data.hasProtection">
+			<label title="If checked, the values below will indicate the number of attacks required to destroy the item from the strong side.">
+				<span>Strong side</strong>
+				<input type="checkbox" ng-model="options.showStrongSide" ng-change="setPreferredSide()" />
+			</label>
+		</div>
+		<div class="search-container" ng-if="!loading && data">
+			<label>
+				<input type="text" autocomplete="off" ng-model="filter.name" placeholder="Search item" />
+				<select ng-model="options.buildingGrade" ng-change="changeGrade()" ng-if="data.type == 'buildingBlock'" title="Building grade">
+						<option value="twigs">Twigs</option>
+						<option value="wood">Wood</option>
+						<option value="stone">Stone</option>
+						<option value="metal">Metal</option>
+						<option value="topTier">Armored</option>
+					</select>
+			</label>
+		</div>
+		<h2>Explosives</h2>
+		<hr/>
+		<damage-table values="explosiveArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
 
-	<h2>Melee</h2>
-	<hr/>
-	<damage-table values="meleeArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
+		<h2>Melee</h2>
+		<hr/>
+		<damage-table values="meleeArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
 
-	<h2>Weapons</h2>
-	<hr/>
-	<damage-table values="weaponArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
+		<h2>Weapons</h2>
+		<hr/>
+		<damage-table values="weaponArray" strong-side="options.showStrongSide" filter="filter"></damage-table>
+	</div>
+	<div ng-if="loading" class="centered-page">
+		Loading...
+	</div>
 </div>

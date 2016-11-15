@@ -19,6 +19,12 @@
         & .search-container
         {
             margin-bottom: 10px;
+
+            & select
+            {
+                margin-left: 5px;
+                width: 100px;
+            }
         }
 
         & h2

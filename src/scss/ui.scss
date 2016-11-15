@@ -57,10 +57,10 @@ input[type=checkbox]
     height: 16px;
 }
 
+select,
 button
 {
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.3);
     color: $textColor;
     border: none;
     height: 15px;
@@ -70,6 +70,11 @@ button
     -webkit-transition: background-color ease-in-out 0.1s;
     transition: background-color ease-in-out 0.1s;
     font-weight: bold;
+}
+
+button
+{
+    background-color: rgba(255, 255, 255, 0.3);
 
     &:hover
     {
@@ -85,6 +90,11 @@ button
     {
         outline: none;
     }
+}
+
+select
+{
+    background-color: rgb(100, 100, 100);
 }
 
 input::-webkit-outer-spin-button,
