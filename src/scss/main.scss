@@ -236,3 +236,21 @@ ul.unstyled
     padding-left: 0.65em;
     vertical-align: middle;
 }
+
+#toast-container div.toast
+{
+    div.toast-title
+    {
+        margin-bottom: 5px;
+    }
+
+    p:first-of-type
+    {
+        margin-top: 0;
+    }
+
+    p:last-of-type
+    {
+        margin-bottom: 0;
+    }
+}

@@ -12,6 +12,13 @@ function NotificationsService($localStorage, $rootScope)
 					title: "Scheduled downtime",
 					content: "Start: 2016-08-08 00:00 UTC<br/>End: 2016-08-08 04:00 UTC",
 					endDate: new Date(Date.UTC(2016, 7, 8, 4, 0, 0)) // NOTE: Month starts from 0 and not 1!
+				},
+				{
+					id: "update-2016-11-16",
+					type: "info",
+					title: "Update released",
+					content: "<p>The damage info page has been released. <a href='/damageinfo'>Check it out here</a></b>.</p><p>To see the rest of the changes, <a href='/changelog'>view the changelog</a>.</p>",
+					endDate: new Date(Date.UTC(2016, 12, 30, 0, 0)) // 30th nov
 				}
 			];
 		}
