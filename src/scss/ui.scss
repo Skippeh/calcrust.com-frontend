@@ -21,6 +21,11 @@ div.main-ui
     right: 0;
     bottom: 0;
     color: $textColor;
+
+    & > div
+    {
+        margin-bottom: 56px;
+    }
 }
 
 input[type=text],
