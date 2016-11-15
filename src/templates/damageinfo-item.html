@@ -12,7 +12,7 @@
 		</div>
 		<div class="search-container" ng-if="!loading && data">
 			<label>
-				<input type="text" autocomplete="off" ng-model="filter.name" placeholder="Search item" />
+				<input type="text" autocomplete="off" ng-model="filter.name" placeholder="Search item" ng-change="setPreferredName()" />
 				<select ng-model="options.buildingGrade" ng-change="changeGrade()" ng-if="data.type == 'buildingBlock'" title="Building grade">
 						<option value="twigs">Twigs</option>
 						<option value="wood">Wood</option>

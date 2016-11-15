@@ -42,7 +42,8 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
 
     $sessionStorage.$default({
         damageInfo: {
-            buildingGrade: "stone"
+            buildingGrade: "stone",
+            searchName: ""
         }
     });
 

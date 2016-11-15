@@ -20,6 +20,11 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 		$localStorage.damageInfo.showStrongSide = $scope.options.showStrongSide;
 	};
 
+	$scope.setPreferredName = () =>
+	{
+		$sessionStorage.damageInfo.searchName = $scope.filter.name;
+	};
+
 	$scope.changeGrade = () =>
 	{
 		$state.go("damageinfo.item", { id: itemId, grade: $scope.options.buildingGrade });
@@ -87,6 +92,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 
 		if (buildingGrade != null)
 			$sessionStorage.damageInfo.buildingGrade = buildingGrade;
+
+		$scope.filter.name = $sessionStorage.damageInfo.searchName;
 
 		$scope.data = data;
 		$scope.explosiveArray = [];
