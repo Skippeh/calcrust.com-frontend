@@ -96,7 +96,7 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 
 		if (buildingGrade != null)
 		{
-			values = data.values[buildingGrade]
+			values = data.values[buildingGrade];
 		}
 		else
 		{
