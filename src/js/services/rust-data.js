@@ -188,7 +188,7 @@ function RustDataService ($http)
         }
     }
 
-    let API_URL = "http://localhost:7545/";
+    let API_URL = "https://api.calcrust.com/";
     
     return {
         items: items,
