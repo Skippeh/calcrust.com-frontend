@@ -71,7 +71,8 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $loc
 
 		if (error)
 		{
-			$scope.error = error;
+			alert(error.data.message);
+			$state.go("damageinfo.default");
 			return;
 		}
 
