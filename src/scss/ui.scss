@@ -60,6 +60,7 @@ input[type=checkbox]
 select,
 button
 {
+    font-family: 'Roboto Condensed', sans-serif;
     padding: 10px;
     color: $textColor;
     border: none;
@@ -94,7 +95,8 @@ button
 
 select
 {
-    background-color: rgb(100, 100, 100);
+    background-color: rgb(53, 53, 53);
+    font-size: 0.85em;
 }
 
 input::-webkit-outer-spin-button,
