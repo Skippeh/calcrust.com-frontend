@@ -1,9 +1,19 @@
-﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", DamageInfoCtrl]);
+﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$state", DamageInfoCtrl]);
 
-function DamageInfoCtrl ($scope, $rootScope, $rustData)
+function DamageInfoCtrl ($scope, $rootScope, $rustData, $state)
 {
     $rootScope.page.titlePrefix = "Damage Info";
     $scope.loading = true;
+    
+    $scope.itemActive = (item) =>
+    {
+        return $state.is("damageinfo.item", { id: item.id });
+    };
+
+    $scope.scrollToTop = () =>
+    {
+        $(".item-browser .browser-wrapper").scrollTop(0);
+    };
 
     $rustData.requestDestructibles(function(destructibles, error)
     {
