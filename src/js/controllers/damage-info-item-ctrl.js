@@ -51,7 +51,7 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		if (val < 0.1)
 			return "<0.1";
 
-		if (val <= 5)
+		if (val < 10)
 			return +val.toFixed(2);
 
 		return Math.ceil(val);
