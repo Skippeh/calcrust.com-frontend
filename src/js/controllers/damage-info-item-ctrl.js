@@ -1,6 +1,6 @@
-angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", "$state", DamageInfoItemCtrl]);
+angular.module("RustCalc").controller("DamageInfoItemCtrl", ["$scope", "$rustData", "$http", "$stateParams", "$state", "$localStorage", DamageInfoItemCtrl]);
 
-function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
+function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state, $localStorage)
 {
 	let itemId = $stateParams.id;
 	let buildingGrade = $stateParams.grade;
@@ -12,6 +12,11 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 
 	$scope.filter = {
 		name: ""
+	};
+
+	$scope.setPreferredSide = () =>
+	{
+		$localStorage.damageInfo.showStrongSide = $scope.options.showStrongSide;
 	};
 
 	function calculateTime(numHits, fireDelay, reloadTime, magazineSize)
@@ -67,6 +72,10 @@ function DamageInfoItemCtrl($scope, $rustData, $http, $stateParams, $state)
 		if (!data.hasProtection)
 		{
 			$scope.options.showStrongSide = true;
+		}
+		else
+		{
+			$scope.options.showStrongSide = $localStorage.damageInfo.showStrongSide;
 		}
 
 		$scope.data = data;

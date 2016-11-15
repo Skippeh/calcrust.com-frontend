@@ -6,7 +6,7 @@
 	<div class="side-select-container">
 		<label title="{{data.hasProtection ? 'If checked, the values below will indicate the number of attacks required to destroy the item from the strong side.' : 'Disabled because the selected item does not have a weak side.'}}'">
 			<span>Strong side</strong>
-			<input type="checkbox" ng-model="options.showStrongSide" ng-disabled="!data.hasProtection" />
+			<input type="checkbox" ng-model="options.showStrongSide" ng-disabled="!data.hasProtection" ng-change="setPreferredSide()" />
 		</label>
 	</div>
 	<div class="search-container">

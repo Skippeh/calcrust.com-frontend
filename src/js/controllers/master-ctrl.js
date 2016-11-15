@@ -34,6 +34,9 @@ function MasterCtrl ($scope, $rustData, $rootScope, $stateParams, $filter, $stat
         },
         notifications: {
 
+        },
+        damageInfo: {
+            showStrongSide: true
         }
     });
 
