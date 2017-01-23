@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$state", "$sessionStorage", DamageInfoCtrl]);
+﻿angular.module("RustCalc").controller("DamageInfoCtrl", ["$scope", "$rootScope", "$rustData", "$state", "$sessionStorage", "$window", DamageInfoCtrl]);
 
-function DamageInfoCtrl ($scope, $rootScope, $rustData, $state, $sessionStorage)
+function DamageInfoCtrl ($scope, $rootScope, $rustData, $state, $sessionStorage, $window)
 {
     $rootScope.page.titlePrefix = "Damage Info";
     $scope.loading = true;
@@ -13,6 +13,7 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $state, $sessionStorage)
     $scope.scrollToTop = () =>
     {
         $(".item-browser .browser-wrapper").scrollTop(0);
+        ($window.document.scrollingElement || $window.document.documentElement).scrollTop = 0;
     };
 
     $scope.getBuildingGrade = (item) =>

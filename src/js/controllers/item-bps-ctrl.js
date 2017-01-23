@@ -1,6 +1,6 @@
-﻿angular.module("RustCalc").controller("ItemBPsController", ["$scope", "$rustData", "$rootScope", ItemBPsController]);
+﻿angular.module("RustCalc").controller("ItemBPsController", ["$scope", "$rustData", "$rootScope", "$window", ItemBPsController]);
 
-function ItemBPsController($scope, $rustData, $rootScope)
+function ItemBPsController($scope, $rustData, $rootScope, $window)
 {
     $rootScope.page.titlePrefix = "Items & Blueprints";
 
@@ -29,5 +29,6 @@ function ItemBPsController($scope, $rustData, $rootScope)
     $scope.scrollToTop = function ()
     {
         $(".item-browser .browser-wrapper").scrollTop(0);
+        ($window.document.scrollingElement || $window.document.documentElement).scrollTop = 0;
     };
 }
