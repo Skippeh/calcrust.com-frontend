@@ -10,9 +10,11 @@ function DamageInfoCtrl ($scope, $rootScope, $rustData, $state, $sessionStorage,
         return $state.params.id == item.id;
     };
 
-    $scope.scrollToTop = () =>
+    $scope.scrollToTop = (onlyBody) =>
     {
-        $(".item-browser .browser-wrapper").scrollTop(0);
+        if (!onlyBody)
+            $(".item-browser .browser-wrapper").scrollTop(0);
+
         ($window.document.scrollingElement || $window.document.documentElement).scrollTop = 0;
     };
 

@@ -10,7 +10,7 @@
 
             <perfect-scrollbar class="browser-wrapper scroller">
                 <div ng-repeat="item in damageInfos | filter: { name: itemFilter } | orderBy: 'name' track by item.id">
-                    <div class="item clearfix item-row" ng-class="{ active: itemActive(item) }" ui-sref="damageinfo.item({ id: item.id, grade: getBuildingGrade(item) })" ng-click="scrollToTop()">
+                    <div class="item clearfix item-row" ng-class="{ active: itemActive(item) }" ui-sref="damageinfo.item({ id: item.id, grade: getBuildingGrade(item) })" ng-click="scrollToTop(true)">
                         <img class="image" ng-src="{{item.imageSrc}}" />
                         <div class="info">
                             <span class="name">

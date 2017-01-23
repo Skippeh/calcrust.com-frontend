@@ -26,9 +26,11 @@ function ItemBPsController($scope, $rustData, $rootScope, $window)
         return $scope.stateParams.id === item.id;
     };
 
-    $scope.scrollToTop = function ()
+    $scope.scrollToTop = function (onlyBody)
     {
-        $(".item-browser .browser-wrapper").scrollTop(0);
+        if (!onlyBody)
+            $(".item-browser .browser-wrapper").scrollTop(0);
+
         ($window.document.scrollingElement || $window.document.documentElement).scrollTop = 0;
     };
 }

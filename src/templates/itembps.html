@@ -14,7 +14,7 @@
 
         <perfect-scrollbar class="browser-wrapper scroller">
             <div ng-repeat="item in selectedCategory.items | filter:{name: itemFilter} | orderBy: 'name' track by item.id">
-                <div ui-sref="itembps.item.info({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }" ng-click="scrollToTop()">
+                <div ui-sref="itembps.item.info({ id: item.id })" class="item clearfix item-row" ng-class="{ 'active': itemActive(item) }" ng-click="scrollToTop(true)">
                     <img class="image" ng-src="/img/icons/{{::item.id}}_small.png" />
                     <div class="info" title="{{::item.description}}">
                         <span class="name">
@@ -27,7 +27,7 @@
                         </span>
                     </div>
                     <div class="xp-info" ng-if="recipes[item.id]">
-                        <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-click="$event.stopPropagation(); scrollToTop()">
+                        <a ui-sref="itembps.item.recipe({ id: item.id, count: 1 })" ng-click="$event.stopPropagation(); scrollToTop(true)">
                             <span class="blueprint-text">Blueprint</span> <i title="Blueprint" class="fa fa-flask"></i>
                         </a>
                     </div>
